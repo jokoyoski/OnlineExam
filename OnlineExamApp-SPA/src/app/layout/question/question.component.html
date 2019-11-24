@@ -1,0 +1,99 @@
+
+
+<div>
+  <h4 class="text-center">Curent Affairs</h4>
+  <h6 class="text-center">You have done this subject 25 times</h6>
+ 
+</div>
+<div class="container-fluid pt-1">
+    <div class="row"> 
+        <div class="col-6 jumbotron pb-0">
+            <div class="card">
+                <div class="card-header">
+                  Question &nbsp; &nbsp;{{question.Current.Question_Number}}
+                  </div>
+                <div class="card-body">
+              {{question.Current.Question}}
+                    </div>
+              </div>
+    
+  </div>
+        <div class="col-6 jumbotron">
+
+            <div class="card" style="width: 18rem;">
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item">
+                       <div  *ngIf="question.Current.Options[0].A"class="form-check">
+                          <input  [(ngModel)]="materialExampleRadios" type="radio" (click)="selectedOption('A',question.Current.Question_Number)"  class="form-check-input" id="materialChecked" value="A" checked name="materialExampleRadios">
+                          <label class="form-check-label" for="materialUnchecked">{{question.Current.Options[0].A}}</label>
+                         </div>
+
+                  </li>
+                  <li class="list-group-item">
+                      <div  *ngIf="question.Current.Options[1].B" class="form-check">
+                          <input  type="radio" (click)="selectedOption('B',question.Current.Question_Number)" [(ngModel)]="materialExampleRadios" class="form-check-input" id="materialChecked" value="B" checked name="materialExampleRadios">
+                          <label class="form-check-label" for="materialUnchecked">{{question.Current.Options[1].B}}</label>
+                          </div>
+                  </li>
+                  <li class="list-group-item">
+                      <div  *ngIf="question.Current.Options[2].C" class="form-check">
+                          <input  type="radio" (click)="selectedOption('C',question.Current.Question_Number)" [(ngModel)]="materialExampleRadios" class="form-check-input" id="materialChecked" value="C" checked name="materialExampleRadios">
+                          <label class="form-check-label" for="materialUnchecked">{{question.Current.Options[2].C}}</label>
+                          </div>
+                  </li>
+                  <li class="list-group-item">
+                      <div  *ngIf="question.Current.Options[3].D" class="form-check">
+                           <input  type="radio" (click)="selectedOption('D',question.Current.Question_Number)" [(ngModel)]="materialExampleRadios" class="form-check-input" id="materialChecked" value="D" checked name="materialExampleRadios">
+                          <label class="form-check-label" for="materialUnchecked">{{question.Current.Options[3].D}}</label>
+                           </div>
+                  </li>
+                  <li class="list-group-item">
+                      <div  *ngIf="question.Current.Options[4].E" class="form-check">
+                           <input  type="radio" (click)="selectedOption('E',question.Current.Question_Number)" [(ngModel)]="materialExampleRadios" class="form-check-input" id="materialChecked" value="E" checked name="materialExampleRadios">
+                           <label class="form-check-label" for="materialUnchecked">{{question.Current.Options[4].E}}</label>
+                          </div> 
+                    </li>
+                </ul>
+              </div>
+    
+
+                
+    </div>
+      
+   
+       
+ 
+
+    
+  
+</div>
+
+         <div class="row">
+    <button class="btn btn-danger mx-auto" >Previous</button>
+    <button class="btn btn-success mx-auto" >Submit</button>
+    <button class="btn btn-danger mx-auto" >Next</button>
+ </div>                        
+</div>
+<div class="text-center pt-0">
+  <div class="card">
+    <div class="card-header">
+      Progress
+    </div>
+    <div class="card-body">
+      <div class="border-radius">
+        <div class="row">
+           <div *ngFor="let a of question.QuestionList">
+
+                   <div *ngIf="a.Selected_Answer=='0'">
+                    <div (click)="goTo(a.Question_Number)" style="background:red;width:20px;height:25px;padding:2px;text-align:center;border-radius:10em;color:#fff;cursor:pointer;">{{a.Question_Number}}</div>
+                     </div>
+                    <div *ngIf="a.Selected_Answer!=='0'">
+                   <div (click)="goTo(a.Question_Number)" style="background:green;width:20px;height:25px;padding:2px;text-align:center;border-radius:10em;color:#fff;cursor:pointer;">{{a.Question_Number}}</div>
+                </div>
+                
+                </div>
+  </div>
+      </div>
+    </div>
+  </div>
+</div>
