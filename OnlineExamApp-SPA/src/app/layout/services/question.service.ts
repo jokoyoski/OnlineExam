@@ -11,9 +11,20 @@ export class QuestionService {
   private cookieValue = [];
    questionList: any;
    question: any = {};
-
+   seconds: number;
+   timer: any;
+   value: string;
   constructor(private cookie: CookieService) { }
 
+
+
+  displayTimeElapsed() {
+   
+
+     
+    return Math.floor(this.seconds / 3600) + ':' + Math.floor((this.seconds % 3600)/60) + ':' + Math.floor(this.seconds % 60);
+
+  }
    getQuestions() {
     let j = 1;
 

@@ -3,8 +3,8 @@
 <div>
   <h4 class="text-center">Curent Affairs</h4>
   <h6 class="text-center">You have done this subject 25 times</h6>
- 
-</div>
+  
+<span>Time Elapsed : {{questionService.displayTimeElapsed()}}</span>
 <div class="container-fluid pt-1">
     <div class="row"> 
         <div class="col-6 jumbotron pb-0">
@@ -22,37 +22,72 @@
 
             <div class="card" style="width: 18rem;">
                 <ul class="list-group list-group-flush">
-                  <li class="list-group-item">
-                       <div  *ngIf="question.Current.Options[0].A"class="form-check">
-                          <input  [(ngModel)]="materialExampleRadios" type="radio" (click)="selectedOption('A',question.Current.Question_Number)"  class="form-check-input" id="materialChecked" value="A" checked name="materialExampleRadios">
-                          <label class="form-check-label" for="materialUnchecked">{{question.Current.Options[0].A}}</label>
-                         </div>
-
-                  </li>
-                  <li class="list-group-item">
-                      <div  *ngIf="question.Current.Options[1].B" class="form-check">
-                          <input  type="radio" (click)="selectedOption('B',question.Current.Question_Number)" [(ngModel)]="materialExampleRadios" class="form-check-input" id="materialChecked" value="B" checked name="materialExampleRadios">
-                          <label class="form-check-label" for="materialUnchecked">{{question.Current.Options[1].B}}</label>
+                  <div *ngIf="question.Current.Options[0].isAvailable=='1'">
+                      <li class="list-group-item">
+                          <div class="row">
+                              <div>A</div> &nbsp; 
+                               <div  *ngIf="question.Current.Options[0].A"class="form-check">
+                               
+                                  <input  [(ngModel)]="materialExampleRadios" type="radio" (click)="selectedOption('A',question.Current.Question_Number)"  class="form-check-input" id="materialChecked" value="A" checked name="materialExampleRadios">
+                                  <label class="form-check-label" for="materialUnchecked">{{question.Current.Options[0].A}}</label>
+                                 </div>
+        
                           </div>
-                  </li>
-                  <li class="list-group-item">
-                      <div  *ngIf="question.Current.Options[2].C" class="form-check">
-                          <input  type="radio" (click)="selectedOption('C',question.Current.Question_Number)" [(ngModel)]="materialExampleRadios" class="form-check-input" id="materialChecked" value="C" checked name="materialExampleRadios">
-                          <label class="form-check-label" for="materialUnchecked">{{question.Current.Options[2].C}}</label>
+                           
+                        </li>
+                  </div>
+                
+                  <div *ngIf="question.Current.Options[1].isAvailable=='1'">
+                      <li class="list-group-item">
+                          <div class="row">
+                              <div>B</div>  &nbsp; &nbsp; 
+                              <div  *ngIf="question.Current.Options[1].B" class="form-check">
+                                  <input  type="radio" (click)="selectedOption('B',question.Current.Question_Number)" [(ngModel)]="materialExampleRadios" class="form-check-input" id="materialChecked" value="B" checked name="materialExampleRadios">
+                                  <label class="form-check-label" for="materialUnchecked">{{question.Current.Options[1].B}}</label>
+                                  </div>
                           </div>
-                  </li>
-                  <li class="list-group-item">
-                      <div  *ngIf="question.Current.Options[3].D" class="form-check">
-                           <input  type="radio" (click)="selectedOption('D',question.Current.Question_Number)" [(ngModel)]="materialExampleRadios" class="form-check-input" id="materialChecked" value="D" checked name="materialExampleRadios">
-                          <label class="form-check-label" for="materialUnchecked">{{question.Current.Options[3].D}}</label>
-                           </div>
-                  </li>
-                  <li class="list-group-item">
-                      <div  *ngIf="question.Current.Options[4].E" class="form-check">
-                           <input  type="radio" (click)="selectedOption('E',question.Current.Question_Number)" [(ngModel)]="materialExampleRadios" class="form-check-input" id="materialChecked" value="E" checked name="materialExampleRadios">
-                           <label class="form-check-label" for="materialUnchecked">{{question.Current.Options[4].E}}</label>
-                          </div> 
-                    </li>
+                            
+                        </li>
+                  </div>
+                  
+                  <div *ngIf="question.Current.Options[2].isAvailable=='1'">
+                      <li class="list-group-item">
+                          <div class="row">
+                            <div>C</div> &nbsp; &nbsp; 
+                              <div  *ngIf="question.Current.Options[2].C" class="form-check">
+                                  <input  type="radio" (click)="selectedOption('C',question.Current.Question_Number)" [(ngModel)]="materialExampleRadios" class="form-check-input" id="materialChecked" value="C" checked name="materialExampleRadios">
+                                  <label class="form-check-label" for="materialUnchecked">{{question.Current.Options[2].C}}</label>
+                                  </div>
+                          </div>
+                           
+                        </li>
+                  </div>
+                  <div *ngIf="question.Current.Options[3].isAvailable=='1'">
+                      <li class="list-group-item">
+                          <div class="row">
+                              <div>D</div> &nbsp; &nbsp; 
+                              <div  *ngIf="question.Current.Options[3].D" class="form-check">
+                                   <input  type="radio" (click)="selectedOption('D',question.Current.Question_Number)" [(ngModel)]="materialExampleRadios" class="form-check-input" id="materialChecked" value="D" checked name="materialExampleRadios">
+                                  <label class="form-check-label" for="materialUnchecked">{{question.Current.Options[3].D}}</label>
+                                   </div>
+                          </div>
+                           
+                        </li>
+                  </div>
+               
+                  <div *ngIf="question.Current.Options[4].isAvailable=='1'">
+                      <li class="list-group-item">
+                          <div class="row">
+                              <div>E</div> &nbsp; &nbsp; 
+                              <div  *ngIf="question.Current.Options[4].E" class="form-check">
+                                   <input  type="radio" (click)="selectedOption('E',question.Current.Question_Number)" [(ngModel)]="materialExampleRadios" class="form-check-input" id="materialChecked" value="E" checked name="materialExampleRadios">
+                                   <label class="form-check-label" for="materialUnchecked">{{question.Current.Options[4].E}}</label>
+                                  </div> 
+                          </div>
+                          
+                          </li>
+                  </div>
+                 
                 </ul>
               </div>
     
