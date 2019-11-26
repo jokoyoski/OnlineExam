@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { QuestionService } from '../services/question.service';
 
@@ -9,6 +9,7 @@ import { QuestionService } from '../services/question.service';
 })
 
 export class QuestionComponent implements OnInit {
+
 
   questionList = [];
   isLoad = true;
@@ -22,16 +23,30 @@ export class QuestionComponent implements OnInit {
 
 
   radioModel: any;
+  // tslint:disable-next-line: use-lifecycle-interface
 
 
 
     ngOnInit() {
-  this.materialExampleRadios = 'A';
+      this.questionService.seconds = 36000;
+      this.setTimer();
+  this.materialExampleRadios = '';
 
   this.question = this.questionService.getQuestions();
   console.log( this.question);
 
   }
+
+   setTimer() {
+     this.questionService.timer = setInterval(() => {
+this.questionService.seconds--;
+     if (this.questionService.seconds === 0) {
+
+     }
+     }, 1000);  // the function will be called after a second
+   }
+
+
   selectedOption(value: any, QId: number) {
     const savedQuestions = JSON.parse(this.cookie.get('questions'));
 
@@ -44,7 +59,6 @@ export class QuestionComponent implements OnInit {
         savedQuestions[i].Selected_Answer = value;
 
         savedQuestions[i].selected = 'selected';
-        console.log( savedQuestions[i]);
 
      }
 
@@ -66,7 +80,7 @@ export class QuestionComponent implements OnInit {
  goTo(QId: any) {
 
   const savedQuestions = JSON.parse(this.cookie.get('questions'));
-  
+
 
   this.question.Current.Options[0] = savedQuestions[QId - 1].Options[0];
   this.question.Current.Options[1] = savedQuestions[QId - 1].Options[1];
@@ -79,7 +93,7 @@ export class QuestionComponent implements OnInit {
   this.materialExampleRadios = this.question.Current.Selected_Answer;
   this.question.QuestionList = savedQuestions;
 
-  console.log(this.question);
+
 
 
  }
