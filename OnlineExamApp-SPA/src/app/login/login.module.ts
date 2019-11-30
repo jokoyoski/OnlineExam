@@ -4,12 +4,18 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { LoginRoutingModule } from './login-routing.module';
 import { LoginComponent } from './login.component';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { AuthService } from '../services/Auth.service';
+import { AlertifyService } from '../services/AlertifyService';
 
 @NgModule({
     imports: [
         CommonModule,
         TranslateModule,
-        LoginRoutingModule],
-    declarations: [LoginComponent]
+  
+    ReactiveFormsModule,
+    LoginRoutingModule],
+    declarations: [LoginComponent],
+    providers: [AlertifyService]
 })
 export class LoginModule {}

@@ -8,6 +8,16 @@ using Microsoft.EntityFrameworkCore;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using System.Collections.Generic;
+using OnlineExamApp.API.Model;
+using System.Threading.Tasks;
+using OnlineExamApp.API.Dto;
+using System.Security.Claims;
+using System;
+using System.Text;
+using Microsoft.AspNetCore.Http;
+using System.IO;
+using OfficeOpenXml;
+using OnlineExamApp.API.Interfaces;
 
 namespace OnlineExamApp.API.Controllers
 {
@@ -15,101 +25,53 @@ namespace OnlineExamApp.API.Controllers
     [Route("api/[controller]")]
     public class AccountController : ControllerBase
     {
-
-        
-        private readonly IConfiguration _config;
-        private readonly IMapper _mapper;
-        private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
-
-        public AuthController(UserManager<User> userManager, SignInManager<User> signInManager,
-            IConfiguration config, IMapper mapper)
+        private readonly IAccountService _accountService;
+        public AccountController(IAccountService accountService)
         {
-            this._signInManager = signInManager;
-            this._userManager = userManager;
-            this._config = config;
-            this._mapper = mapper;
+            this._accountService = accountService;
         }
-
         [HttpPost("register")]
         public async Task<IActionResult> Register(UserForRegisterDto userForRegisterDto)
         {
-            var userToCreate = _mapper.Map<User>(userForRegisterDto);
+            if(userForRegisterDto == null) throw new ArgumentNullException(nameof(userForRegisterDto));
 
-            var result = await _userManager.CreateAsync(userToCreate, userForRegisterDto.Password);
+            var model = await this._accountService.SignUp(userForRegisterDto);
 
-            var userToReturn = _mapper.Map<UserForDetailedDto>(userToCreate);
-
-            if(result.Succeeded)
+            if (!string.IsNullOrEmpty(model))
             {
-                return CreatedAtRoute("GetUser", 
-                    new { controller="Users", id = userToCreate.Id }, userToReturn);
+                return Ok(new
+                {
+                    success = "User Has been Registered Successfully, You can then proceed to login",
+                    token = model
+
+                });
             }
-
-            return BadRequest(result.Errors);
+            return BadRequest();
         }
-
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserForLoginDto userForLogInDto)
         {
+            if(userForLogInDto == null) throw new ArgumentNullException(nameof(userForLogInDto));
 
-            var user = await _userManager.FindByNameAsync(userForLogInDto.Username);
+            var model = await this._accountService.SignIn(userForLogInDto);
 
-            var result = await _signInManager
-                .CheckPasswordSignInAsync(user, userForLogInDto.Password, false);
-
-            if (result.Succeeded)
-            {
-                var appUser = await _userManager.Users.Include(p => p.Photos)
-                    .FirstOrDefaultAsync(u => u.NormalizedUserName == userForLogInDto.Username.ToUpper());
-
-                var userToReturn = _mapper.Map<UserForListDto>(appUser);
-
+            if(string.IsNullOrEmpty(model)){
                 return Ok(new
                 {
-                    token = GenerateJwtToken(appUser).Result,
-                    user = userToReturn
+                    token = model
                 });
-
             }
-
-            return Unauthorized();
-
-        }
-
-        private async Task<string> GenerateJwtToken(User user)
-        {
-            var claims = new List<Claim>
-            {
-                new Claim (ClaimTypes.NameIdentifier, user.Id.ToString ()),
-                new Claim (ClaimTypes.Name, user.UserName)
-            };
-
-            var roles = await _userManager.GetRolesAsync(user);
-
-            foreach(var role in roles)
-            {
-                claims.Add(new Claim(ClaimTypes.Role, role));
-            }
-
-            var key = new SymmetricSecurityKey(Encoding.UTF8
-                .GetBytes(_config.GetSection("AppSettings:Token").Value));
-
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
-
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddDays(1),
-                SigningCredentials = creds
-            };
-
-            var tokenHandler = new JwtSecurityTokenHandler();
-
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-
-            return tokenHandler.WriteToken(token);
+            return BadRequest("You are not authorized");
         }
 
     }
+
 }
+
+
+
+
+
+
+
+

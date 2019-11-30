@@ -11,6 +11,5 @@ namespace OnlineExamApp.API.Model
         public DateTime DateCreated { get; set; }
         public DateTime? DateModified { get; set; }
         public int QuestionId { get; set; }
-        public Question Question { get; set; }
     }
 }

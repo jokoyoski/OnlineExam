@@ -9,6 +9,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthGuard } from './shared';
 import { CookieService } from 'ngx-cookie-service';
+import { AlertifyService } from './services/AlertifyService';
+import { ErrorInterceptorProvider } from './services/error.Interceptor';
+import { RoleDirective } from './_directives/role.directive';
 
 @NgModule({
    imports: [
@@ -24,7 +27,10 @@ import { CookieService } from 'ngx-cookie-service';
    ],
    providers: [
       AuthGuard,
-      CookieService
+      CookieService,
+      AlertifyService,
+      ErrorInterceptorProvider,
+      RoleDirective
    ],
    bootstrap: [
       AppComponent

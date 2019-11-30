@@ -9,8 +9,8 @@ using OnlineExamApp.API.Repository;
 namespace OnlineExamApp.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20191125204029_Initial")]
-    partial class Initial
+    [Migration("20191130043452_InitialQuestionMigrations")]
+    partial class InitialQuestionMigrations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -153,8 +153,6 @@ namespace OnlineExamApp.API.Migrations
 
                     b.HasKey("OptionId");
 
-                    b.HasIndex("QuestionId");
-
                     b.ToTable("Options");
                 });
 
@@ -177,8 +175,6 @@ namespace OnlineExamApp.API.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("QuestionId");
-
-                    b.HasIndex("CategoryId");
 
                     b.ToTable("Questions");
                 });
@@ -219,9 +215,6 @@ namespace OnlineExamApp.API.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("City")
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("TEXT");
@@ -239,13 +232,10 @@ namespace OnlineExamApp.API.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Gender")
+                    b.Property<string>("FirstName")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("KnownAs")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("LastActive")
+                    b.Property<string>("LastName")
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("LockoutEnabled")
@@ -261,6 +251,9 @@ namespace OnlineExamApp.API.Migrations
                     b.Property<string>("NormalizedUserName")
                         .HasColumnType("TEXT")
                         .HasMaxLength(256);
+
+                    b.Property<string>("Password")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("PasswordHash")
                         .HasColumnType("TEXT");
@@ -349,24 +342,6 @@ namespace OnlineExamApp.API.Migrations
                     b.HasOne("OnlineExamApp.API.Model.Category", null)
                         .WithMany("Categories")
                         .HasForeignKey("CategoryId1");
-                });
-
-            modelBuilder.Entity("OnlineExamApp.API.Model.Option", b =>
-                {
-                    b.HasOne("OnlineExamApp.API.Model.Question", "Question")
-                        .WithMany("Options")
-                        .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("OnlineExamApp.API.Model.Question", b =>
-                {
-                    b.HasOne("OnlineExamApp.API.Model.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("OnlineExamApp.API.Model.UserRole", b =>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -13,10 +14,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using OnlineExamApp.API.Interfaces;
 using OnlineExamApp.API.Model;
 using OnlineExamApp.API.Repository;
+using OnlineExamApp.API.Service;
 
 namespace OnlineExamApp.API
 {
@@ -50,7 +52,13 @@ namespace OnlineExamApp.API
             builder.AddRoleValidator<RoleValidator<Role>>();
             builder.AddRoleManager<RoleManager<Role>>();
             builder.AddSignInManager<SignInManager<User>>();
-
+             services.AddAutoMapper(typeof(DataContext));
+          
+            services.AddCors();
+            services.AddScoped<IQuestionRepository, QuestionRepository>();
+            services.AddScoped<IOptionRepository, OptionRepository>();
+            services.AddScoped<IQuestionService, QuestionService>();
+            services.AddScoped<IAccountService, AccountService>();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
@@ -66,9 +74,9 @@ namespace OnlineExamApp.API
 
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("RequiredAdminRole", policy => policy.RequireRole("Admin"));
-                options.AddPolicy("ModeratePhotoRole", policy => policy.RequireRole("Admin", "Moderator"));
-                options.AddPolicy("VipOnly", policy => policy.RequireRole("VIP"));
+                options.AddPolicy("UserPolicy", policy => policy.RequireRole("USER"));
+                options.AddPolicy("AdminPolicy", policy => policy.RequireRole("ADMIN", "USER"));
+             
             }
 
             );
@@ -86,7 +94,8 @@ namespace OnlineExamApp.API
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
+            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());  //cors 
+            app.UseAuthentication();  //for authentication middleware   
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

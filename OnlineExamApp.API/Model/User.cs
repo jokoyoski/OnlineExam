@@ -7,12 +7,12 @@ namespace OnlineExamApp.API.Model
 {
     public class User : IdentityUser<int>, IUser
     {
-        public string Gender { get; set; }
+
         public DateTime DateOfBirth { get; set; }
-        public string KnownAs { get; set; }
         public DateTime Created { get; set; }
-        public DateTime LastActive { get; set; }
-        public string City { get; set; }
+        public string Password { get; set; }
+        public string LastName { get; set; }
+        public string FirstName { get; set; }
         public ICollection<UserRole> UserRoles { get; set; }
 
     }
