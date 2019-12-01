@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { questionEnviroment } from './questionEnvironment';
-
+import {questionFromDb} from './questionfromServer';
 import { CookieService } from 'ngx-cookie-service';
 
 
@@ -10,14 +10,16 @@ import { CookieService } from 'ngx-cookie-service';
 export class QuestionService {
 
   questions = questionEnviroment;
-  
+
   private cookieValue = [];
    questionList: any;
-
+    newquestion: any;
+    questionNumber: number;
    question: any = [];
    seconds: number;
    timer: any;
-  
+   componentQuestion: any = {};
+
    value: string;
   constructor(private cookie: CookieService) { }
 
@@ -31,6 +33,8 @@ export class QuestionService {
 
   }
    getQuestions() {
+
+
     let j = 1;
 
     for (let i = 0; i <= this.questions.length - 1; i++) {
@@ -48,7 +52,12 @@ export class QuestionService {
 
    }
 
-   
+  GetQuestion() {
+    console.log(questionFromDb);
+  return  questionFromDb;
+  }
+
+
 
 
 

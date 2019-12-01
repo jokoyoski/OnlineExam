@@ -1,6 +1,8 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { QuestionService } from '../services/question.service';
+import { questionFromDb } from '../services/questionfromServer';
+import { Question } from '../QuestionModel';
 
 @Component({
   selector: 'app-question',
@@ -13,9 +15,14 @@ export class QuestionComponent implements OnInit {
 
   questionList = [];
   isLoad = true;
-
+  questionArray: Question[];
+  questionNumber: number;
   materialExampleRadios: any;
+  currentQuestion: Question;
+  allQuestion: any = {};
+  questionFromService: any = {};
   question: any = {};
+  gender: any = {};
   constructor(private cookie: CookieService, private questionService: QuestionService) {
 
 
@@ -23,18 +30,17 @@ export class QuestionComponent implements OnInit {
 
 
   radioModel: any;
- 
+
 
 
 
     ngOnInit() {
       this.questionService.seconds = 36000;
       this.setTimer();
-  this.materialExampleRadios = '';
 
-  this.question = this.questionService.getQuestions();
-  console.log(4);
-  console.log( this.question[0].Question);
+   this.getQuestion();
+
+
 
   }
 
@@ -49,26 +55,24 @@ this.questionService.seconds--;
 
 
   selectedOption(value: any, QId: number) {
-    const savedQuestions = JSON.parse(this.cookie.get('questions'));
+  console.log(value, QId);
+  const question = this.allQuestion.find(x => x.questionId === QId);
 
+  question.selectedAnswer = value;
 
-    for (let i = 0; i < savedQuestions.length; i++) {
+  try {
+    const values = question.options.find(x => x.checked === true);
+    values.checked = false;
+    const newValues = question.options.find(x => x.optionId === value);
+    newValues.checked = true;
+    values.selectedAnswer = newValues.optionId;
 
-     if (savedQuestions[i].Question_Number === QId) {
-
-
-        savedQuestions[i].Selected_Answer = value;
-
-        savedQuestions[i].selected = 'selected';
-
-     }
-
-
-
+  } catch (e) {
+    const newValues = question.options.find(x => x.optionId === value);
+    newValues.checked = true;
   }
 
-  // tslint:disable-next-line: align
-  this.cookie.set('questions', JSON.stringify(savedQuestions));
+
 
 
   }
@@ -80,26 +84,39 @@ this.questionService.seconds--;
 
  goTo(QId: any) {
 
-  const savedQuestions = JSON.parse(this.cookie.get('questions'));
+   this.currentQuestion = this.allQuestion.find(x => x.questionNumber === QId);
+   try {
+    const value = this.currentQuestion.options.find(x => x.checked === true);
 
+     this.materialExampleRadios = 4;
+      this.currentQuestion.selectedAnswer = value.optionId;
 
-  this.question.Current.Options[0] = savedQuestions[QId - 1].Options[0];
-  this.question.Current.Options[1] = savedQuestions[QId - 1].Options[1];
-  this.question.Current.Options[2] = savedQuestions[QId - 1].Options[2];
-  this.question.Current.Options[3] = savedQuestions[QId - 1].Options[3];
-  this.question.Current.Options[4] = savedQuestions[QId - 1].Options[4];
-
-  this.question.Current = savedQuestions[QId - 1];
-
-  this.materialExampleRadios = this.question.Current.Selected_Answer;
-  this.question.QuestionList = savedQuestions;
+   } catch (e) {
+    this.materialExampleRadios = 0;
+   }
 
 
 
 
  }
 
+ getQuestion() {
 
+  this.questionArray = this.questionService.GetQuestion();
+
+  this.questionNumber = 1;
+ for (let i = 0; i < this.questionArray.length; i++) {
+      this.questionArray[i].questionNumber = this.questionNumber;
+      this.questionArray[i].selectedAnswer = 0;
+      this.questionNumber++;
+   }
+
+
+   this.currentQuestion = this.questionArray[0];
+   this.allQuestion = this.questionArray;
+
+
+}
 
 
 }
