@@ -20,8 +20,8 @@ namespace OnlineExamApp.API.Controllers
             this.questionService = questionService;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetQuestions([FromQuery] int categoryId)
+        [HttpGet("{categoryId}")]
+        public async Task<IActionResult> GetQuestions(int categoryId)
         {
             if(categoryId <= 0) throw new ArgumentNullException(nameof(categoryId));
 

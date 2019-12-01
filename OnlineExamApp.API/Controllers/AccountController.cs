@@ -1,22 +1,8 @@
 
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using System.IdentityModel.Tokens.Jwt;
-using Microsoft.IdentityModel.Tokens;
-using System.Collections.Generic;
-using OnlineExamApp.API.Model;
 using System.Threading.Tasks;
 using OnlineExamApp.API.Dto;
-using System.Security.Claims;
 using System;
-using System.Text;
-using Microsoft.AspNetCore.Http;
-using System.IO;
-using OfficeOpenXml;
 using OnlineExamApp.API.Interfaces;
 
 namespace OnlineExamApp.API.Controllers
@@ -33,20 +19,21 @@ namespace OnlineExamApp.API.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register(UserForRegisterDto userForRegisterDto)
         {
+            userForRegisterDto.Username=userForRegisterDto.Email;
             if(userForRegisterDto == null) throw new ArgumentNullException(nameof(userForRegisterDto));
 
             var model = await this._accountService.SignUp(userForRegisterDto);
 
-            if (!string.IsNullOrEmpty(model))
+            if (string.IsNullOrEmpty(model))
             {
+                
                 return Ok(new
                 {
-                    success = "User Has been Registered Successfully, You can then proceed to login",
-                    token = model
-
+                    success = "User Has been Registered Successfully",
+                    
                 });
             }
-            return BadRequest();
+            return BadRequest(model);
         }
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserForLoginDto userForLogInDto)
@@ -55,7 +42,7 @@ namespace OnlineExamApp.API.Controllers
 
             var model = await this._accountService.SignIn(userForLogInDto);
 
-            if(string.IsNullOrEmpty(model)){
+            if(!string.IsNullOrEmpty(model)){
                 return Ok(new
                 {
                     token = model

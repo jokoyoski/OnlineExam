@@ -15,7 +15,7 @@ export class QuestionComponent implements OnInit {
   isLoad = true;
 
   materialExampleRadios: any;
-  question: any;
+  question: any = {};
   constructor(private cookie: CookieService, private questionService: QuestionService) {
 
 
@@ -23,7 +23,7 @@ export class QuestionComponent implements OnInit {
 
 
   radioModel: any;
-  // tslint:disable-next-line: use-lifecycle-interface
+ 
 
 
 
@@ -33,7 +33,8 @@ export class QuestionComponent implements OnInit {
   this.materialExampleRadios = '';
 
   this.question = this.questionService.getQuestions();
-  console.log( this.question);
+  console.log(4);
+  console.log( this.question[0].Question);
 
   }
 

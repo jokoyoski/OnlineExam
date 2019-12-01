@@ -62,7 +62,7 @@ login(model: any) {
 
 
             }
-            console.log(localStorage.getItem('token'));
+            
           })
         );
 

@@ -9,6 +9,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using System.Linq;
 using OnlineExamApp.API.Interfaces;
 using OnlineExamApp.API.Model;
 
@@ -40,9 +41,9 @@ namespace OnlineExamApp.API.Service
 
             if (result.Succeeded)
             {
-                //TODO: Add more content in the token
-                var appUser = await _userManager.Users
-                    .FirstOrDefaultAsync(u => u.NormalizedUserName == userForLogInDto.Username.ToUpper());
+                 
+                var appUser =  _userManager.Users
+                    .FirstOrDefault(u => u.NormalizedUserName == userForLogInDto.Username.ToUpper());
 
                 return GenerateJwtToken(appUser).Result;
                
@@ -52,7 +53,7 @@ namespace OnlineExamApp.API.Service
         }
         public async Task<string> SignUp(Dto.UserForRegisterDto userForRegisterDto)
         {
-
+           string errorInfo= string.Empty;
             string token = string.Empty;
 
             var userToCreate = _mapper.Map<User>(userForRegisterDto);
@@ -61,22 +62,16 @@ namespace OnlineExamApp.API.Service
 
             if (result.Succeeded)
             {
-                await this._userManager.AddToRolesAsync(userToCreate, new[] { "USER" });
-                //TODO: Add more information to token
-                var appUser = await _userManager.Users
-                    .FirstOrDefaultAsync(u => u.NormalizedUserName == userForRegisterDto.Username.ToUpper());
-
-                token = await GenerateJwtToken(appUser);
-
-                return token;
+               var userroles= this._userManager.AddToRolesAsync(userToCreate, new[] { "USER" });
+                
+                return "";
             }
 
-            if (!string.IsNullOrEmpty(result.Errors.ToString()))
-            {
-                return result.Errors.ToString();
-            }
-
-            return token;
+             foreach(var error in result.Errors)  
+             {
+                 errorInfo=error.Description;
+             }
+            return errorInfo;
 
 
         }

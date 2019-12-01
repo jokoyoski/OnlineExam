@@ -25,7 +25,7 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.0.0" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="2.2.0" />
-    <PackageReference Include="Spire.Office" Version="4.11.2" />
+    
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.5.0" />
     <PackageReference Include="System.Xml.XmlSerializer" Version="4.3.0" />
     <PackageReference Include="AutoMapper" Version="9.0.0" />
