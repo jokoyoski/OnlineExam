@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { questionEnviroment } from './questionEnvironment';
 import {questionFromDb} from './questionfromServer';
 import { CookieService } from 'ngx-cookie-service';
+import { HttpClient } from '@angular/common/http';
 
 
 @Injectable({
@@ -19,9 +20,9 @@ export class QuestionService {
    seconds: number;
    timer: any;
    componentQuestion: any = {};
-
+   url = 'http://localhost/api/question/';
    value: string;
-  constructor(private cookie: CookieService) { }
+  constructor(private cookie: CookieService, private httpClient: HttpClient) { }
 
 
 
@@ -60,6 +61,13 @@ export class QuestionService {
 
 
 
+
+        Submit(question: any) {
+          const tokenId = localStorage.getItem('userId');
+          const url = this.url + tokenId + '/submitTest';
+          console.log(question);
+          return this.httpClient.post(url, question);
+        }
 
 
   }

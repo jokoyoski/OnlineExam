@@ -3,14 +3,36 @@ import { CommonModule } from '@angular/common';
 import { QuestionComponent } from './question.component';
 import { QuestionRoutingModule } from './question-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+import { HttpClientModule } from '@angular/common/http';
+import { QuestionService } from '../services/question.service';
+import { JwtModule } from '@auth0/angular-jwt';
+export function TokenGetter() {
+  return localStorage.getItem('token');      // this is the token
+}
 @NgModule({
   imports: [
     CommonModule,
     QuestionRoutingModule,
    FormsModule,
-   ReactiveFormsModule
+   ReactiveFormsModule,
+   HttpClientModule,
+   JwtModule.forRoot({
+
+
+
+
+    config: {
+       tokenGetter: TokenGetter
+    ,
+
+  whitelistedDomains: ['localhost:5000'],  // we just got the token from (Token Getter function above) and we  send request ,
+  // it is automatically sending token
+  blacklistedRoutes: ['localhost:5000/api/account']  // we dont want
+  // to send token to this address
+ }
+ })
   ],
-  declarations: [QuestionComponent]
+  declarations: [QuestionComponent],
+  providers: [QuestionService]
 })
 export class QuestionModule { }

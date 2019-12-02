@@ -2,7 +2,7 @@ import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { QuestionService } from '../services/question.service';
 import { questionFromDb } from '../services/questionfromServer';
-import { Question } from '../QuestionModel';
+import { Question, Options, Answer } from '../QuestionModel';
 
 @Component({
   selector: 'app-question',
@@ -15,13 +15,19 @@ export class QuestionComponent implements OnInit {
 
   questionList = [];
   isLoad = true;
+  updateRadioSel: Options;
   questionArray: Question[];
+  radioSelectedString: string;
   questionNumber: number;
-  materialExampleRadios: any;
+  materialExampleRadios: any = {};
+  radioSelected: any = {};
+  answerInfo: any = {};
+  answerArray: any = [];
   currentQuestion: Question;
   allQuestion: any = {};
   questionFromService: any = {};
   question: any = {};
+  radioSel: any;
   gender: any = {};
   constructor(private cookie: CookieService, private questionService: QuestionService) {
 
@@ -39,6 +45,7 @@ export class QuestionComponent implements OnInit {
       this.setTimer();
 
    this.getQuestion();
+   this.radioSelected = 'Lamba1';
 
 
 
@@ -70,6 +77,7 @@ this.questionService.seconds--;
   } catch (e) {
     const newValues = question.options.find(x => x.optionId === value);
     newValues.checked = true;
+    this.radioSelected = newValues.optionName;
   }
 
 
@@ -77,22 +85,43 @@ this.questionService.seconds--;
 
   }
 
+  getSelecteditem(QId: any, optionId: number) {
+
+    try {
+      this.currentQuestion = this.allQuestion.find(x => x.questionNumber === QId);
+      this.radioSel = this.currentQuestion.options.find(Item => Item.checked === true);
+      this.radioSel.checked = false;
+      this.updateRadioSel = this.currentQuestion.options.find(x => x.optionId === optionId);
+      this.updateRadioSel.checked = true;
+      this.radioSelected = this.updateRadioSel.optionName;
+
+    } catch {
+      this.currentQuestion = this.allQuestion.find(x => x.questionNumber === QId);
+
+      this.updateRadioSel = this.currentQuestion.options.find(x => x.optionId === optionId);
+      this.updateRadioSel.checked = true;
+      this.radioSelected = this.updateRadioSel.optionName;
+    }
+    this.currentQuestion.selectedAnswer = optionId;
 
 
+  }
 
 
 
  goTo(QId: any) {
 
-   this.currentQuestion = this.allQuestion.find(x => x.questionNumber === QId);
-   try {
-    const value = this.currentQuestion.options.find(x => x.checked === true);
 
-     this.materialExampleRadios = 4;
-      this.currentQuestion.selectedAnswer = value.optionId;
+   try {
+
+    this.currentQuestion = this.allQuestion.find(x => x.questionNumber === QId);
+    this.updateRadioSel = this.currentQuestion.options.find(x => x.checked === true);
+
+    this.radioSelected = this.updateRadioSel.optionName;
+    
 
    } catch (e) {
-    this.materialExampleRadios = 0;
+    
    }
 
 
@@ -114,8 +143,25 @@ this.questionService.seconds--;
 
    this.currentQuestion = this.questionArray[0];
    this.allQuestion = this.questionArray;
+   
 
 
+}
+
+submitQuestion() {
+
+  for (let i = 0; i < this.allQuestion.length; i++) {
+
+    const joko = this.allQuestion[i].questionId;
+
+    this.answerInfo.questionId = this.allQuestion[i].questionId;
+    this.answerInfo.optionId = this.allQuestion[i].selectedAnswer;
+
+   this.answerArray.push(this.answerInfo);
+    this.answerInfo = {};
+
+  }
+  this.questionService.Submit(this.answerArray);
 }
 
 

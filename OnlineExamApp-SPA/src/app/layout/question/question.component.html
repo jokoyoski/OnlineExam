@@ -1,86 +1,88 @@
 
 
 <div>
-    <h4 class="text-center">Curent Affairs</h4>
-    <h6 class="text-center">You have done this subject 25 times</h6>
-    
-  <span>Time Elapsed : {{questionService.displayTimeElapsed()}}</span>
-  <div class="container-fluid pt-1">
-      <div class="row"> 
-          <div class="col-6 jumbotron pb-0">
-              <div class="card">
-                  <div class="card-header">
-                    Question &nbsp; &nbsp;{{currentQuestion.questionNumber}}
+  <h4 class="text-center">Curent Affairs</h4>
+  <h6 class="text-center">You have done this subject 25 times</h6>
+  
+<span>Time Elapsed : {{questionService.displayTimeElapsed()}}</span>
+<div class="container-fluid pt-1">
+    <div class="row"> 
+        <div class="col-6 jumbotron pb-0">
+            <div class="card">
+                <div class="card-header">
+                  Question &nbsp; &nbsp;{{currentQuestion.questionNumber}}
+                  </div>
+                <div class="card-body">
+              {{currentQuestion.questions}}
                     </div>
-                  <div class="card-body">
-                {{currentQuestion.questions}}
-                      </div>
-                </div>
-      
-    </div>
-          <div class="col-6 jumbotron">
-              <div *ngFor="let item of currentQuestion.options">
-                  <div class="card" style="width: 18rem;">
-                      <ul class="list-group list-group-flush">
-                        <div>
-                            <li class="list-group-item">
-                                <div class="row">
-                                    
-                                     <div class="form-check">
-                                      
-                                        <input  [(ngModel)]="currentQuestion.selectedAnswer"  type="radio" (click)="selectedOption(item.optionId,currentQuestion.questionId)"
-                                          class="form-check-input" id="materialChecked" value="item.optionId"  name="currentQuestion.selectedAnswer">
-                                        <label class="form-check-label" for="materialUnchecked">{{item.optionName}}</label>
-                                       </div>
-              
-                                </div>
-                                 
-                              </li>
-                        </div>
-                       
-                      </ul>
-                    </div>
-          
               </div>
-             
-  
-                  
-      </div>
-        
-     
-         
-   
-  
-      
     
   </div>
-  
-           <div class="row">
-      <button class="btn btn-danger mx-auto" >Previous</button>
-      <button class="btn btn-success mx-auto" >Submit</button>
-      <button class="btn btn-danger mx-auto" >Next</button>
-   </div>                        
-  </div>
-  <div class="text-center pt-0">
-    <div class="card">
-      <div class="card-header">
-        Progress
-      </div>
-      <div class="card-body">
-        <div class="border-radius">
-          <div class="row">
-             <div *ngFor="let a of allQuestion">
-  
-                     <div *ngIf="a.selectedAnswer=='0'">
-                      <div (click)="goTo(a.questionNumber)" style="background:red;width:20px;height:25px;padding:2px;text-align:center;border-radius:10em;color:#fff;cursor:pointer;">{{a.questionNumber}}</div>
-                       </div>
-                      <div *ngIf="a.selectedAnswer!=='0'">
-                     <div (click)="goTo(a.questionNumber)" style="background:green;width:20px;height:25px;padding:2px;text-align:center;border-radius:10em;color:#fff;cursor:pointer;">{{a.questionNumber}}</div>
-                  </div>
-                  
-                  </div>
+        <div class="col-6 jumbotron">
+            <div *ngFor="let item of currentQuestion.options">
+                <div class="card" style="width: 18rem;">
+                    <ul class="list-group list-group-flush">
+                      <div>
+                          <li class="list-group-item">
+                              <div class="row">
+                                  
+                              
+                                  <input type="radio" [(ngModel)]="radioSelected" name="item.optionName" value="{{item.optionName}}" (change)="getSelecteditem(currentQuestion.questionNumber,item.optionId)"/> 
+                                  {{item.optionName}}
+                                  
+                              
+            
+                              </div>
+                               
+                            </li>
+                      </div>
+                     
+                    </ul>
+                  </div>
+        
+            </div>
+           
+
+                
     </div>
-        </div>
+      
+   
+       
+ 
+
+    
+  
+</div>
+
+         <div class="row">
+    
+    <button (click)="submitQuestion()" class="btn btn-success mx-auto" >Submit</button>
+   
+ </div>                        
+</div>
+<div class="text-center pt-0">
+  <div class="card">
+    <div class="card-header">
+      Progress
+    </div>
+    <div class="card-body">
+      <div class="border-radius">
+        <div class="row">
+           <div *ngFor="let a of allQuestion">
+     
+             
+                <div *ngIf="a.selectedAnswer!==0; else red" >
+                   <div (click)="goTo(a.questionNumber)" style="background:green;width:20px;height:25px;padding:2px;text-align:center;border-radius:10em;color:#fff;cursor:pointer;">{{a.questionNumber}}</div>
+                </div>
+                
+              <ng-template #red>
+                   <div (click)="goTo(a.questionNumber)" style="background:red;width:20px;height:25px;padding:2px;text-align:center;border-radius:10em;color:#fff;cursor:pointer;">{{a.questionNumber}}</div>
+              
+              </ng-template>
+                     
+                </div>
+  </div>
       </div>
     </div>
   </div>
+</div>
