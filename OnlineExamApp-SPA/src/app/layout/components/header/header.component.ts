@@ -26,7 +26,7 @@ export class HeaderComponent implements OnInit {
 
     ngOnInit() {
 
-        this.name =  localStorage.getItem('givenName');
+        this.name =  localStorage.getItem('userName');
 
 
         this.pushRightClass = 'push-right';

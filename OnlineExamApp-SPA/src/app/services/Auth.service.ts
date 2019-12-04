@@ -49,12 +49,10 @@ login(model: any) {
 
               this.decodedToken = this.jwtHelper.decodeToken(this.result.token);  // decoding token
 
-                    console.log(this.decodedToken);
+
 
               localStorage.setItem('userId', this.decodedToken.nameid);
               localStorage.setItem('userName', this.decodedToken.unique_name);
-              localStorage.setItem('givenName', this.decodedToken.given_name);
-
 
               this.decodedTokenName = this.decodedToken.unique_name;
 
