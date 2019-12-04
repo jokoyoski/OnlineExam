@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { questionEnviroment } from './questionEnvironment';
 import { CookieService } from 'ngx-cookie-service';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class QuestionService {
    seconds: number;
    timer: any;
    value: string;
-  constructor(private cookie: CookieService) { }
+  constructor(private cookie: CookieService, private httpClient: HttpClient) { }
 
 
 
@@ -26,6 +27,8 @@ export class QuestionService {
 
   }
    getQuestions() {
+
+
     let j = 1;
 
     for (let i = 0; i <= this.questions.length - 1; i++) {
