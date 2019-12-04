@@ -1,9 +1,10 @@
 ﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace OnlineExamApp.API.Migrations
 {
-    public partial class InitialQuestionMigrations : Migration
+    public partial class InitialMigrations : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,7 +13,7 @@ namespace OnlineExamApp.API.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(maxLength: 256, nullable: true),
                     NormalizedName = table.Column<string>(maxLength: 256, nullable: true),
                     ConcurrencyStamp = table.Column<string>(nullable: true)
@@ -27,7 +28,7 @@ namespace OnlineExamApp.API.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     UserName = table.Column<string>(maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(maxLength: 256, nullable: true),
                     Email = table.Column<string>(maxLength: 256, nullable: true),
@@ -54,26 +55,20 @@ namespace OnlineExamApp.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Categories",
+                name: "DigitalFiles",
                 columns: table => new
                 {
-                    CategoryId = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    CategoryName = table.Column<string>(nullable: true),
-                    Duration = table.Column<int>(nullable: false),
+                    DigitalFileId = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    TheDigitalFile = table.Column<byte[]>(nullable: true),
+                    FileName = table.Column<string>(nullable: true),
+                    FileExtension = table.Column<string>(nullable: true),
                     DateCreated = table.Column<DateTime>(nullable: false),
-                    DateModified = table.Column<DateTime>(nullable: true),
-                    CategoryId1 = table.Column<int>(nullable: true)
+                    ContentType = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Categories", x => x.CategoryId);
-                    table.ForeignKey(
-                        name: "FK_Categories_Categories_CategoryId1",
-                        column: x => x.CategoryId1,
-                        principalTable: "Categories",
-                        principalColumn: "CategoryId",
-                        onDelete: ReferentialAction.Restrict);
+                    table.PrimaryKey("PK_DigitalFiles", x => x.DigitalFileId);
                 });
 
             migrationBuilder.CreateTable(
@@ -81,7 +76,7 @@ namespace OnlineExamApp.API.Migrations
                 columns: table => new
                 {
                     OptionId = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     OptionName = table.Column<string>(nullable: true),
                     IsCorrect = table.Column<bool>(nullable: false),
                     DateCreated = table.Column<DateTime>(nullable: false),
@@ -98,7 +93,7 @@ namespace OnlineExamApp.API.Migrations
                 columns: table => new
                 {
                     QuestionId = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Questions = table.Column<string>(nullable: true),
                     DateCreated = table.Column<DateTime>(nullable: false),
                     DateModified = table.Column<DateTime>(nullable: true),
@@ -110,11 +105,28 @@ namespace OnlineExamApp.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "UserScores",
+                columns: table => new
+                {
+                    UserScoreId = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    UserId = table.Column<int>(nullable: false),
+                    Score = table.Column<decimal>(nullable: false),
+                    CategoryId = table.Column<int>(nullable: false),
+                    DateCreated = table.Column<DateTime>(nullable: false),
+                    DateTaken = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserScores", x => x.UserScoreId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     RoleId = table.Column<int>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -135,7 +147,7 @@ namespace OnlineExamApp.API.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     UserId = table.Column<int>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -215,6 +227,29 @@ namespace OnlineExamApp.API.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Categories",
+                columns: table => new
+                {
+                    CategoryId = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    CategoryName = table.Column<string>(nullable: true),
+                    Duration = table.Column<int>(nullable: false),
+                    DateCreated = table.Column<DateTime>(nullable: false),
+                    DateModified = table.Column<DateTime>(nullable: true),
+                    PhotoId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Categories", x => x.CategoryId);
+                    table.ForeignKey(
+                        name: "FK_Categories_DigitalFiles_PhotoId",
+                        column: x => x.PhotoId,
+                        principalTable: "DigitalFiles",
+                        principalColumn: "DigitalFileId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -253,9 +288,9 @@ namespace OnlineExamApp.API.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Categories_CategoryId1",
+                name: "IX_Categories_PhotoId",
                 table: "Categories",
-                column: "CategoryId1");
+                column: "PhotoId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -285,10 +320,16 @@ namespace OnlineExamApp.API.Migrations
                 name: "Questions");
 
             migrationBuilder.DropTable(
+                name: "UserScores");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "DigitalFiles");
         }
     }
 }

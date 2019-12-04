@@ -6,6 +6,7 @@ namespace OnlineExamApp.API.Interfaces
     {
         int QuestionId { get; set;}
         string Questions { get; set; }
+        int CategoryId { get; set; }
         IEnumerable<IOptionsForDisplay> Options { get; set; }
     }
 }

@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OnlineExamApp.API.Repository;
 
 namespace OnlineExamApp.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20191204140214_InitialMigrations")]
+    partial class InitialMigrations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -116,13 +118,15 @@ namespace OnlineExamApp.API.Migrations
                     b.Property<DateTime?>("DateModified")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int>("DigitalId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Duration")
                         .HasColumnType("int");
 
+                    b.Property<int>("PhotoId")
+                        .HasColumnType("int");
+
                     b.HasKey("CategoryId");
+
+                    b.HasIndex("PhotoId");
 
                     b.ToTable("Categories");
                 });
@@ -382,6 +386,15 @@ namespace OnlineExamApp.API.Migrations
                     b.HasOne("OnlineExamApp.API.Model.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("OnlineExamApp.API.Model.Category", b =>
+                {
+                    b.HasOne("OnlineExamApp.API.Model.DigitalFile", "Photo")
+                        .WithMany()
+                        .HasForeignKey("PhotoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

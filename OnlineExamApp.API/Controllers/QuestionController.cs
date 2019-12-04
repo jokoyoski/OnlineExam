@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OnlineExamApp.API.Interfaces;
-using OnlineExamApp.API.Model;
+using System.Security.Claims;
+using Newtonsoft.Json;
+using OnlineExamApp.API.Dto;
 
 namespace OnlineExamApp.API.Controllers
 {
@@ -14,20 +13,44 @@ namespace OnlineExamApp.API.Controllers
     [Route("api/[controller]")]
     public class QuestionController : Controller
     {
+
         private readonly IQuestionService questionService;
         public QuestionController(IQuestionService questionService)
         {
             this.questionService = questionService;
         }
 
+        [HttpGet()]
+        public async Task<IActionResult> GetCategories()
+        {
+            var model = await this.questionService.GetCategories();
+
+            return Ok(model);
+        }
+
         [HttpGet("{categoryId}")]
         public async Task<IActionResult> GetQuestions(int categoryId)
         {
+            
             if(categoryId <= 0) throw new ArgumentNullException(nameof(categoryId));
 
             var model = await this.questionService.GetQuestionListForDislay(categoryId);
 
             return Ok(model);
+        }
+
+        [HttpPost("{userId}/submitTest")]
+        public async Task<IActionResult> SubmitQuestion(int userId, string anweredQuestionJson)
+        {
+
+            anweredQuestionJson = answeredQuestionString.anweredQuestion;
+
+            var model = await this.questionService.ProcessAnweredQuestions(userId, anweredQuestionJson);
+
+           /*  if (userId != int.Parse (User.FindFirst(ClaimTypes.NameIdentifier).Value))
+                return Unauthorized (); */
+
+            return Ok(model.Score);
         }
 
         /* [HttpPost("import")]

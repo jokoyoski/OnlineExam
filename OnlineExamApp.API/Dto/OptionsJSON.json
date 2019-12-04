@@ -1,0 +1,77 @@
+[
+    {
+        "optionName": "Challenge",
+        "questionId": 1,
+        "isCorrect": false
+    },
+    {
+        "optionName": "Appa",
+        "questionId": 1,
+        "isCorrect": false
+    },
+    {
+        "optionName": "Cocoa House",
+        "questionId": 1,
+        "isCorrect": false
+    },
+    {
+        "optionName": "Dugbe",
+        "questionId": 1,
+        "isCorrect": false
+    },
+    {
+        "optionName": "Ibadan",
+        "questionId": 1,
+        "isCorrect": true
+    },
+    {
+        "optionName": "Abeokuta",
+        "questionId": 2,
+        "isCorrect": true
+    },
+    {
+        "optionName": "Sagamu",
+        "questionId": 2,
+        "isCorrect": false
+    },
+    {
+        "optionName": "Ijebu",
+        "questionId": 2,
+        "isCorrect": false
+    },
+    {
+        "optionName": "Yewa",
+        "questionId": 2,
+        "isCorrect": false
+    },
+    {
+        "optionName": "Remo",
+        "questionId": 2,
+        "isCorrect": false
+    },
+    {
+        "optionName": "Oshodi",
+        "questionId": 3,
+        "isCorrect": false
+    },
+    {
+        "optionName": "Ajah",
+        "questionId": 3,
+        "isCorrect": false
+    },
+    {
+        "optionName": "Lekki",
+        "questionId": 3,
+        "isCorrect": false
+    },
+    {
+        "optionName": "Victory Island",
+        "questionId": 3,
+        "isCorrect": false
+    },
+    {
+        "optionName": "Ikoji",
+        "questionId": 3,
+        "isCorrect": true
+    }
+]

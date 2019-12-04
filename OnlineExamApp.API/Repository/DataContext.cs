@@ -7,13 +7,16 @@ namespace OnlineExamApp.API.Repository
 {
     public class DataContext : IdentityDbContext<User, Role, int, 
         IdentityUserClaim<int>, UserRole, IdentityUserLogin<int>,
-        IdentityRoleClaim<int>, IdentityUserToken<int>> 
+        IdentityRoleClaim<int>, IdentityUserToken<int>>
     {
         public DataContext (DbContextOptions<DataContext> option) : base (option) { }
     
         public DbSet<Question> Questions { get; set; }
         public DbSet<Option> Options { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<UserScore> UserScores { get; set; }
+        public DbSet<DigitalFile> DigitalFiles { get; set; }
+        
 
         protected override void OnModelCreating (ModelBuilder builder) 
         {

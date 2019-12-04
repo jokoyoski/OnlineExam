@@ -15,6 +15,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json.Serialization;
+using OnlineExamApp.API.Dto;
 using OnlineExamApp.API.Interfaces;
 using OnlineExamApp.API.Model;
 using OnlineExamApp.API.Repository;
@@ -37,7 +39,7 @@ namespace OnlineExamApp.API
             services.AddControllers();
 
             services.AddDbContext<DataContext>(options =>
-                    options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+                    options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
 
             IdentityBuilder builder = services.AddIdentityCore<User>(opt =>
             {
@@ -52,13 +54,22 @@ namespace OnlineExamApp.API
             builder.AddRoleValidator<RoleValidator<Role>>();
             builder.AddRoleManager<RoleManager<Role>>();
             builder.AddSignInManager<SignInManager<User>>();
-             services.AddAutoMapper(typeof(DataContext));
-          
+            services.AddAutoMapper(typeof(DataContext));
+
+            services.AddTransient<Seed>();
+            
             services.AddCors();
             services.AddScoped<IQuestionRepository, QuestionRepository>();
             services.AddScoped<IOptionRepository, OptionRepository>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IUserScoreRepository, UserScoreRepository>();
             services.AddScoped<IQuestionService, QuestionService>();
             services.AddScoped<IAccountService, AccountService>();
+            services.AddMvc().AddNewtonsoftJson(options =>
+                options.SerializerSettings.ContractResolver =
+                    new CamelCasePropertyNamesContractResolver());
+
+    
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
@@ -76,7 +87,7 @@ namespace OnlineExamApp.API
             {
                 options.AddPolicy("UserPolicy", policy => policy.RequireRole("USER"));
                 options.AddPolicy("AdminPolicy", policy => policy.RequireRole("ADMIN", "USER"));
-             
+
             }
 
             );
@@ -84,7 +95,7 @@ namespace OnlineExamApp.API
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, Seed seeder)
         {
             if (env.IsDevelopment())
             {
@@ -97,7 +108,7 @@ namespace OnlineExamApp.API
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());  //cors 
             app.UseAuthentication();  //for authentication middleware   
             app.UseAuthorization();
-
+            seeder.SeedQuestions();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

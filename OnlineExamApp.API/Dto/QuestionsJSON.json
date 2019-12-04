@@ -1,0 +1,16 @@
+[
+    {
+        "questions": "What is the capital of Oyo?",
+        "categoryId": 1
+    },
+    {
+        "questions": "What is the capital of Ogun?",
+        "categoryId": 1
+        
+    },
+    {
+        "questions": "What is the capital of Lagos?",
+        "categoryId": 1
+        
+    }
+]

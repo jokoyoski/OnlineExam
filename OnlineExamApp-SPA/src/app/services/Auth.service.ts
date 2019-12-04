@@ -19,7 +19,7 @@ currentPhotoUrl = this.photoUrl.asObservable();
 
    Gender: any;
 
-   URL = 'http://localhost:5000/api/';
+   URL = 'https://localhost:44381/api/';
   httpClient: any;
 
 constructor(private http: HttpClient, ) { }
@@ -62,7 +62,7 @@ login(model: any) {
 
 
             }
-            
+            console.log(localStorage.getItem('token'));
           })
         );
 

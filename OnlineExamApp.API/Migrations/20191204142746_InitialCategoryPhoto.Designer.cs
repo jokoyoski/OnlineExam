@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OnlineExamApp.API.Repository;
 
 namespace OnlineExamApp.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20191204142746_InitialCategoryPhoto")]
+    partial class InitialCategoryPhoto
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -116,6 +118,9 @@ namespace OnlineExamApp.API.Migrations
                     b.Property<DateTime?>("DateModified")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<int?>("DigitalFileId")
+                        .HasColumnType("int");
+
                     b.Property<int>("DigitalId")
                         .HasColumnType("int");
 
@@ -123,6 +128,8 @@ namespace OnlineExamApp.API.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("CategoryId");
+
+                    b.HasIndex("DigitalFileId");
 
                     b.ToTable("Categories");
                 });
@@ -384,6 +391,13 @@ namespace OnlineExamApp.API.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("OnlineExamApp.API.Model.Category", b =>
+                {
+                    b.HasOne("OnlineExamApp.API.Model.DigitalFile", "DigitalFile")
+                        .WithMany("Categories")
+                        .HasForeignKey("DigitalFileId");
                 });
 
             modelBuilder.Entity("OnlineExamApp.API.Model.UserRole", b =>

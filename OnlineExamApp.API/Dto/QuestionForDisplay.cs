@@ -7,6 +7,7 @@ namespace OnlineExamApp.API.Dto
     {
         public int QuestionId { get; set;}
         public string Questions { get; set; }
+        public int CategoryId { get; set; }
         public IEnumerable<IOptionsForDisplay> Options { get; set; }
     }
 }

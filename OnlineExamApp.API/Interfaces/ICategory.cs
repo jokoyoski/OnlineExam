@@ -1,4 +1,5 @@
 using System;
+using OnlineExamApp.API.Model;
 
 namespace OnlineExamApp.API.Interfaces
 {
@@ -9,5 +10,6 @@ namespace OnlineExamApp.API.Interfaces
         int Duration { get; set; }
         DateTime DateCreated { get; set; }
         DateTime? DateModified { get; set; }
+        int DigitalId { get; set; }
     }
 }
