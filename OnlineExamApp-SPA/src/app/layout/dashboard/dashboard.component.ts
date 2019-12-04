@@ -57,9 +57,9 @@ export class DashboardComponent implements OnInit {
     ngOnInit() {
 
         this.route.data.subscribe(data => {
-            
+
             this.categories = data.categories;
-            console.log(data.categories);
+
         });
     }
 

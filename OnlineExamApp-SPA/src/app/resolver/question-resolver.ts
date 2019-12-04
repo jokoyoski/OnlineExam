@@ -14,7 +14,7 @@ export class QuestionResolver implements Resolve<Question[]> {
 
 resolve(route: ActivatedRouteSnapshot): Observable<Question[]> {
 
-    return this.questionService.GetQuestion(route.params['id']).pipe(
+    return this.questionService.GetQuestion(+route.params['id']).pipe(
 
 
         catchError(error => {
