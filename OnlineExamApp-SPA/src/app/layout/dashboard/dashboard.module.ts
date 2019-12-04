@@ -10,6 +10,7 @@ import {
     ChatComponent
 } from './components';
 import { StatModule } from '../../shared';
+import { CategoryResolver } from 'src/app/resolver/category-list.resolver';
 
 @NgModule({
     imports: [
@@ -24,6 +25,7 @@ import { StatModule } from '../../shared';
         TimelineComponent,
         NotificationComponent,
         ChatComponent
-    ]
+    ],
+    providers: [CategoryResolver]
 })
 export class DashboardModule {}

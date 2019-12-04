@@ -1,2 +1,8 @@
-// shared css for the login and signup page
-@import "../login/login.component.scss";
+
+
+
+.body-image{
+    background-image: url('../../assets/bg1.jpg');
+    background-attachment: fixed;
+    height: 800px;
+}

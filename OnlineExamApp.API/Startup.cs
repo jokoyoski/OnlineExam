@@ -39,7 +39,7 @@ namespace OnlineExamApp.API
             services.AddControllers();
 
             services.AddDbContext<DataContext>(options =>
-                    options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
+                    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             IdentityBuilder builder = services.AddIdentityCore<User>(opt =>
             {

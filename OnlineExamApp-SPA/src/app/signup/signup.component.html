@@ -1,8 +1,20 @@
-<div class="login-page" [@routerTransition]>
-    <div class="row justify-content-md-center">
+
+
+<div class="container-fluid">
+        
+          
+       
+          
+  
+    <div class="login-page body-image">
+    <div  class="row justify-content-md-center">
         <div class="col-md-4">
-            <img class="user-avatar" src="assets/images/logo.png" width="150px" />
-            <h1>Online Exam</h1>
+            <div style="text-align: center;">
+                    <img class="user-avatar" src="assets/images/logo.png" width="150px" />
+                    <h1>Online Exam</h1>
+            </div>
+           
+           
             <form [formGroup]="registerForm" (ngSubmit)="register(registerForm)">
                 <div class="form-content">
                         <div class="form-group">
@@ -41,9 +53,14 @@
 
                   
                 </div>
-                <button [disabled]="!registerForm.valid" class="btn rounded-btn" type="submit">Register</button>
+                <div style="text-align: center;">
+                        <button [disabled]="!registerForm.valid" class="btn btn-outline-success my-2 my-sm-0" type="submit">REGISTER </button>
+             
+                </div>
+               
                 
             </form>
         </div>
     </div>
+</div>
 </div>

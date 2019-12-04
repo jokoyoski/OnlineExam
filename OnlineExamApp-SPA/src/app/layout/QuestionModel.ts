@@ -22,7 +22,13 @@ export interface Question {
  
  }
  
- 
+ export interface Category {
+    categoryId: number;
+    categoryName: string;
+    duration: number;
+  
+  
+   }
  export interface Answer {
   questionId: number;
   optionId: number;
