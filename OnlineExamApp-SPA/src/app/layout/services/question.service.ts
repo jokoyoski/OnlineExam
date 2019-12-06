@@ -21,6 +21,7 @@ export class QuestionService {
    question: any = [];
    seconds: number;
    timer: any;
+   result: any;
    categories: Category[];
    componentQuestion: any = {};
    url = 'http://localhost:5000/api/question/';
@@ -74,7 +75,14 @@ export class QuestionService {
           const tokenId = localStorage.getItem('userId');
           const url = this.url + tokenId + '/submitTest';
           console.log(question);
-          return this.httpClient.post(url, question);
+          return this.httpClient.post(url, question).pipe(
+
+            map((response: any) => {
+            this.result = response;
+            localStorage.setItem('result', this.result);
+              }));
+
+
         }
 
 

@@ -80,7 +80,8 @@ namespace OnlineExamApp.API.Service
             var claims = new List<Claim>
             {
                 new Claim (ClaimTypes.NameIdentifier, user.Id.ToString ()),
-                new Claim (ClaimTypes.Name, user.UserName)
+                new Claim (ClaimTypes.Name, user.UserName),
+                new Claim(ClaimTypes.GivenName,user.FirstName)
             };
 
             var roles = await _userManager.GetRolesAsync(user);
