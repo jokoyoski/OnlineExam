@@ -6,6 +6,7 @@ namespace OnlineExamApp.API.Interfaces
 {
     public interface ICategoryRepository
     {
-         Task<IEnumerable<ICategory>> GetCateogory();
+        Task<ICategory> GetCateogoryByCategoryId(int categoryId);
+        Task<IEnumerable<ICategory>> GetCateogory();
     }
 }

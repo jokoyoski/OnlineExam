@@ -40,15 +40,13 @@ namespace OnlineExamApp.API.Controllers
         }
 
         [HttpPost("{userId}/submitTest")]
-        public async Task<IActionResult> SubmitQuestion(int userId, string anweredQuestionJson)
+        public async Task<IActionResult> SubmitQuestion(int userId, IList<IAnweredQuestionDto> anweredQuestion)
         {
 
-            anweredQuestionJson = answeredQuestionString.anweredQuestion;
+            if (userId != int.Parse (User.FindFirst(ClaimTypes.NameIdentifier).Value))
+                return Unauthorized ();
 
-            var model = await this.questionService.ProcessAnweredQuestions(userId, anweredQuestionJson);
-
-           /*  if (userId != int.Parse (User.FindFirst(ClaimTypes.NameIdentifier).Value))
-                return Unauthorized (); */
+            var model = await this.questionService.ProcessAnweredQuestions(userId, anweredQuestion);
 
             return Ok(model.Score);
         }

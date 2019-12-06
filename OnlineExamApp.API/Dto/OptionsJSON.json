@@ -2,76 +2,76 @@
     {
         "optionName": "Challenge",
         "questionId": 1,
-        "isCorrect": false
+        "isCorrect": 0
     },
     {
         "optionName": "Appa",
         "questionId": 1,
-        "isCorrect": false
+        "isCorrect": 0
     },
     {
         "optionName": "Cocoa House",
         "questionId": 1,
-        "isCorrect": false
+        "isCorrect": 0
     },
     {
         "optionName": "Dugbe",
         "questionId": 1,
-        "isCorrect": false
+        "isCorrect": 0
     },
     {
         "optionName": "Ibadan",
         "questionId": 1,
-        "isCorrect": true
+        "isCorrect": 1
     },
     {
         "optionName": "Abeokuta",
         "questionId": 2,
-        "isCorrect": true
+        "isCorrect": 1
     },
     {
         "optionName": "Sagamu",
         "questionId": 2,
-        "isCorrect": false
+        "isCorrect": 0
     },
     {
         "optionName": "Ijebu",
         "questionId": 2,
-        "isCorrect": false
+        "isCorrect": 0
     },
     {
         "optionName": "Yewa",
         "questionId": 2,
-        "isCorrect": false
+        "isCorrect": 0
     },
     {
         "optionName": "Remo",
         "questionId": 2,
-        "isCorrect": false
+        "isCorrect": 0
     },
     {
         "optionName": "Oshodi",
         "questionId": 3,
-        "isCorrect": false
+        "isCorrect": 0
     },
     {
         "optionName": "Ajah",
         "questionId": 3,
-        "isCorrect": false
+        "isCorrect": 0
     },
     {
         "optionName": "Lekki",
         "questionId": 3,
-        "isCorrect": false
+        "isCorrect": 0
     },
     {
         "optionName": "Victory Island",
         "questionId": 3,
-        "isCorrect": false
+        "isCorrect": 0
     },
     {
         "optionName": "Ikoji",
         "questionId": 3,
-        "isCorrect": true
+        "isCorrect": 1
     }
 ]

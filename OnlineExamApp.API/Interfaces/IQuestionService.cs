@@ -7,7 +7,7 @@ namespace OnlineExamApp.API.Interfaces
     {
         Task<IEnumerable<ICategory>> GetCategories();
          Task<IEnumerable<IQuestionForDisplay>> GetQuestionListForDislay(int categoryId);
-         Task<IProcessAnswerReturnDto> ProcessAnweredQuestions(int userId, string anweredQuestionJson);
+         Task<IProcessAnswerReturnDto> ProcessAnweredQuestions(int userId, IList<IAnweredQuestionDto> anweredQuestion);
          
     }
 }

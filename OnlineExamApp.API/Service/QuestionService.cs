@@ -20,6 +20,7 @@ namespace OnlineExamApp.API.Service
         private readonly IMapper _mapper;
         private readonly IUserScoreRepository _userScoreRepository;
         private readonly ICategoryRepository _categoryRepository;
+
         public QuestionService(IQuestionRepository questionRepository,
         IOptionRepository optionRepository, IMapper mapper, IUserScoreRepository userScoreRepository,
         ICategoryRepository categoryRepository)
@@ -42,9 +43,35 @@ namespace OnlineExamApp.API.Service
 
             var questionList = await this._questionRepository.GetQuestionsByCaregoryId(categoryId);
 
-            var questionCollection = _mapper.Map<IEnumerable<IQuestionForDisplay>>(questionList);
+            var category = await this._categoryRepository.GetCateogoryByCategoryId(categoryId);
 
-            foreach (var options in questionCollection)
+            var questionCollection = _mapper.Map<IEnumerable<IQuestionForDisplay>>(questionList).ToList();
+
+            Random rand = new Random();
+
+            int n = questionCollection.Count;
+            while (n > 1)
+            {
+                n--;
+                int k = rand.Next(n + 1);
+                var value = questionCollection[k];
+                questionCollection[k] = questionCollection[n];
+                questionCollection[n] = value;
+            }
+
+            var randomSpecificList = new List<IQuestionForDisplay>();
+
+            if (category != null && category.NumberofQueston > 0)
+            {
+                randomSpecificList = questionCollection.GetRange(0, category.NumberofQueston);
+            }
+            else
+            {
+                randomSpecificList = questionCollection.GetRange(0, 2);
+            }
+
+
+            foreach (var options in randomSpecificList)
             {
 
                 var optionCollection = await this._optionRepository.GetOptionsByQuestionId(options.QuestionId);
@@ -52,13 +79,12 @@ namespace OnlineExamApp.API.Service
                 options.Options = _mapper.Map<IEnumerable<IOptionsForDisplay>>(optionCollection);
             }
 
-            return questionCollection;
+            return randomSpecificList;
         }
-        public async Task<IProcessAnswerReturnDto> ProcessAnweredQuestions(int userId, string anweredQuestionJson)
+        public async Task<IProcessAnswerReturnDto> ProcessAnweredQuestions(int userId, IList<IAnweredQuestionDto> anweredQuestion)
         {
-            if (anweredQuestionJson == null) throw new ArgumentNullException(nameof(anweredQuestionJson));
 
-            var anweredQuestion = JsonConvert.DeserializeObject<List<AnweredQuestionDto>>(anweredQuestionJson);
+            if (anweredQuestion == null) throw new ArgumentNullException(nameof(anweredQuestion));
 
             decimal score = 0;
             int categoryId = 0;

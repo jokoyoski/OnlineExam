@@ -15,21 +15,28 @@ namespace OnlineExamApp.API.Repository
         {
             this._dbContext = dbContext;
         }
+
+        public async Task<ICategory> GetCateogoryByCategoryId(int categoryId)
+        {
+            try
+            {
+                var result = await this._dbContext.Categories
+                .Include(m=>m.Photo).SingleOrDefaultAsync();
+
+                return result;
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException("QuestionRepository from GetCateogoryByCategoryId", e);
+            }
+        }
+
         public async Task<IEnumerable<ICategory>> GetCateogory()
         {
             try
             {
-                var result = await (from d in _dbContext.Categories
-                                    select new Model.Category
-                                    {
-                                        CategoryId = d.CategoryId,
-                                        CategoryName = d.CategoryName,
-                                        DigitalId = d.DigitalId,
-                                        DateCreated = d.DateCreated,
-                                        Duration = d.Duration
-                                    }
-
-                ).OrderByDescending(p => p.CategoryId).ToListAsync();
+                var result = await this._dbContext.Categories
+                .Include(m=>m.Photo).OrderByDescending(p => p.CategoryId).ToListAsync();
 
                 return result;
             }

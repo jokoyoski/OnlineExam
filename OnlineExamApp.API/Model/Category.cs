@@ -9,10 +9,12 @@ namespace OnlineExamApp.API.Model
     {
         public int CategoryId { get; set; }
         public string CategoryName { get; set; }
+        public string CategoryDescription { get; set; }
         public int Duration { get; set; }
+        public int NumberofQueston { get; set; }
         public DateTime DateCreated { get; set; }
         public DateTime? DateModified { get; set; }
-        public int DigitalId { get; set; }
-
+        public int PhotoId { get; set; }
+        public Photo Photo { get; set; }
     }
 }

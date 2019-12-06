@@ -17,6 +17,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Serialization;
 using OnlineExamApp.API.Dto;
+using OnlineExamApp.API.Helpers;
 using OnlineExamApp.API.Interfaces;
 using OnlineExamApp.API.Model;
 using OnlineExamApp.API.Repository;
@@ -39,7 +40,7 @@ namespace OnlineExamApp.API
             services.AddControllers();
 
             services.AddDbContext<DataContext>(options =>
-                    options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
+                    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             IdentityBuilder builder = services.AddIdentityCore<User>(opt =>
             {
@@ -57,11 +58,12 @@ namespace OnlineExamApp.API
             services.AddAutoMapper(typeof(DataContext));
 
             services.AddTransient<Seed>();
-            
+            services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
             services.AddCors();
             services.AddScoped<IQuestionRepository, QuestionRepository>();
             services.AddScoped<IOptionRepository, OptionRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IDigitalFileRepository, DigitalFileRepository>();
             services.AddScoped<IUserScoreRepository, UserScoreRepository>();
             services.AddScoped<IQuestionService, QuestionService>();
             services.AddScoped<IAccountService, AccountService>();
