@@ -10,8 +10,8 @@ using OnlineExamApp.API.Repository;
 namespace OnlineExamApp.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20191204203529_new")]
-    partial class @new
+    [Migration("20191206012111_InitialMigrations")]
+    partial class InitialMigrations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -114,6 +114,9 @@ namespace OnlineExamApp.API.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("CategoryDescription")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("CategoryName")
                         .HasColumnType("nvarchar(max)");
 
@@ -123,42 +126,20 @@ namespace OnlineExamApp.API.Migrations
                     b.Property<DateTime?>("DateModified")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("DigitalId")
+                    b.Property<int>("Duration")
                         .HasColumnType("int");
 
-                    b.Property<int>("Duration")
+                    b.Property<int>("NumberofQueston")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PhotoId")
                         .HasColumnType("int");
 
                     b.HasKey("CategoryId");
 
+                    b.HasIndex("PhotoId");
+
                     b.ToTable("Categories");
-                });
-
-            modelBuilder.Entity("OnlineExamApp.API.Model.DigitalFile", b =>
-                {
-                    b.Property<int>("DigitalFileId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("ContentType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("FileExtension")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FileName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<byte[]>("TheDigitalFile")
-                        .HasColumnType("varbinary(max)");
-
-                    b.HasKey("DigitalFileId");
-
-                    b.ToTable("DigitalFiles");
                 });
 
             modelBuilder.Entity("OnlineExamApp.API.Model.Option", b =>
@@ -186,6 +167,30 @@ namespace OnlineExamApp.API.Migrations
                     b.HasKey("OptionId");
 
                     b.ToTable("Options");
+                });
+
+            modelBuilder.Entity("OnlineExamApp.API.Model.Photo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("DateAdded")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PublicId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Url")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Photos");
                 });
 
             modelBuilder.Entity("OnlineExamApp.API.Model.Question", b =>
@@ -300,6 +305,9 @@ namespace OnlineExamApp.API.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<int?>("PhotoId")
+                        .HasColumnType("int");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -319,6 +327,8 @@ namespace OnlineExamApp.API.Migrations
                         .IsUnique()
                         .HasName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.HasIndex("PhotoId");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -399,6 +409,22 @@ namespace OnlineExamApp.API.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("OnlineExamApp.API.Model.Category", b =>
+                {
+                    b.HasOne("OnlineExamApp.API.Model.Photo", "Photo")
+                        .WithMany("Categories")
+                        .HasForeignKey("PhotoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("OnlineExamApp.API.Model.User", b =>
+                {
+                    b.HasOne("OnlineExamApp.API.Model.Photo", null)
+                        .WithMany("Users")
+                        .HasForeignKey("PhotoId");
                 });
 
             modelBuilder.Entity("OnlineExamApp.API.Model.UserRole", b =>

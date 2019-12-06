@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace OnlineExamApp.API.Migrations
 {
-    public partial class @new : Migration
+    public partial class InitialMigrations : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -154,6 +154,7 @@ namespace OnlineExamApp.API.Migrations
                     CategoryId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CategoryName = table.Column<string>(nullable: true),
+                    CategoryDescription = table.Column<string>(nullable: true),
                     Duration = table.Column<int>(nullable: false),
                     NumberofQueston = table.Column<int>(nullable: false),
                     DateCreated = table.Column<DateTime>(nullable: false),
@@ -325,9 +326,6 @@ namespace OnlineExamApp.API.Migrations
 
             migrationBuilder.DropTable(
                 name: "Categories");
-
-            migrationBuilder.DropTable(
-                name: "DigitalFiles");
 
             migrationBuilder.DropTable(
                 name: "Options");
