@@ -1,25 +1,44 @@
-<div class="login-page" [@routerTransition]>
-    <div class="row justify-content-md-center">
-        <div class="col-md-4">
-            <img src="assets/images/logo.png" width="150px" class="user-avatar" />
-            <h1>Online Exam Center</h1>
-            <form [formGroup]="loginForm" (ngSubmit)="login(loginForm)">
-                <div class="form-content">
-                    
 
-                        <div class="form-group">
-                                <input type="email" [ngClass]="{'is-invalid': loginForm.get('username').errors && loginForm.get('username').touched }"  formControlName="username" class="form-control input-underline input-lg" id="" placeholder="{{ 'Email' | translate }}">
-                                <div class="invalid-feedback">Please  input a correct Email </div>
-                            </div><div class="form-group">
-                                    <input type="password" [ngClass]="{'is-invalid': loginForm.get('password').errors && loginForm.get('password').touched }"  formControlName="password" class="form-control input-underline input-lg" id="" placeholder="{{ 'First Name' | translate }}">
-                                    <div class="invalid-feedback">Please  input a correct password </div>
-                                </div>
+<div class="container-fluid">
+      
+        
+              
+           
+              
+        
+    <div class="login-page body-image">
+        <div class="row justify-content-md-center">
+            <div class="col-md-4">
+                <div style="text-align:center">
+                        <img src="assets/images/logo.png" width="150px" class="user-avatar" />
+                        <h1>Online Exam Center</h1>
                 </div>
-                <button [disabled]="!loginForm.valid" class="btn rounded-btn" type="submit">Login</button>
-                &nbsp;
-                <button [routerLink]="['/signup']" class="btn rounded-btn" >Register</button>
                
-            </form>
+                <form [formGroup]="loginForm" (ngSubmit)="login(loginForm)">
+                    <div class="form-content">
+                        
+    
+                            <div class="form-group">
+                                    <input type="email" [ngClass]="{'is-invalid': loginForm.get('username').errors && loginForm.get('username').touched }"  formControlName="username" class="form-control input-underline input-lg" id="" placeholder="{{ 'Email' | translate }}">
+                                    <div class="invalid-feedback">Please  input a correct Email </div>
+                                </div><div class="form-group">
+                                        <input type="password" [ngClass]="{'is-invalid': loginForm.get('password').errors && loginForm.get('password').touched }"  formControlName="password" class="form-control input-underline input-lg" id="" placeholder="{{ 'Password' | translate }}">
+                                        <div class="invalid-feedback">Please  input a correct password </div>
+                                    </div> 
+                    </div>
+                    <div style="text-align: center;">
+                            <button [disabled]="!loginForm.valid" class="btn btn-outline-success my-2 my-sm-0" type="submit">Submit</button>
+             
+                    </div>
+                      
+                   
+                </form>
+            </div>
         </div>
     </div>
+    
 </div>
+        
+
+
+

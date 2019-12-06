@@ -12,6 +12,11 @@ import { CookieService } from 'ngx-cookie-service';
 import { AlertifyService } from './services/AlertifyService';
 import { ErrorInterceptorProvider } from './services/error.Interceptor';
 import { RoleDirective } from './_directives/role.directive';
+import { LoginComponent } from './login/login.component';
+import { HomeComponent } from './home/home.component';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { SignupComponent } from './signup/signup.component';
+import { NavComponent } from './nav/nav.component';
 
 @NgModule({
    imports: [
@@ -20,10 +25,16 @@ import { RoleDirective } from './_directives/role.directive';
       BrowserAnimationsModule,
       HttpClientModule,
       LanguageTranslationModule,
-      AppRoutingModule
+      AppRoutingModule,
+      ReactiveFormsModule,
+      FormsModule
    ],
    declarations: [
-      AppComponent
+      AppComponent,
+      LoginComponent,
+      HomeComponent,
+      SignupComponent,
+      NavComponent
    ],
    providers: [
       AuthGuard,

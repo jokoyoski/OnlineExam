@@ -1,55 +1,42 @@
 <div [@routerTransition]>
-    <h2 class="text-muted">Category Page<small></small></h2>
-    <div class="row">
-        <div class="col-md-12">
-            <ngb-carousel>
-                <ng-template ngbSlide *ngFor="let slider of sliders">
-                    <img class="img-fluid mx-auto d-block" [src]="slider.imagePath" alt="Random first slide" width="100%">
-                    <div class="carousel-caption">
-                        <h3>{{slider.label}}</h3>
-                        <p>{{slider.text}}</p>
-                    </div>
-                </ng-template>
-            </ngb-carousel>
-        </div>
-    </div>
-    <hr>
+  <h2 class="text-muted">Category Page<small></small></h2>
   <div class="row">
-    <div class="card col-4" style="width: 18rem;">
-        <img src="../../../assets/biology.jpeg" class="card-img-top" alt="...">
-        <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <a routerLink="/question" [routerLinkActive]="['router-link-active']" class="btn btn-primary">
-           Go to the Subject
-        </a>
-        </div>
+      <div class="col-md-12">
+          <ngb-carousel>
+              <ng-template ngbSlide *ngFor="let slider of sliders">
+                  <img class="img-fluid mx-auto d-block" [src]="slider.imagePath" alt="Random first slide" width="100%">
+                  <div class="carousel-caption">
+                      <h3>{{slider.label}}</h3>
+                      <p>{{slider.text}}</p>
+                  </div>
+              </ng-template>
+          </ngb-carousel>
       </div>
-      <div class="card col-4" style="width: 18rem;">
-        <img src="../../../assets/physics.jfif" class="card-img-top" alt="...">
-        <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-      </div>
-      <div class="card col-4" style="width: 18rem;">
-        <img src="../../../assets/images/math.jpg" class="card-img-top" alt="...">
-        <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-      </div>
-      <div class="card col-4" style="width: 18rem;">
-        <img src="../../../assets/English.jpg" class="card-img-top" alt="...">
-        <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-      </div>
-      
-      
   </div>
-</div>
+  <hr>
+  <div class="row">
+      <div *ngFor="let item of categories" class="col-lg-2 col-md-3 col-sm-6">
+  
+          <div class="card" style="width: 18rem;">
+              <img src="../../../assets/biology.jpeg" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 class="card-title">{{item.categoryName}}</h5>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <a  [routerLink]="['/question/question/2']" [routerLinkActive]="['router-link-active']" class="btn btn-primary">
+                
+              </a>
+              </div>
+            </div>
+      </div>
+  </div>
+  
+  
+  </div>
+
+ 
+  
+   
+   
+    
+
+

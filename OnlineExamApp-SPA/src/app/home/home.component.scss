@@ -1,0 +1,37 @@
+
+body{
+   font-family: "Open Sans", sans-serif;
+}
+
+.body-image{
+    background-image: url('../../assets/bg1.jpg');
+    background-attachment: fixed;
+    height: 500px;
+}
+
+
+
+.texture-image{
+    background-image: url('../../assets/texture.png');
+    background-attachment: relative;
+    height: 300px;
+}
+
+
+.hero-area{
+    font-size:40px;
+    margin-bottom:30px;
+    font-weight: 700;
+    color:white;
+
+}
+
+
+
+.collapse-content .fa.fa-heart:hover {
+    color: #f44336 !important;
+  }
+  .collapse-content .fa.fa-share-alt:hover {
+    color: #0d47a1 !important;
+  }
+  

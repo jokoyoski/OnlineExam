@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace OnlineExamApp.API.Migrations
 {
-    public partial class InitialMigrations : Migration
+    public partial class @new : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -325,6 +325,9 @@ namespace OnlineExamApp.API.Migrations
 
             migrationBuilder.DropTable(
                 name: "Categories");
+
+            migrationBuilder.DropTable(
+                name: "DigitalFiles");
 
             migrationBuilder.DropTable(
                 name: "Options");

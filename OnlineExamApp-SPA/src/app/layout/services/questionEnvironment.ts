@@ -7,31 +7,33 @@ export const questionEnviroment = [
     {
     Question : 'What is the capital of lagos ?',
     Options:  [
-        {
-          isAvailable : 0,
-          checked: '0',
-           A: 'Lekki',
-        },
-        {
-           isAvailable : 1,
-           checked: '0',
-            B: 'Ajah',
-         },
+      {
+        isAvailable : 1,
+         checked: '0',
+         A: 'Oshodi',
+      },
+      {
+        isAvailable : 1,
+         checked: '0',
+         B: 'Epe',
+      },
+       
+      {
+        isAvailable : 1,
+         checked: '0',
+         C: 'Lekki',
+      },
          {
            isAvailable : 1,
             checked: '0',
-            C: 'Oshodi',
+            D: 'Lambasa',
          },
          {
-           isAvailable : 1,
+          isAvailable : 1,
            checked: '0',
-            D: 'VI',
-         },
-         {
-           isAvailable : 1,
-           checked: '0',
-            E: 'Ikorodu',
-         }
+           E: 'Ajah',
+        },
+         
     
        ],
     
