@@ -75,7 +75,7 @@ login(model: any) {
 
 
         register(model: any) {
-          console.log(model);
+         
           return this.http.post(this.URL + 'account/register', model);
 
         }

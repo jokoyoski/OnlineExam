@@ -35,8 +35,7 @@ namespace OnlineExamApp.API.Repository
         {
             try
             {
-                var result = await this._dbContext.Categories
-                .Include(m=>m.Photo).OrderByDescending(p => p.CategoryId).ToListAsync();
+                var result = await this._dbContext.Categories.ToListAsync();
 
                 return result;
             }

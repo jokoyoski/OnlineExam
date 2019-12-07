@@ -17,7 +17,7 @@ namespace OnlineExamApp.API.Dto
 
         }
 
-        public void SeedQuestions()
+     /* */   public void SeedQuestions()
         {
 
             if (dataContext.Questions.Find(1) == null)

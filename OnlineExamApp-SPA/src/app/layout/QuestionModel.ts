@@ -26,6 +26,7 @@ export interface Question {
     categoryId: number;
     categoryName: string;
     duration: number;
+    
 
 
    }

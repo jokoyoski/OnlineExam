@@ -12,6 +12,8 @@ import { ActivatedRoute } from '@angular/router';
 export class DashboardComponent implements OnInit {
     public alerts: Array<any> = [];
     public sliders: Array<any> = [];
+    name:any;
+    status:any;
     categories: Category[];
     constructor(private route: ActivatedRoute) {
         this.sliders.push(
@@ -55,6 +57,10 @@ export class DashboardComponent implements OnInit {
     }
 
     ngOnInit() {
+
+        this.status=0;
+        this.name =  localStorage.getItem('givenName');
+        console.log(this.name);
 
         this.route.data.subscribe(data => {
 

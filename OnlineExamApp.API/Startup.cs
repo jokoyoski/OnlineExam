@@ -37,6 +37,7 @@ namespace OnlineExamApp.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            
             services.AddControllers();
 
             services.AddDbContext<DataContext>(options =>
@@ -110,7 +111,7 @@ namespace OnlineExamApp.API
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());  //cors 
             app.UseAuthentication();  //for authentication middleware   
             app.UseAuthorization();
-            seeder.SeedQuestions();
+           // seeder.SeedQuestions();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

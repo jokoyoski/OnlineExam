@@ -1,22 +1,23 @@
+
+
+<div *ngIf="status=='0'" class="spinner">
+    <div class="bounce1"></div>
+    <div class="bounce2"></div>
+    <div class="bounce3"></div>
+   
+</div>
+
 <div class="container-fluid">
-    <div [@routerTransition] class="pt-0">
-        <h2 style="text-align:center;" class="text-muted">Category Page<small></small></h2>
-        <div class="row">
-            <div class="col-md-12">
-                <ngb-carousel>
-                    <ng-template ngbSlide *ngFor="let slider of sliders">
-                        <img class="img-fluid mx-auto d-block" [src]="slider.imagePath" alt="Random first slide" width="100%">
-                        <div class="carousel-caption">
-                            <h3>{{slider.label}}</h3>
-                            <p>{{slider.text}}</p>
-                        </div>
-                    </ng-template>
-                </ngb-carousel>
-            </div>
-        </div>
-        <hr>
-        &nbsp;  &nbsp;
-        &nbsp;  &nbsp;  &nbsp;
+    
+       
+<div class="jumbotron jumbotron-fluid">
+    <div class="container text-center">
+        <h1 class="display-4">Hi, {{name}}</h1>
+        <p class="lead">
+            Welcome to our quiz app
+        </p>
+    </div>
+</div>
         <div class="row">
                
           
@@ -36,7 +37,7 @@
         </div>
         
         
-        </div>
+        
       
        
         
@@ -47,3 +48,16 @@
       
       
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
