@@ -8,6 +8,7 @@ import { LayoutComponent } from './layout.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { HeaderComponent } from './components/header/header.component';
 import { RoleDirective } from '../_directives/role.directive';
+import { ResultComponent } from './result/result.component';
 
 
 
@@ -19,7 +20,7 @@ import { RoleDirective } from '../_directives/role.directive';
         NgbDropdownModule,
 
     ],
-    declarations: [LayoutComponent, SidebarComponent, HeaderComponent,RoleDirective]
+    declarations: [LayoutComponent, SidebarComponent, HeaderComponent,RoleDirective, ResultComponent]
 
 })
 export class LayoutModule {}
