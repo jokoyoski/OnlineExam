@@ -1,11 +1,9 @@
 using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using OnlineExamApp.API.Interfaces;
 
-namespace OnlineExamApp.API.Model
+namespace OnlineExamApp.API.Dto
 {
-    public class Category : ICategory
+    public class CategoryForDisplayDto : ICategoryForDisplayDto
     {
         public int CategoryId { get; set; }
         public string CategoryName { get; set; }
@@ -15,5 +13,6 @@ namespace OnlineExamApp.API.Model
         public DateTime DateCreated { get; set; }
         public DateTime? DateModified { get; set; }
         public int PhotoId { get; set; }
+        public string PhotoUrl { get; set; }
     }
 }

@@ -20,22 +20,31 @@ namespace OnlineExamApp.API.Service
         private readonly IMapper _mapper;
         private readonly IUserScoreRepository _userScoreRepository;
         private readonly ICategoryRepository _categoryRepository;
+        private readonly IDigitalFileRepository digitalFileRepository;
 
         public QuestionService(IQuestionRepository questionRepository,
         IOptionRepository optionRepository, IMapper mapper, IUserScoreRepository userScoreRepository,
-        ICategoryRepository categoryRepository)
+        ICategoryRepository categoryRepository, IDigitalFileRepository digitalFileRepository)
         {
+            this.digitalFileRepository = digitalFileRepository;
             this._categoryRepository = categoryRepository;
             this._userScoreRepository = userScoreRepository;
             this._mapper = mapper;
             this._optionRepository = optionRepository;
             this._questionRepository = questionRepository;
         }
-        public async Task<IEnumerable<ICategory>> GetCategories()
+        public async Task<IEnumerable<ICategoryForDisplayDto>> GetCategories()
         {
             var categoryCollection = await this._categoryRepository.GetCateogory();
 
-            return categoryCollection;
+            var categoryForDisplayDto = _mapper.Map<IEnumerable<ICategoryForDisplayDto>>(categoryCollection).ToList();
+
+            foreach(var d in categoryForDisplayDto){
+                var model = await this.digitalFileRepository.GetPhotoById(d.PhotoId);
+                if(model != null) d.PhotoUrl = model.Url;
+            }
+
+            return categoryForDisplayDto;
         }
         public async Task<IEnumerable<IQuestionForDisplay>> GetQuestionListForDislay(int categoryId)
         {
@@ -61,15 +70,14 @@ namespace OnlineExamApp.API.Service
 
             var randomSpecificList = new List<IQuestionForDisplay>();
 
-            if (category != null && category.NumberofQueston > 0)
+            if (category != null && category.NumberofQueston > 0 && questionCollection.Count <= category.NumberofQueston)
             {
                 randomSpecificList = questionCollection.GetRange(0, category.NumberofQueston);
             }
             else
             {
-                randomSpecificList = questionCollection.GetRange(0, 2);
+                randomSpecificList = questionCollection.GetRange(0, questionCollection.Count);
             }
-
 
             foreach (var options in randomSpecificList)
             {
@@ -81,7 +89,7 @@ namespace OnlineExamApp.API.Service
 
             return randomSpecificList;
         }
-        public async Task<IProcessAnswerReturnDto> ProcessAnweredQuestions(int userId, IList<IAnweredQuestionDto> anweredQuestion)
+        public async Task<IProcessAnswerReturnDto> ProcessAnweredQuestions(int userId, List<AnweredQuestionDto> anweredQuestion)
         {
 
             if (anweredQuestion == null) throw new ArgumentNullException(nameof(anweredQuestion));

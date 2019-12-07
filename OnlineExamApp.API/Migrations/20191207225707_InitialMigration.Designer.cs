@@ -10,8 +10,8 @@ using OnlineExamApp.API.Repository;
 namespace OnlineExamApp.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20191206012111_InitialMigrations")]
-    partial class InitialMigrations
+    [Migration("20191207225707_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -137,8 +137,6 @@ namespace OnlineExamApp.API.Migrations
 
                     b.HasKey("CategoryId");
 
-                    b.HasIndex("PhotoId");
-
                     b.ToTable("Categories");
                 });
 
@@ -180,9 +178,6 @@ namespace OnlineExamApp.API.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PublicId")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Url")
@@ -407,15 +402,6 @@ namespace OnlineExamApp.API.Migrations
                     b.HasOne("OnlineExamApp.API.Model.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("OnlineExamApp.API.Model.Category", b =>
-                {
-                    b.HasOne("OnlineExamApp.API.Model.Photo", "Photo")
-                        .WithMany("Categories")
-                        .HasForeignKey("PhotoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
