@@ -1,9 +1,20 @@
 
 
+
+<!--<div class="text-center centre_item" *ngIf="showLoader">
+  <div class="a" style="--n: 5;">
+      <div class="dot" style="--i: 0;"></div>
+      <div class="dot" style="--i: 1;"></div>
+      <div class="dot" style="--i: 2;"></div>
+      <div class="dot" style="--i: 3;"></div>
+      <div class="dot" style="--i: 4;"></div>
+  </div>
+</div>-->
 <div>
-  <h4 class="text-center">Curent Affairs</h4>
-  <h6 class="text-center">You have done this subject 25 times</h6>
-  
+  <h4 class="text-center alert alert-success">Curent Affairs</h4>
+  <h6 class="text-center alert alert-primary">You have done this subject 25 times</h6>
+  <h6 class="text-center alert alert-danger">Warning! Please do not reload the page as your progress will be lost </h6>
+ 
 <span>Time Elapsed : {{questionService.displayTimeElapsed()}}</span>
 <div class="container-fluid pt-1">
     <div class="row"> 
@@ -87,3 +98,4 @@
     </div>
   </div>
 </div>
+

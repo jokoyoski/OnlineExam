@@ -3,7 +3,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { QuestionService } from '../services/question.service';
 import { questionFromDb } from '../services/questionfromServer';
 import { Question, Options, Answer } from '../QuestionModel';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-question',
@@ -30,7 +30,12 @@ export class QuestionComponent implements OnInit {
   question: any = {};
   radioSel: any;
   gender: any = {};
-  constructor(private cookie: CookieService, private route: ActivatedRoute, private questionService: QuestionService) {
+  questionId: number;
+  options: any = [];
+  answered: any = {};
+  showLoader: boolean = true;
+  constructor(private cookie: CookieService,
+    private route: ActivatedRoute, private router: Router , private questionService: QuestionService) {
 
 
    }
@@ -43,6 +48,9 @@ export class QuestionComponent implements OnInit {
 
     ngOnInit() {
 
+      setTimeout(() => {
+        this.showLoader = false;
+    }, 4000);
       this.route.data.subscribe((data: any) => {
         console.log(data.question);
  this.getQuestion(data.question);
@@ -156,18 +164,28 @@ this.questionService.seconds--;
 
 submitQuestion() {
 
-  for (let i = 0; i < this.allQuestion.length; i++) {
+  /*for (let i = 0; i < this.allQuestion.length; i++) {
 
     const joko = this.allQuestion[i].questionId;
 
-    this.answerInfo.questionId = this.allQuestion[i].questionId;
-    this.answerInfo.optionId = this.allQuestion[i].selectedAnswer;
+    // this.answerInfo.questionId = this.allQuestion[i].questionId;
+    // this.answerInfo.optionId = this.allQuestion[i].selectedAnswer;
+    this.questionId = this.allQuestion[i].questionId;
+    this.options.push(this.allQuestion[i].selectedAnswer);
 
-   this.answerArray.push(this.answerInfo);
-    this.answerInfo = {};
+    this.answered.questionId = this.questionId;
+     this.answered.options = this.options;
+
+
+  this.answerArray.push(this.answered);
+    this.answered = {};
 
   }
-  this.questionService.Submit(this.answerArray);
+
+  //this.questionService.Submit(this.answerArray);
+  this.questionService.getCategories(); */
+  this.router.navigate(['/result']);
+  console.log(5);
 }
 
 

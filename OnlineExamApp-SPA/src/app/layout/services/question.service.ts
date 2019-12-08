@@ -65,6 +65,7 @@ export class QuestionService {
 
 
   getCategories() {
+
     return this.httpClient.get(this.url);
 
   }
@@ -72,16 +73,17 @@ export class QuestionService {
 
 
         Submit(question: any) {
+      /*    console.log(question)
           const tokenId = localStorage.getItem('userId');
           const url = this.url + tokenId + '/submitTest';
-          console.log(question);
-          return this.httpClient.post(url, question).pipe(
+
+          return this.httpClient.post('http://localhost:5000/api/question/1/submitTest', question).pipe(
 
             map((response: any) => {
             this.result = response;
             localStorage.setItem('result', this.result);
               }));
-
+*/
 
         }
 

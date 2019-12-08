@@ -34,6 +34,6 @@ export function TokenGetter() {
  })
   ],
   declarations: [QuestionComponent],
-  providers: [QuestionService,QuestionResolver]
+  providers: [QuestionService, QuestionResolver]
 })
 export class QuestionModule { }

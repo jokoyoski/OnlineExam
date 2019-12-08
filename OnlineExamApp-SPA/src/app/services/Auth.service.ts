@@ -93,7 +93,19 @@ login(model: any) {
           return false;
         }
 
+        Submit(question: any) {
+          const tokenId = localStorage.getItem('userId');
+          //const url = this.url + tokenId + '/submitTest';
 
+          return this.http.post('http://localhost:5000/api/question/1/submitTest', question).pipe(
+
+            map((response: any) => {
+            this.result = response;
+            localStorage.setItem('result', this.result);
+              }));
+
+
+        }
 
 roleMatch(allowedRoles): boolean {
 let isMatch = false;
