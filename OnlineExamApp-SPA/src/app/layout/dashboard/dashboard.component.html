@@ -1,11 +1,6 @@
 
 
-<div *ngIf="status=='0'" class="spinner">
-    <div class="bounce1"></div>
-    <div class="bounce2"></div>
-    <div class="bounce3"></div>
-   
-</div>
+
 
 <div class="container-fluid">
     
@@ -25,8 +20,10 @@
                
                     <img src="../../../assets/biology.jpeg" class="card-img-top" alt="...">
                     <div class="card-body">
-                      <h5 class="card-title">{{item.categoryName}}</h5>
-                      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                      <h5 class="card-title alert alert-success">{{item.categoryName}}</h5>
+                      <p class="card-text alert alert-primary">Time Allocated {{item.duration}} hour</p>
+                      <p class="card-text alert alert-danger">Number of Questions {{item.numberofQueston}}</p>
+                      
                          <button [routerLink]="['/question/question/2']" [routerLinkActive]="['router-link-active']"  [routerLink]="['/login']" class="btn btn-outline-success my-2 my-sm-0" type="submit">Begin</button>
           
                  

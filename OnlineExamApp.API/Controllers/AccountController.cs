@@ -17,7 +17,7 @@ namespace OnlineExamApp.API.Controllers
             this._accountService = accountService;
         }
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromForm]UserForRegisterDto userForRegisterDto)
+        public async Task<IActionResult> Register(UserForRegisterDto userForRegisterDto)
         {
             userForRegisterDto.Username=userForRegisterDto.Email;
             if(userForRegisterDto == null) throw new ArgumentNullException(nameof(userForRegisterDto));
@@ -36,7 +36,7 @@ namespace OnlineExamApp.API.Controllers
             return BadRequest(model);
         }
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromForm]UserForLoginDto userForLogInDto)
+        public async Task<IActionResult> Login(UserForLoginDto userForLogInDto)
         {
             if(userForLogInDto == null) throw new ArgumentNullException(nameof(userForLogInDto));
 
