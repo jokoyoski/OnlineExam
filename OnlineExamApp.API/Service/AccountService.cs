@@ -13,6 +13,7 @@ using System.Linq;
 using OnlineExamApp.API.Interfaces;
 using OnlineExamApp.API.Model;
 using Microsoft.AspNetCore.Mvc;
+using OnlineExamApp.API.Dto;
 
 namespace OnlineExamApp.API.Service
 {
@@ -31,28 +32,28 @@ namespace OnlineExamApp.API.Service
             this._userManager = userManager;
 
         }
-        public async Task<string> SignIn([FromForm]Dto.UserForLoginDto userForLogInDto)
+        public async Task<string> SignIn([FromForm]UserForLoginDto userForLogInDto)
         {
+            
+            if(userForLogInDto == null) throw new ArgumentNullException(nameof(userForLogInDto));
 
             var user = await _userManager.FindByNameAsync(userForLogInDto.Username);
+
+            if(user == null) return "User not found";
 
             var result = await _signInManager
                 .CheckPasswordSignInAsync(user, userForLogInDto.Password, false);
 
-
             if (result.Succeeded)
             {
-                 
                 var appUser =  _userManager.Users
                     .FirstOrDefault(u => u.NormalizedUserName == userForLogInDto.Username.ToUpper());
-
                 return GenerateJwtToken(appUser).Result;
-               
             }
 
             return string.Empty;
         }
-        public async Task<string> SignUp([FromForm]Dto.UserForRegisterDto userForRegisterDto)
+        public async Task<string> SignUp([FromForm]UserForRegisterDto userForRegisterDto)
         {
            string errorInfo= string.Empty;
             string token = string.Empty;
@@ -110,6 +111,5 @@ namespace OnlineExamApp.API.Service
 
             return tokenHandler.WriteToken(token);
         }
-
     }
 }

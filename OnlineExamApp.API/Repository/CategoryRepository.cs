@@ -20,8 +20,8 @@ namespace OnlineExamApp.API.Repository
         {
             try
             {
-                var result = await this._dbContext.Categories
-                .SingleOrDefaultAsync();
+                var result = await this._dbContext.Categories.Where(p=>p.CategoryId.Equals(categoryId))
+                            .SingleOrDefaultAsync();
 
                 return result;
             }
@@ -30,7 +30,6 @@ namespace OnlineExamApp.API.Repository
                 throw new ApplicationException("QuestionRepository from GetCateogoryByCategoryId", e);
             }
         }
-
         public async Task<IEnumerable<ICategory>> GetCateogory()
         {
             try
