@@ -73,22 +73,22 @@ export class QuestionService {
 
 
         Submit(question: any) {
-          
-      /*    console.log(question)
+
+       console.log(question);
           const tokenId = localStorage.getItem('userId');
           const url = this.url + tokenId + '/submitTest';
 
-          return this.httpClient.post('http://localhost:5000/api/question/1/submitTest', question).pipe(
+         return this.httpClient.post(this.url + 5 + '/submitTest', question).pipe(
 
             map((response: any) => {
             this.result = response;
             localStorage.setItem('result', this.result);
               }));
-*/
 
         }
 
 
   }
+
 
 

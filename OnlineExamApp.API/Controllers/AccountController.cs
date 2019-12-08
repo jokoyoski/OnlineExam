@@ -35,6 +35,8 @@ namespace OnlineExamApp.API.Controllers
             }
             return BadRequest(model);
         }
+
+        
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserForLoginDto userForLogInDto)
         {
