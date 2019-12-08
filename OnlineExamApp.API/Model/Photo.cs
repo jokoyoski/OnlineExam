@@ -9,9 +9,7 @@ namespace OnlineExamApp.API.Model
         public int Id { get; set; }
         public string Url { get; set; }
         public DateTime DateAdded { get; set; }
-        public string PublicId { get; set; }
         public string Description { get; set; }
-        public ICollection<Category> Categories { get; set; }
         public ICollection<User> Users { get; set; }
     }
 }

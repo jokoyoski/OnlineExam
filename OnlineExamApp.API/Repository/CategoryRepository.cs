@@ -21,7 +21,7 @@ namespace OnlineExamApp.API.Repository
             try
             {
                 var result = await this._dbContext.Categories
-                .Include(m=>m.Photo).SingleOrDefaultAsync();
+                .SingleOrDefaultAsync();
 
                 return result;
             }
@@ -35,7 +35,8 @@ namespace OnlineExamApp.API.Repository
         {
             try
             {
-                var result = await this._dbContext.Categories.ToListAsync();
+                var result = await this._dbContext.Categories
+                .OrderByDescending(p => p.CategoryId).ToListAsync();
 
                 return result;
             }

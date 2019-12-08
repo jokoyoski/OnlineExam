@@ -1,11 +1,10 @@
 using System;
-using OnlineExamApp.API.Model;
 
 namespace OnlineExamApp.API.Interfaces
 {
-    public interface ICategory
+    public interface ICategoryForDisplayDto
     {
-        int CategoryId { get; set; } 
+        int CategoryId { get; set; }
         string CategoryName { get; set; }
         string CategoryDescription { get; set; }
         int Duration { get; set; }
@@ -13,5 +12,6 @@ namespace OnlineExamApp.API.Interfaces
         DateTime DateCreated { get; set; }
         DateTime? DateModified { get; set; }
         int PhotoId { get; set; }
+        string PhotoUrl { get; set; }
     }
 }

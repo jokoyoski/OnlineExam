@@ -40,7 +40,7 @@ namespace OnlineExamApp.API.Controllers
         }
 
         [HttpPost("{userId}/submitTest")]
-        public async Task<IActionResult> SubmitQuestion(int userId, IList<IAnweredQuestionDto> anweredQuestion)
+        public async Task<IActionResult> SubmitQuestion(int userId, List<AnweredQuestionDto> anweredQuestion)
         {
 
             if (userId != int.Parse (User.FindFirst(ClaimTypes.NameIdentifier).Value))

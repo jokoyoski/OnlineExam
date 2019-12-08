@@ -12,6 +12,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Linq;
 using OnlineExamApp.API.Interfaces;
 using OnlineExamApp.API.Model;
+using Microsoft.AspNetCore.Mvc;
 
 namespace OnlineExamApp.API.Service
 {
@@ -30,7 +31,7 @@ namespace OnlineExamApp.API.Service
             this._userManager = userManager;
 
         }
-        public async Task<string> SignIn(Dto.UserForLoginDto userForLogInDto)
+        public async Task<string> SignIn([FromForm]Dto.UserForLoginDto userForLogInDto)
         {
 
             var user = await _userManager.FindByNameAsync(userForLogInDto.Username);
@@ -51,7 +52,7 @@ namespace OnlineExamApp.API.Service
 
             return string.Empty;
         }
-        public async Task<string> SignUp(Dto.UserForRegisterDto userForRegisterDto)
+        public async Task<string> SignUp([FromForm]Dto.UserForRegisterDto userForRegisterDto)
         {
            string errorInfo= string.Empty;
             string token = string.Empty;

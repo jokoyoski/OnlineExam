@@ -19,12 +19,7 @@ namespace OnlineExamApp.API.Repository
         public async Task<IPhoto> GetPhotoById(int photoId)
         {
             try{
-                var result = await (from d in _dataContext.Photos 
-                            where d.Id.Equals(photoId)
-                          select new  Model.Photo{
-                              
-
-                          }).SingleOrDefaultAsync();
+                var result = await this._dataContext.Photos.Where(d=>d.Id.Equals(photoId)).SingleOrDefaultAsync();
 
                 return result;
             }catch(Exception e){
