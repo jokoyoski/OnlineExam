@@ -42,13 +42,16 @@ namespace OnlineExamApp.API.Controllers
 
             var model = await this._accountService.SignIn(userForLogInDto);
 
+            if(model.Equals("User not found")) return BadRequest("User not found");
+
             if(!string.IsNullOrEmpty(model)){
                 return Ok(new
                 {
                     token = model
                 });
-            }
-            return BadRequest("You are not authorized");
+            } 
+
+            return Unauthorized("You are not authorized");
         }
 
     }
