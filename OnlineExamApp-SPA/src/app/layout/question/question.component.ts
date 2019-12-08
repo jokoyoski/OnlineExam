@@ -33,7 +33,7 @@ export class QuestionComponent implements OnInit {
   questionId: number;
   options: any = [];
   answered: any = {};
-  showLoader: boolean = true;
+  showLoader = true;
   constructor(private cookie: CookieService,
     private route: ActivatedRoute, private router: Router , private questionService: QuestionService) {
 

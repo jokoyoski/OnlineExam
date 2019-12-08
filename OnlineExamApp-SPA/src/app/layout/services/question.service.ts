@@ -73,6 +73,7 @@ export class QuestionService {
 
 
         Submit(question: any) {
+          
       /*    console.log(question)
           const tokenId = localStorage.getItem('userId');
           const url = this.url + tokenId + '/submitTest';

@@ -33,15 +33,6 @@ export class HeaderComponent implements OnInit {
     }
 
 
-    loggedOut() {
-        localStorage.removeItem('token');
-
-
-        this.alertifyService.success('logged Out');
-        this.router.navigate(['/login']);  // navigate to home, this was done by setting up the route.ts, setting some route there
-        // then coming to add RouteModule in app.module.ts and then injcting the module in the nav.component.ts
-
-      }
     isToggled(): boolean {
         const dom: Element = document.querySelector('body');
         return dom.classList.contains(this.pushRightClass);
