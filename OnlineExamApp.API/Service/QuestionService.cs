@@ -70,7 +70,7 @@ namespace OnlineExamApp.API.Service
 
             var randomSpecificList = new List<IQuestionForDisplay>();
 
-            if (category != null && category.NumberofQueston > 0 && questionCollection.Count <= category.NumberofQueston)
+            if (category != null && category.NumberofQueston > 0 && category.NumberofQueston <= questionCollection.Count)
             {
                 randomSpecificList = questionCollection.GetRange(0, category.NumberofQueston);
             }
