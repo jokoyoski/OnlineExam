@@ -103,13 +103,11 @@ namespace OnlineExamApp.API.Service
             {
                 var correctOptionCollection = await this._optionRepository.GetCorrectOptionByQuestionId(answers.QuestionId);
 
-                foreach (var answer in answers.Options)
-                {
                     foreach (var correctAnswer in correctOptionCollection)
                     {
-                        if (answer.OptionId == correctAnswer.OptionId) score++;
+                        if (answers.OptionId == correctAnswer.OptionId) score++;
                     }
-                }
+                
                 categoryId = answers.CategoryId;
             }
 

@@ -32,7 +32,7 @@ namespace OnlineExamApp.API.Service
             this._userManager = userManager;
 
         }
-        public async Task<string> SignIn([FromForm]UserForLoginDto userForLogInDto)
+        public async Task<string> SignIn(UserForLoginDto userForLogInDto)
         {
             
             if(userForLogInDto == null) throw new ArgumentNullException(nameof(userForLogInDto));
@@ -53,7 +53,14 @@ namespace OnlineExamApp.API.Service
 
             return string.Empty;
         }
-        public async Task<string> SignUp([FromForm]UserForRegisterDto userForRegisterDto)
+        public async Task<string> SignOff()
+        {
+            
+            
+
+            return string.Empty;
+        }
+        public async Task<string> SignUp(UserForRegisterDto userForRegisterDto)
         {
            string errorInfo= string.Empty;
             string token = string.Empty;

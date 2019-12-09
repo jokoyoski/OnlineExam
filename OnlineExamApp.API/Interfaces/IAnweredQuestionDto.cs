@@ -6,7 +6,7 @@ namespace OnlineExamApp.API.Interfaces
     public interface IAnweredQuestionDto
     {
         int QuestionId { get; set; }
-        IList<Option> Options { get; set; }
+        int OptionId { get; set; }
         int CategoryId { get; set; }
     }
 }
