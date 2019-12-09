@@ -164,7 +164,7 @@ this.questionService.seconds--;
 
 submitQuestion() {
 
-  /*for (let i = 0; i < this.allQuestion.length; i++) {
+  for (let i = 0; i < this.allQuestion.length; i++) {
 
     const joko = this.allQuestion[i].questionId;
 
@@ -182,10 +182,16 @@ submitQuestion() {
 
   }
 
-  //this.questionService.Submit(this.answerArray);
-  this.questionService.getCategories(); */
-  this.router.navigate(['/result']);
-  console.log(5);
+  this.questionService.Submit(this.answerArray).subscribe((data: any) => {
+  console.log(data);
+  }, error => {
+    console.log(error);
+  }, () => {
+    this.router.navigate(['/result']);
+
+  });
+
+
 }
 
 
