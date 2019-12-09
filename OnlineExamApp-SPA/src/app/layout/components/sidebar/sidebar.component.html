@@ -17,6 +17,9 @@
       
        
         <div class="nested-menu">
+                <a class="list-group-item" (click)="loggedOut()">
+                        <span><i class="fa fa-user"></i>&nbsp; Logout {{name}}</span>
+                    </a>
             <a class="list-group-item" (click)="addExpandClass('pages')">
                 <i class="fa fa-plus"></i>&nbsp;
                 <span>{{ 'Admin Section' | translate }}</span>

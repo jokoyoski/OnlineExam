@@ -168,18 +168,18 @@ submitQuestion() {
 
     const joko = this.allQuestion[i].questionId;
 
-    // this.answerInfo.questionId = this.allQuestion[i].questionId;
-    // this.answerInfo.optionId = this.allQuestion[i].selectedAnswer;
-    this.questionId = this.allQuestion[i].questionId;
-    this.options.push(this.allQuestion[i].selectedAnswer);
+  this.answerInfo.questionId = this.allQuestion[i].questionId;
+    this.answerInfo.optionId = this.allQuestion[i].selectedAnswer;
+    //this.questionId = this.allQuestion[i].questionId;
+    //this.options.push(this.allQuestion[i].selectedAnswer);
 
-    this.answered.questionId = this.questionId;
-     this.answered.options = this.options;
+    //this.answered.questionId = this.questionId;
+   //  this.answered.options = this.options;
 
 
-  this.answerArray.push(this.answered);
+  this.answerArray.push(this.answerInfo);
     this.answered = {};
-
+    
   }
 
   this.questionService.Submit(this.answerArray).subscribe((data: any) => {
