@@ -35,9 +35,7 @@ namespace OnlineExamApp.API.Controllers
                 });
             }
             return BadRequest(model);
-        }
-
-        
+        }        
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody]UserForLoginDto userForLogInDto)
         {
@@ -56,8 +54,41 @@ namespace OnlineExamApp.API.Controllers
 
             return Unauthorized("You are not authorized");
         }
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword([FromBody]UserForLoginDto userForLogInDto)
+        {
+            if(userForLogInDto == null) throw new ArgumentNullException(nameof(userForLogInDto));
 
+            var model = await this._accountService.SignIn(userForLogInDto);
+
+            if(model.Equals("User not found")) return BadRequest("User not found");
+
+            if(!string.IsNullOrEmpty(model)){
+                return Ok(new
+                {
+                    token = model
+                });
+            } 
+
+            return Unauthorized("You are not authorized");
+        }
+        [HttpGet]
+        public async Task<IActionResult> ActivateAccount(string activationCode)
+        {
+            return Ok();
+        }
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(string email)
+        {
+            return Ok();
+        }
+        [HttpGet]
+        public async Task<IActionResult> ChangePassword(int userId, string changePasswordCode)
+        {
+            return Ok();
+        }
     }
+
 
 }
 

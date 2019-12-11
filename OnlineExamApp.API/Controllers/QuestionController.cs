@@ -11,7 +11,7 @@ namespace OnlineExamApp.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class QuestionController : Controller
+    public class QuestionController : ControllerBase
     {
 
         private readonly IQuestionService questionService;
@@ -43,8 +43,8 @@ namespace OnlineExamApp.API.Controllers
         public async Task<IActionResult> SubmitTest(int userId, List<AnweredQuestionDto> anweredQuestion)
         {
 
-            //if (userId != int.Parse (User.FindFirst(ClaimTypes.NameIdentifier).Value))
-            //    return Unauthorized ();
+            if (userId != int.Parse (User.FindFirst(ClaimTypes.NameIdentifier).Value))
+                return Unauthorized ();
 
             var model = await this.questionService.ProcessAnweredQuestions(userId, anweredQuestion);
 
