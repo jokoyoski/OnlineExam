@@ -1,4 +1,7 @@
 using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using OnlineExamApp.API.Interfaces;
@@ -14,6 +17,21 @@ namespace OnlineExamApp.API.Repository
         {
             this._mapper = mapper;
             this._dataContext = dataContext;
+        }
+
+        public async Task<IEnumerable<IUserScore>> GetUserScoresByUserId(int userId)
+        {
+            try{
+
+                var result = await this._dataContext.UserScores
+                    .Where(p=>p.UserId.Equals(userId)).OrderByDescending(p=>p.Score).ToListAsync();
+
+                return result;
+
+            }catch (Exception e)
+            {
+                throw new ArgumentNullException("GetUserScoresByUserId in UserScoreRepository", e);
+            }
         }
 
         public async Task<string> SaveUserScore(IUserScore userScore)

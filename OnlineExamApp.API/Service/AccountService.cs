@@ -56,8 +56,6 @@ namespace OnlineExamApp.API.Service
         public async Task<string> SignOff()
         {
             
-            
-
             return string.Empty;
         }
         public async Task<string> SignUp(UserForRegisterDto userForRegisterDto)
