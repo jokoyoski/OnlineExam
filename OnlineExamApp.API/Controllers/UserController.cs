@@ -18,8 +18,8 @@ namespace OnlineExamApp.API.Controllers
         [HttpGet("{userId}")]
         public async Task<IActionResult> GetUserScore(int userId)
         {
-            if (userId != int.Parse (User.FindFirst(ClaimTypes.NameIdentifier).Value))
-               return Unauthorized ();
+            //if (userId != int.Parse (User.FindFirst(ClaimTypes.NameIdentifier).Value))
+             //  return Unauthorized ();
 
             var model = await this._userService.GetUserScoreByUserId(userId);
 

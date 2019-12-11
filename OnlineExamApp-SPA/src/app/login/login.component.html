@@ -7,20 +7,11 @@
               
         
     <div class="login-page body-image">
-<<<<<<< HEAD
-        <div class="row justify-content-md-center">
-            <div style="padding-top: 120px;" class="col-md-4">
-                <div style="text-align:center">
-                         <img src="assets/oe.jpg" width="400px" class="user-avatar" />
-                        <h1>Online Exam Center</h1>
-              
-=======
         <div class="row justify-content-md-center align-items-center pt-5">
             <div class="col-md-4">
                 <div style="text-align:center">
                         <img class="user-avatar" src="assets/images/logo.png" width="150px" />
                         <h1>Online Exam</h1>
->>>>>>> 5d1746a690151bafc866f30e5d88c5bcd3b549e0
                 </div>
                
                 <form [formGroup]="loginForm" (ngSubmit)="login(loginForm)">
@@ -36,7 +27,7 @@
                                     </div> 
                     </div>
                     <div style="text-align: center;">
-                            <button [disabled]="!loginForm.valid" class="btn btn-outline-success my-2 my-sm-0" type="submit">Submit</button>
+                            <button [disabled]="!loginForm.valid" class="btn btn-primary my-2 my-sm-0" type="submit">Submit</button>
              
                     </div>
                       

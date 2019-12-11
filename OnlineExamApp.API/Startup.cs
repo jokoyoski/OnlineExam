@@ -67,6 +67,7 @@ namespace OnlineExamApp.API
             services.AddScoped<IDigitalFileRepository, DigitalFileRepository>();
             services.AddScoped<IUserScoreRepository, UserScoreRepository>();
             services.AddScoped<IQuestionService, QuestionService>();
+            services.AddScoped<IUserService, UserService>();
             services.AddScoped<IAccountService, AccountService>();
             services.AddMvc().AddNewtonsoftJson(options =>
                 options.SerializerSettings.ContractResolver =
