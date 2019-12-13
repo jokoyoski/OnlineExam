@@ -1,4 +1,4 @@
-<nav style="height: 40px;" class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="#"><img width="80" src="../../assets/oe.jpg"/></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -7,23 +7,23 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
-          <a style="font-family: AvenirNext,Arial,sans-serif;" class="nav-link" [routerLink]="['/home']">Home <span class="sr-only">(current)</span></a>
+          <a class="nav-link" [routerLink]="['/home']">Home <span class="sr-only">(current)</span></a>
         </li>
       
         <li class="nav-item">
-          <a style="font-family: AvenirNext,Arial,sans-serif;color: black;" class="nav-link" href="">About</a>
+          <a class="nav-link" href="">About</a>
         </li>
       
         <li class="nav-item">
-            <a  style="font-family: AvenirNext,Arial,sans-serif;color: black;"class="nav-link" href="#">Contact Us</a>
+            <a class="nav-link" href="#">Contact Us</a>
           </li>
        
        
       </ul>
     
-        <button [routerLink]="['/signup']" class="btn btn-primary my-2 my-sm-0 pt-1" type="submit">REGISTER</button>
+        <button [routerLink]="['/signup']" class="btn btn-outline-success my-2 my-sm-0" type="submit">REGISTER</button>
         &nbsp; &nbsp;
-        <button [routerLink]="['/login']" class="btn btn-primary my-2 my-sm-0" type="submit">LOGIN</button>
+        <button [routerLink]="['/login']" class="btn btn-outline-success my-2 my-sm-0" type="submit">LOGIN</button>
     
     </div>
   </nav>

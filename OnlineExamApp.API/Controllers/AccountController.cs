@@ -87,6 +87,21 @@ namespace OnlineExamApp.API.Controllers
         {
             return Ok();
         }
+        public async Task<IActionResult> BuyTrial(string email, int numberOfTrials)
+        {
+            if(email == null) throw new ArgumentNullException(nameof(email));
+
+            if(numberOfTrials <= 0) throw new ArgumentNullException(nameof(numberOfTrials));
+
+            var model = await this._accountService.GetTrials(email, numberOfTrials);
+
+            if(!string.IsNullOrEmpty(model))
+            {
+                return NotFound(model);
+            }
+
+            return Ok(model);
+        }
     }
 
 

@@ -10,6 +10,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Text.Json;
 using JsonSerializer = System.Text.Json.JsonSerializer;
+using Microsoft.AspNetCore.Identity;
 
 namespace OnlineExamApp.API.Service
 {
@@ -20,18 +21,20 @@ namespace OnlineExamApp.API.Service
         private readonly IMapper _mapper;
         private readonly IUserScoreRepository _userScoreRepository;
         private readonly ICategoryRepository _categoryRepository;
-        private readonly IDigitalFileRepository digitalFileRepository;
+        private readonly IDigitalFileRepository _digitalFileRepository;
+        private readonly UserManager<User> _userManager;
 
-        public QuestionService(IQuestionRepository questionRepository,
+        public QuestionService(IQuestionRepository questionRepository, UserManager<User> userManager,
         IOptionRepository optionRepository, IMapper mapper, IUserScoreRepository userScoreRepository,
         ICategoryRepository categoryRepository, IDigitalFileRepository digitalFileRepository)
         {
-            this.digitalFileRepository = digitalFileRepository;
+            this._digitalFileRepository = digitalFileRepository;
             this._categoryRepository = categoryRepository;
             this._userScoreRepository = userScoreRepository;
             this._mapper = mapper;
             this._optionRepository = optionRepository;
             this._questionRepository = questionRepository;
+            this._userManager = userManager;
         }
         public async Task<IEnumerable<ICategoryForDisplayDto>> GetCategories()
         {
@@ -40,14 +43,17 @@ namespace OnlineExamApp.API.Service
             var categoryForDisplayDto = _mapper.Map<IEnumerable<ICategoryForDisplayDto>>(categoryCollection).ToList();
 
             foreach(var d in categoryForDisplayDto){
-                var model = await this.digitalFileRepository.GetPhotoById(d.PhotoId);
+                var model = await this._digitalFileRepository.GetPhotoById(d.PhotoId);
                 if(model != null) d.PhotoUrl = model.Url;
             }
 
             return categoryForDisplayDto;
         }
-        public async Task<IEnumerable<IQuestionForDisplay>> GetQuestionListForDislay(int categoryId)
+        public async Task<IEnumerable<IQuestionForDisplay>> GetQuestionListForDislay(string username, int categoryId)
         {
+
+            if (username == null) throw new ArgumentNullException(nameof(username));
+
             if (categoryId <= 0) throw new ArgumentNullException(nameof(categoryId));
 
             var questionList = await this._questionRepository.GetQuestionsByCaregoryId(categoryId);
@@ -69,14 +75,25 @@ namespace OnlineExamApp.API.Service
             }
 
             var randomSpecificList = new List<IQuestionForDisplay>();
+            var userInfo = await this._userManager.FindByNameAsync(username);
 
             if (category != null && category.NumberofQueston > 0 && category.NumberofQueston <= questionCollection.Count)
             {
                 randomSpecificList = questionCollection.GetRange(0, category.NumberofQueston);
+                
+                if(userInfo == null && userInfo.Trials > 0)
+                {
+                    userInfo.Trials--;
+                }
             }
             else
             {
                 randomSpecificList = questionCollection.GetRange(0, questionCollection.Count);
+
+                if(userInfo == null && userInfo.Trials > 0)
+                {
+                    userInfo.Trials--;
+                }
             }
 
             foreach (var options in randomSpecificList)
@@ -126,6 +143,8 @@ namespace OnlineExamApp.API.Service
             {
                 result.ReturnMessage = await this._userScoreRepository.SaveUserScore(userScore);
             }
+
+            
 
             return result;
         }

@@ -116,5 +116,31 @@ namespace OnlineExamApp.API.Service
 
             return tokenHandler.WriteToken(token);
         }
+        public async Task<string> GetTrials(string email, int numberOfTrials)
+        {
+            string result = string.Empty;
+            bool isExist = true;
+
+            var userInfo = await this._userManager.FindByEmailAsync(email);
+
+            isExist = (userInfo == null) ? false : true;
+
+            if(!isExist)
+            {
+                return "User Does not Exist";
+            }
+
+            //TODO: Account for the number of trials bought by the users
+            userInfo.Trials += numberOfTrials;
+
+            var output = await this._userManager.UpdateAsync(userInfo);
+
+            if(!output.Succeeded)
+            {
+                result = output.Errors.ToString();
+            }
+
+            return result;
+        }
     }
 }

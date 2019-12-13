@@ -7,5 +7,6 @@ namespace OnlineExamApp.API.Interfaces
     {
          Task<string> SignUp(UserForRegisterDto userForRegisterDto);
          Task<string> SignIn(UserForLoginDto userForLogInDto);
+         Task<string> GetTrials(string email, int numberOfTrials);
     }
 }

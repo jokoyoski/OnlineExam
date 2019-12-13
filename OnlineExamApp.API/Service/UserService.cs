@@ -23,6 +23,7 @@ namespace OnlineExamApp.API.Service
             IEnumerable<IUserScore> usersScoreCollectionByUser = await this._userScoreRepository.GetUserScoresByUserId(userId);
 
             IUserScoreForDisplayDto returnModel = new UserScoreForDisplayDto();
+            returnModel.CategoryScoreCollection = new List<ICategoryScore>();
 
 
             if (usersScoreCollectionByUser != null)
@@ -41,19 +42,18 @@ namespace OnlineExamApp.API.Service
 
                     foreach (var item in usersScoreCollectionByUser)
                     {
-
                         if (pack.CategoryId == item.CategoryId)
                         {
                             totalScore += item.Score;
                             count++;
                         }
-
+                    }
+                    if (count > 0 && totalScore > 0)
+                    {
                         decimal averageScore = totalScore / count;
                         decimal percentageAverage = (averageScore / pack.NumberofQueston) * 100;
-                        categoryScore.PercentageAverageScore = percentageAverage;
-
+                        categoryScore.PercentageAverageScore = percentageAverage / 100;
                     }
-
                     categoryScore.CategoryName = pack.CategoryName;
                     returnModel.CategoryScoreCollection.Add(categoryScore);
                 }

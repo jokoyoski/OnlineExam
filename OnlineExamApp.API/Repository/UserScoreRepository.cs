@@ -23,8 +23,9 @@ namespace OnlineExamApp.API.Repository
         {
             try{
 
-                var result = await this._dataContext.UserScores
-                    .Where(p=>p.UserId.Equals(userId)).OrderByDescending(p=>p.Score).ToListAsync();
+                var result =  this._dataContext.UserScores
+                    //.Where(p=>p.UserId.Equals(userId))
+                    .OrderByDescending(p => p.CategoryId).AsQueryable();
 
                 return result;
 

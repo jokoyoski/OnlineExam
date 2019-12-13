@@ -78,14 +78,11 @@ export class QuestionService {
           const tokenId = localStorage.getItem('userId');
           const url = this.url + tokenId + '/submitTest';
 
-         return this.httpClient.post(this.url + tokenId + '/submitTest', question).pipe(
+         return this.httpClient.post(this.url + 5 + '/submitTest', question).pipe(
 
             map((response: any) => {
-
-
-           const score = localStorage.setItem('result', response);
-
-
+            this.result = response;
+            localStorage.setItem('result', this.result);
               }));
 
         }

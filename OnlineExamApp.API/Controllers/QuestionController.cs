@@ -28,13 +28,12 @@ namespace OnlineExamApp.API.Controllers
             return Ok(model);
         }
 
-        [HttpGet("{categoryId}")]
-        public async Task<IActionResult> GetQuestions(int categoryId)
-        {
-            
+        [HttpGet("{username}/{categoryId}")]
+        public async Task<IActionResult> GetQuestions(string username, int categoryId)
+        {   
             if(categoryId <= 0) throw new ArgumentNullException(nameof(categoryId));
 
-            var model = await this.questionService.GetQuestionListForDislay(categoryId);
+            var model = await this.questionService.GetQuestionListForDislay(username, categoryId);
 
             return Ok(model);
         }

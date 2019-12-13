@@ -13,6 +13,8 @@ namespace OnlineExamApp.API.Helpers
             CreateMap<ICategory, ICategoryForDisplayDto>();
             CreateMap<IOption, IOptionsForDisplay>();
             CreateMap<UserForRegisterDto, User>();
+            CreateMap<UserScore, IUserScore>();
+
 
             CreateMap<IEnumerable<IQuestion>, IEnumerable<IQuestionForDisplay>>();
             CreateMap<IEnumerable<IOption>, IEnumerable<IOptionsForDisplay>>();

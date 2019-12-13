@@ -8,11 +8,10 @@ namespace OnlineExamApp.API.Interfaces
     {
         DateTime DateOfBirth { get; set; }
         DateTime Created { get; set; }
-    
-        public string Password {get;set;}
-        string FirstName {get;set;}
-
-        string LastName {get;set;}
+        int Trials { get; set; }
+        string Password { get; set; }
+        string FirstName { get; set; }
+        string LastName { get; set; }
         ICollection<UserRole> UserRoles { get; set; }
     }
 }

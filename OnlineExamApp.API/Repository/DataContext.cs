@@ -16,8 +16,7 @@ namespace OnlineExamApp.API.Repository
         public DbSet<Category> Categories { get; set; }
         public DbSet<UserScore> UserScores { get; set; }
         public DbSet<Photo> Photos { get; set; }
-        
-
+        public DbSet<Score> Scores { get; set; }
         protected override void OnModelCreating (ModelBuilder builder) 
         {
 
