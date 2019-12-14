@@ -14,6 +14,7 @@ export class DashboardComponent implements OnInit {
     public sliders: Array<any> = [];
     name: any;
     status: any;
+    loader = false;
     categories: Category[];
     constructor(private route: ActivatedRoute) {
         this.sliders.push(
@@ -57,17 +58,24 @@ export class DashboardComponent implements OnInit {
     }
 
     ngOnInit() {
+       
+
+       //setTimeout(function() {   this.loader = false; }, 10000);
 
         this.status = 0;
         this.name =  localStorage.getItem('givenName');
 
 
         this.route.data.subscribe(data => {
-
-            this.categories = data.categories;
-            console.log(this.categories)
-
+            this.loader = true;
+            setTimeout(() => {
+                this.categories = data.categories;
+                console.log(this.categories);
+                this.loader = false;
+            }, 3000);
+            
         });
+
     }
 
     public closeAlert(alert: any) {

@@ -4,52 +4,64 @@
 
 <div class="container-fluid">
     
-       
-<div class="jumbotron jumbotron-fluid alert-success">
-    <div class="container text-center">
-        <h1 class="display-4">Hi, {{name}}</h1>
-        <h5 class="display-4"><strong>You have two trials left</strong></h5>
-        <p class="lead">
-            Welcome to our quiz app
-        </p>
+    <ng-container [ngSwitch]="true">
+     
+
+
+        
+<div *ngSwitchCase="loader === true" class="col-12" style="text-align: center;">
+    <img src="../../assets/img-loader.gif">
     </div>
-</div>
-        <div class="row">
-               
-          
-                <div *ngFor="let item of categories" class="card mb-3  ml-4 col-10 col-md-5 col-sm-5" style="width: 18rem;">
-               
-                    <img src="../../../assets/biology.jpeg" class="card-img-top" alt="...">
-                    <div class="card-body">
-                      <h5 class="card-title alert alert-success">{{item.categoryName}}</h5>
-                      <p class="card-text alert alert-primary">Time Allocated {{item.duration}} hour</p>
-                      <p class="card-text alert alert-danger">Number of Questions {{item.numberofQueston}}</p>
-                      
-                         <button [routerLink]="['/question/question/',item.categoryId]" [routerLinkActive]="['router-link-active']"  [routerLink]="['/login']" class="btn btn-outline-success my-2 my-sm-0" type="submit">Begin</button>
-          
-                 
-                    </div>
-                  </div>
-      
-                 
+    <div *ngSwitchCase="loader === false">
+        <div class="jumbotron jumbotron-fluid alert-success">
+            <div class="container text-center">
+                <h1 class="display-4">Hi, {{name}}</h1>
+                <h5 class="display-4"><strong>You have two trials left</strong></h5>
+                <p class="lead">
+                    Welcome to our quiz app
+                </p>
+            </div>
         </div>
+                <div class="row">
+                       
+                  
+                        <div *ngFor="let item of categories" class="card mb-3  ml-4 col-10 col-md-5 col-sm-5" style="width: 18rem;">
+                       
+                            <img src="../../../assets/biology.jpeg" class="card-img-top" alt="...">
+                            <div class="card-body">
+                              <h5 class="card-title alert alert-success">{{item.categoryName}}</h5>
+                              <p class="card-text alert alert-primary">Time Allocated {{item.duration}} hour</p>
+                              <p class="card-text alert alert-danger">Number of Questions {{item.numberofQueston}}</p>
+                              
+                                 <button [routerLink]="['/question/question/',item.categoryId]" [routerLinkActive]="['router-link-active']"  [routerLink]="['/login']" class="btn btn-outline-success my-2 my-sm-0" type="submit">Begin</button>
+                  
+                         
+                            </div>
+                          </div>
+              
+                         
+                </div>
+                
+                
+                
+              
+               
+                
+                 
+                 
+    </div>
+        
+                  
+              
+              
+              
         
         
         
-      
-       
         
-         
-         
-          
-      
-      
-      
-</div>
-
-
-
-
+        
+    </ng-container>
+  
 
 
 

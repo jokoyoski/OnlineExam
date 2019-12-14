@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {map} from 'rxjs/operators';
 import {BehaviorSubject} from 'rxjs';
 import {JwtHelperService} from '@auth0/angular-jwt';
+import { Progress, BarChart } from '../layout/QuestionModel';
 @Injectable({
   providedIn: 'root'
 })
@@ -10,6 +11,8 @@ export class AuthService {
 decodedToken: any;
 decodedTokenName: any;
 userPic: any;
+barChartData: any[];
+barData: BarChart;
 
   pic: any = '../../assets/web/images/user.png';
 result: any;
@@ -18,7 +21,7 @@ currentPhotoUrl = this.photoUrl.asObservable();
   jwtHelper = new JwtHelperService();
 
    Gender: any;
-
+   value: BarChart[];
    URL = 'http://localhost:5000/api/';
   httpClient: any;
 
@@ -75,8 +78,15 @@ login(model: any) {
 
 
         register(model: any) {
-         
+
           return this.http.post(this.URL + 'account/register', model);
+
+        }
+
+        getProgress() {
+
+          const tokenId = localStorage.getItem('userId');
+          return this.http.get(this.URL + 'user/' + tokenId);
 
         }
 
@@ -95,9 +105,10 @@ login(model: any) {
 
         Submit(question: any) {
           const tokenId = localStorage.getItem('userId');
-          //const url = this.url + tokenId + '/submitTest';
+          console.log(tokenId);
+          // const url = this.url + tokenId + '/submitTest';
 
-          return this.http.post('http://localhost:5000/api/question/1/submitTest', question).pipe(
+          return this.http.post('http://localhost:5000/api/question/' + tokenId + '/submitTest', question).pipe(
 
             map((response: any) => {
             this.result = response;

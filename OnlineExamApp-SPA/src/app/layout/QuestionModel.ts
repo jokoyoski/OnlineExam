@@ -26,8 +26,8 @@ export interface Question {
     categoryId: number;
     categoryName: string;
     duration: number;
-    
-    
+
+
 
 
    }
@@ -38,4 +38,21 @@ export interface Question {
 
  export interface Result {
      result: number;
+ }
+
+ export interface CategoryScoreCollection {
+    categoryName: string;
+    percentageAverageScore: number;
+
+ }
+
+ export interface Progress {
+    categoryName: any;
+    percentageAverageScore:number;
+
+ }
+
+ export class BarChart {
+     label: string;
+     data: number[];
  }

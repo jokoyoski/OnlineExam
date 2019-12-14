@@ -6,3 +6,24 @@
     background-attachment: fixed;
     height: 800px;
 }
+
+
+.loader{
+    border:16px solid lightgray;
+    border-top: 16px solid blue;
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+    top: 50%;
+    position: fixed;
+    left: 50%;
+    margin-top: -9em;
+    margin-left: -15em;
+    
+    
+    }
+    @keyframes spin{
+    0%{transform: rotate(0deg);}
+    100%{transform: rotate(360deg);}
+    }

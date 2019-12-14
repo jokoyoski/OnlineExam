@@ -31,7 +31,8 @@ export class QuestionComponent implements OnInit {
   radioSel: any;
   gender: any = {};
   questionId: number;
-  options: any = [];
+  // options: any = [];
+  optionId: number;
   answered: any = {};
   showLoader = true;
   constructor(private cookie: CookieService,
@@ -171,10 +172,11 @@ submitQuestion() {
     // this.answerInfo.questionId = this.allQuestion[i].questionId;
     // this.answerInfo.optionId = this.allQuestion[i].selectedAnswer;
     this.questionId = this.allQuestion[i].questionId;
-    this.options.push(this.allQuestion[i].selectedAnswer);
+    this.optionId = this.allQuestion[i].selectedAnswer;
+    // this.options.push(this.allQuestion[i].selectedAnswer);
 
     this.answered.questionId = this.questionId;
-     this.answered.options = this.options;
+     this.answered.optionId = this.optionId;
 
 
   this.answerArray.push(this.answered);

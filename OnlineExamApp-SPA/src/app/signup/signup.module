@@ -18,6 +18,6 @@ import { ErrorInterceptorProvider } from '../services/error.Interceptor';
     ReactiveFormsModule
   ],
   declarations: [SignupComponent],
-  providers: [ AuthService, AlertifyService, ErrorInterceptorProvider]   // errror interceptor was created and it was used in the register
+  providers: [ AuthService, AlertifyService, ErrorInterceptorProvider,LoaderService]   // errror interceptor was created and it was used in the register
 })
 export class SignupModule { }

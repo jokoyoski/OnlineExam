@@ -18,6 +18,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { SignupComponent } from './signup/signup.component';
 import { NavComponent } from './nav/nav.component';
 
+
 @NgModule({
    imports: [
       CommonModule,
@@ -40,6 +41,7 @@ import { NavComponent } from './nav/nav.component';
       AuthGuard,
       CookieService,
       AlertifyService,
+
       ErrorInterceptorProvider,
       RoleDirective
    ],
