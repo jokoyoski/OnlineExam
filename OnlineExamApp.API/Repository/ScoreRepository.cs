@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
 using OnlineExamApp.API.Interfaces;
@@ -20,19 +20,11 @@ namespace OnlineExamApp.API.Repository
             try
             {
 
-                var result = await (from d in _dataContext.Scores
-                                    where d.UserId.Equals(userId) && d.CategoryId.Equals(categoryId)
-                                    select new Model.Score
-                                    {
-                                        ScoreId = d.ScoreId,
-                                        UserId = d.UserId,
-                                        CategoryId = d.CategoryId,
-                                        DateCreated = d.DateCreated
-                                    })
-                    .Where(p => p.UserId.Equals(userId) && p.CategoryId.Equals(categoryId))
-                    .SingleOrDefaultAsync();
+                var result = this._dataContext.Scores
+                    .Where(p => p.UserId == userId && p.CategoryId == categoryId)
+                    .FirstOrDefaultAsync();
 
-                return result;
+                return await result;
 
             }
             catch (Exception e)
@@ -40,14 +32,14 @@ namespace OnlineExamApp.API.Repository
                 throw new ArgumentNullException("GetScoresByUserIdAndCategoryId in UserScoreRepository", e);
             }
         }
-        public async Task<IQueryable<IScore>> GetScoresCollectionByCategoryId(int categoryId)
+        public async Task<IEnumerable<IScore>> GetScoresCollectionByCategoryId(int categoryId)
         {
             try
             {
 
-                var result = this._dataContext.Scores
+                var result = await this._dataContext.Scores
                     .Where(p => p.CategoryId.Equals(categoryId))
-                    .OrderByDescending(p => p.Value).AsQueryable();
+                    .OrderByDescending(p => p.Value).ToListAsync();
 
                 return result;
 

@@ -19,7 +19,6 @@ namespace OnlineExamApp.API.Controllers
         {
             this.questionService = questionService;
         }
-
         [HttpGet()]
         public async Task<IActionResult> GetCategories()
         {
@@ -28,12 +27,12 @@ namespace OnlineExamApp.API.Controllers
             return Ok(model);
         }
 
-        [HttpGet("{username}/{categoryId}")]
-        public async Task<IActionResult> GetQuestions(string username, int categoryId)
+        [HttpGet("{userId}/{categoryId}")]
+        public async Task<IActionResult> GetQuestions(int userId, int categoryId)
         {   
             if(categoryId <= 0) throw new ArgumentNullException(nameof(categoryId));
 
-            var model = await this.questionService.GetQuestionListForDislay(username, categoryId);
+            var model = await this.questionService.GetQuestionListForDislay(userId, categoryId);
 
             return Ok(model);
         }
@@ -51,7 +50,7 @@ namespace OnlineExamApp.API.Controllers
 
             var model = await this.questionService.ProcessAnweredQuestions(userId, anweredQuestion);
 
-            return Ok(model.Score);
+            return Ok(model);
         }
 
         /* [HttpPost("import")]

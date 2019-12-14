@@ -6,7 +6,7 @@ namespace OnlineExamApp.API.Interfaces
 {
     public interface IScoreRepository
     {
-        Task<IQueryable<IScore>> GetScoresCollectionByCategoryId(int categoryId);
+        Task<IEnumerable<IScore>> GetScoresCollectionByCategoryId(int categoryId);
         Task<IScore> GetScoresByUserIdAndCategoryId(int userId, int categoryId);
         Task<string> SaveScoreHistory(IScore score);
         Task<string> UpdateScoreHistory(IScore score);

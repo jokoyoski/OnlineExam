@@ -52,10 +52,10 @@ namespace OnlineExamApp.API.Service
 
             return categoryForDisplayDto;
         }
-        public async Task<IQuestionsForDisplayDto> GetQuestionListForDislay(string username, int categoryId)
+        public async Task<IQuestionsForDisplayDto> GetQuestionListForDislay(int userId, int categoryId)
         {
 
-            if (username == null) throw new ArgumentNullException(nameof(username));
+            if (userId <= 0) throw new ArgumentNullException(nameof(userId));
 
             if (categoryId <= 0) throw new ArgumentNullException(nameof(categoryId));
 
@@ -80,7 +80,7 @@ namespace OnlineExamApp.API.Service
             var displayModel = new QuestionsForDisplayDto();
 
             var randomSpecificList = new List<IQuestionForDisplay>();
-            var userInfo = await this._userManager.FindByNameAsync(username);
+            var userInfo = await this._userManager.FindByIdAsync(userId.ToString());
 
             if (category != null && category.NumberofQueston > 0 && category.NumberofQueston <= questionCollection.Count)
             {
@@ -165,7 +165,7 @@ namespace OnlineExamApp.API.Service
                 result.ReturnMessage = output;
             }
 
-            var userScoreHistory = this._scoreRepository.GetScoresByUserIdAndCategoryId(userId, categoryId);
+            var userScoreHistory = await this._scoreRepository.GetScoresByUserIdAndCategoryId(userId, categoryId);
 
             IScore presentScore = new Score
             {
@@ -177,12 +177,14 @@ namespace OnlineExamApp.API.Service
             if(userScoreHistory == null)
             {
                 result.ReturnMessage = await this._scoreRepository.SaveScoreHistory(presentScore);
-                if(string.IsNullOrEmpty(result.ReturnMessage)) return result;
+                if(!string.IsNullOrEmpty(result.ReturnMessage)) return result;
             }
-            else
+
+            else if(userScoreHistory != null && userScoreHistory.Value < score)
             {
+                presentScore.ScoreId = userScoreHistory.ScoreId;
                 result.ReturnMessage = await this._scoreRepository.UpdateScoreHistory(presentScore);
-                if(string.IsNullOrEmpty(result.ReturnMessage)) return result;
+                if(!string.IsNullOrEmpty(result.ReturnMessage)) return result;
             }
 
             var highScoresCollections = await this._scoreRepository.GetScoresCollectionByCategoryId(categoryId);
@@ -190,19 +192,24 @@ namespace OnlineExamApp.API.Service
             if(highScoresCollections != null){
 
                 var scorePosition = highScoresCollections.Where(p=>p.UserId.Equals(userId)).SingleOrDefault();
+
                 var count = 0;
 
                 foreach(var item in highScoresCollections){
+                    count++;
                     if(item.UserId == userId){
-                        ++count;
+                        
+                        break;
                     }
-                    break;
+
                 }
 
                 //Find how to pass position
                 result.Position = count;
+                //Whats my hghestScore
+                result.HighestScore = scorePosition.Value;
                 //Select First Five
-                result.highScoreCollection = highScoresCollections.ToList().GetRange(0, 5);
+                result.ScoreBoardCollection = highScoresCollections.Take(5).ToList();
             }
             
             var userInfo = await this._userManager.FindByIdAsync(userId.ToString());
