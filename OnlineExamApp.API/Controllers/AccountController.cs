@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using OnlineExamApp.API.Dto;
 using System;
 using OnlineExamApp.API.Interfaces;
+using System.Security.Claims;
 
 namespace OnlineExamApp.API.Controllers
 {
@@ -91,6 +92,9 @@ namespace OnlineExamApp.API.Controllers
         public async Task<IActionResult> BuyTrial(int userId, int numberOfTrials)
         {
             if(userId <= 0) throw new ArgumentNullException(nameof(userId));
+
+            if (userId != int.Parse (User.FindFirst(ClaimTypes.NameIdentifier).Value))
+               return Unauthorized ();
 
             if(numberOfTrials <= 0) throw new ArgumentNullException(nameof(numberOfTrials));
 

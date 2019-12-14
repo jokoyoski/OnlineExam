@@ -30,6 +30,11 @@ namespace OnlineExamApp.API.Controllers
         [HttpGet("{userId}/{categoryId}")]
         public async Task<IActionResult> GetQuestions(int userId, int categoryId)
         {   
+            if(userId <= 0) throw new ArgumentNullException(nameof(userId));
+
+            if (userId != int.Parse (User.FindFirst(ClaimTypes.NameIdentifier).Value))
+               return Unauthorized ();
+
             if(categoryId <= 0) throw new ArgumentNullException(nameof(categoryId));
 
             var model = await this.questionService.GetQuestionListForDislay(userId, categoryId);
@@ -41,8 +46,10 @@ namespace OnlineExamApp.API.Controllers
         public async Task<IActionResult> SubmitTest(int userId, List<AnweredQuestionDto> anweredQuestion)
         {
 
-            // if (userId != int.Parse (User.FindFirst(ClaimTypes.NameIdentifier).Value))
-            //     return Unauthorized ();
+            if(userId <= 0) throw new ArgumentNullException(nameof(userId));
+
+            if (userId != int.Parse (User.FindFirst(ClaimTypes.NameIdentifier).Value))
+               return Unauthorized ();
 
             var anweredQuestionDto = System.IO.File.ReadAllText("Dto/AnsweredQuestion.json");
 

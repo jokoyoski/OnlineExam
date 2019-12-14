@@ -22,11 +22,11 @@ namespace OnlineExamApp.API.Repository
         {
             try{
 
-                var result =  this._dataContext.UserScores
-                    //.Where(p=>p.UserId.Equals(userId))
-                    .OrderByDescending(p => p.CategoryId).AsQueryable();
+                var result = this._dataContext.UserScores
+                    .Where(p=>p.UserId.Equals(userId))
+                    .OrderByDescending(p => p.CategoryId).ToListAsync();
 
-                return result;
+                return await result;
 
             }catch (Exception e)
             {
