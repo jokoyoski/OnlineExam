@@ -20,11 +20,19 @@ namespace OnlineExamApp.API.Repository
             try
             {
 
-                var result =  this._dataContext.Scores
-                    .Where(p=>p.UserId.Equals(userId) && p.CategoryId.Equals(categoryId))
+                var result = await (from d in _dataContext.Scores
+                                    where d.UserId.Equals(userId) && d.CategoryId.Equals(categoryId)
+                                    select new Model.Score
+                                    {
+                                        ScoreId = d.ScoreId,
+                                        UserId = d.UserId,
+                                        CategoryId = d.CategoryId,
+                                        DateCreated = d.DateCreated
+                                    })
+                    .Where(p => p.UserId.Equals(userId) && p.CategoryId.Equals(categoryId))
                     .SingleOrDefaultAsync();
 
-                return await result;
+                return result;
 
             }
             catch (Exception e)
@@ -37,9 +45,9 @@ namespace OnlineExamApp.API.Repository
             try
             {
 
-                var result =  this._dataContext.Scores
-                    .Where(p=>p.CategoryId.Equals(categoryId))
-                    .OrderByDescending(p=>p.Value).AsQueryable();
+                var result = this._dataContext.Scores
+                    .Where(p => p.CategoryId.Equals(categoryId))
+                    .OrderByDescending(p => p.Value).AsQueryable();
 
                 return result;
 
@@ -51,10 +59,10 @@ namespace OnlineExamApp.API.Repository
         }
         public async Task<string> SaveScoreHistory(IScore score)
         {
-            if(score == null) throw new ArgumentNullException(nameof(score));
+            if (score == null) throw new ArgumentNullException(nameof(score));
 
             string result = string.Empty;
-            
+
             var newRecored = new Score
             {
                 Value = score.Value,
@@ -77,13 +85,13 @@ namespace OnlineExamApp.API.Repository
         }
         public async Task<string> UpdateScoreHistory(IScore score)
         {
-            if(score == null) throw new ArgumentNullException(nameof(score));
+            if (score == null) throw new ArgumentNullException(nameof(score));
 
             string result = string.Empty;
-            
+
             try
             {
-                var model = await this._dataContext.Scores.Where(p=>p.ScoreId.Equals(score.ScoreId))
+                var model = await this._dataContext.Scores.Where(p => p.ScoreId.Equals(score.ScoreId))
                             .SingleOrDefaultAsync();
 
                 model.Value = score.Value;
@@ -98,6 +106,6 @@ namespace OnlineExamApp.API.Repository
             }
             return result;
         }
-    
+
     }
 }

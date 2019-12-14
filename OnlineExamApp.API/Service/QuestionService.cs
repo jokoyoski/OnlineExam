@@ -157,9 +157,12 @@ namespace OnlineExamApp.API.Service
                 DateTaken = DateTime.UtcNow
             };
 
-            if (!string.IsNullOrEmpty(await this._userScoreRepository.SaveUserScore(userScore)))
+
+            var output = await this._userScoreRepository.SaveUserScore(userScore);
+
+            if (!string.IsNullOrEmpty(output))
             {
-                result.ReturnMessage = await this._userScoreRepository.SaveUserScore(userScore);
+                result.ReturnMessage = output;
             }
 
             var userScoreHistory = this._scoreRepository.GetScoresByUserIdAndCategoryId(userId, categoryId);
@@ -187,8 +190,17 @@ namespace OnlineExamApp.API.Service
             if(highScoresCollections != null){
 
                 var scorePosition = highScoresCollections.Where(p=>p.UserId.Equals(userId)).SingleOrDefault();
+                var count = 0;
+
+                foreach(var item in highScoresCollections){
+                    if(item.UserId == userId){
+                        ++count;
+                    }
+                    break;
+                }
+
                 //Find how to pass position
-                result.Position = 1;
+                result.Position = count;
                 //Select First Five
                 result.highScoreCollection = highScoresCollections.ToList().GetRange(0, 5);
             }

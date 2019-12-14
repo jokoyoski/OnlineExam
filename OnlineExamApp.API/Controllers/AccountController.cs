@@ -87,6 +87,7 @@ namespace OnlineExamApp.API.Controllers
         {
             return Ok();
         }
+        [HttpPost("{email}/{numberOfTrials}")]
         public async Task<IActionResult> BuyTrial(string email, int numberOfTrials)
         {
             if(email == null) throw new ArgumentNullException(nameof(email));

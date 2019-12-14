@@ -61,15 +61,23 @@ namespace OnlineExamApp.API
             services.AddTransient<Seed>();
             services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
             services.AddCors();
-            services.AddScoped<IQuestionRepository, QuestionRepository>();
-            services.AddScoped<IOptionRepository, OptionRepository>();
+
+            
+            //Registered repository
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IDigitalFileRepository, DigitalFileRepository>();
+            services.AddScoped<IOptionRepository, OptionRepository>();
+            services.AddScoped<IQuestionRepository, QuestionRepository>();
+            services.AddScoped<IScoreRepository, ScoreRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserScoreRepository, UserScoreRepository>();
-            services.AddScoped<IQuestionService, QuestionService>();
+            
+            //Registered service
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IQuestionService, QuestionService>();
             services.AddScoped<IUserService, UserService>();
+
             services.AddMvc().AddNewtonsoftJson(options =>
                 options.SerializerSettings.ContractResolver =
                     new CamelCasePropertyNamesContractResolver());

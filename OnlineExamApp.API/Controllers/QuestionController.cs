@@ -45,6 +45,10 @@ namespace OnlineExamApp.API.Controllers
             // if (userId != int.Parse (User.FindFirst(ClaimTypes.NameIdentifier).Value))
             //     return Unauthorized ();
 
+            var anweredQuestionDto = System.IO.File.ReadAllText("Dto/AnsweredQuestion.json");
+
+            anweredQuestion = JsonConvert.DeserializeObject<List<AnweredQuestionDto>>(anweredQuestionDto);
+
             var model = await this.questionService.ProcessAnweredQuestions(userId, anweredQuestion);
 
             return Ok(model.Score);

@@ -18,7 +18,6 @@ namespace OnlineExamApp.API.Repository
             this._mapper = mapper;
             this._dataContext = dataContext;
         }
-
         public async Task<IEnumerable<IUserScore>> GetUserScoresByUserId(int userId)
         {
             try{
@@ -34,7 +33,6 @@ namespace OnlineExamApp.API.Repository
                 throw new ArgumentNullException("GetUserScoresByUserId in UserScoreRepository", e);
             }
         }
-
         public async Task<string> SaveUserScore(IUserScore userScore)
         {
 
@@ -42,7 +40,13 @@ namespace OnlineExamApp.API.Repository
 
             string result = string.Empty;
 
-            var newUserScore = this._mapper.Map<UserScore>(userScore);
+            var newUserScore = new UserScore{
+                UserId = userScore.UserId,
+                Score = userScore.Score,
+                CategoryId = userScore.CategoryId,
+                DateCreated = DateTime.UtcNow,
+                DateTaken = DateTime.Now,
+            };
 
             try
             {
