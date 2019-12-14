@@ -42,8 +42,8 @@ namespace OnlineExamApp.API.Controllers
         public async Task<IActionResult> SubmitTest(int userId, List<AnweredQuestionDto> anweredQuestion)
         {
 
-            if (userId != int.Parse (User.FindFirst(ClaimTypes.NameIdentifier).Value))
-                return Unauthorized ();
+            // if (userId != int.Parse (User.FindFirst(ClaimTypes.NameIdentifier).Value))
+            //     return Unauthorized ();
 
             var model = await this.questionService.ProcessAnweredQuestions(userId, anweredQuestion);
 

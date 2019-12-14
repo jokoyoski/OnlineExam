@@ -22,13 +22,15 @@ namespace OnlineExamApp.API.Service
         private readonly IUserScoreRepository _userScoreRepository;
         private readonly ICategoryRepository _categoryRepository;
         private readonly IDigitalFileRepository _digitalFileRepository;
+        private readonly IScoreRepository _scoreRepository;
         private readonly UserManager<User> _userManager;
-
         public QuestionService(IQuestionRepository questionRepository, UserManager<User> userManager,
         IOptionRepository optionRepository, IMapper mapper, IUserScoreRepository userScoreRepository,
-        ICategoryRepository categoryRepository, IDigitalFileRepository digitalFileRepository)
+        ICategoryRepository categoryRepository, IDigitalFileRepository digitalFileRepository,
+        IScoreRepository scoreRepository)
         {
             this._digitalFileRepository = digitalFileRepository;
+            this._scoreRepository = scoreRepository;
             this._categoryRepository = categoryRepository;
             this._userScoreRepository = userScoreRepository;
             this._mapper = mapper;
@@ -42,14 +44,15 @@ namespace OnlineExamApp.API.Service
 
             var categoryForDisplayDto = _mapper.Map<IEnumerable<ICategoryForDisplayDto>>(categoryCollection).ToList();
 
-            foreach(var d in categoryForDisplayDto){
+            foreach (var d in categoryForDisplayDto)
+            {
                 var model = await this._digitalFileRepository.GetPhotoById(d.PhotoId);
-                if(model != null) d.PhotoUrl = model.Url;
+                if (model != null) d.PhotoUrl = model.Url;
             }
 
             return categoryForDisplayDto;
         }
-        public async Task<IEnumerable<IQuestionForDisplay>> GetQuestionListForDislay(string username, int categoryId)
+        public async Task<IQuestionsForDisplayDto> GetQuestionListForDislay(string username, int categoryId)
         {
 
             if (username == null) throw new ArgumentNullException(nameof(username));
@@ -74,25 +77,38 @@ namespace OnlineExamApp.API.Service
                 questionCollection[n] = value;
             }
 
+            var displayModel = new QuestionsForDisplayDto();
+
             var randomSpecificList = new List<IQuestionForDisplay>();
             var userInfo = await this._userManager.FindByNameAsync(username);
 
             if (category != null && category.NumberofQueston > 0 && category.NumberofQueston <= questionCollection.Count)
             {
                 randomSpecificList = questionCollection.GetRange(0, category.NumberofQueston);
-                
-                if(userInfo == null && userInfo.Trials > 0)
+
+                if (userInfo != null && userInfo.Trials > 0)
                 {
-                    userInfo.Trials--;
+                    --userInfo.Trials;
+                    var successful = await this._userManager.UpdateAsync(userInfo);
+                    if(successful.Succeeded)
+                    {
+                        displayModel.Trials = userInfo.Trials;
+                    }
                 }
             }
             else
             {
                 randomSpecificList = questionCollection.GetRange(0, questionCollection.Count);
 
-                if(userInfo == null && userInfo.Trials > 0)
+                if (userInfo != null && userInfo.Trials > 0)
                 {
-                    userInfo.Trials--;
+                    --userInfo.Trials;
+                    var successful = await this._userManager.UpdateAsync(userInfo);
+                    if(successful.Succeeded)
+                    {
+                        displayModel.Trials = userInfo.Trials;
+                    }
+                    
                 }
             }
 
@@ -104,7 +120,9 @@ namespace OnlineExamApp.API.Service
                 options.Options = _mapper.Map<IEnumerable<IOptionsForDisplay>>(optionCollection);
             }
 
-            return randomSpecificList;
+            displayModel.QuestionsCollections = randomSpecificList;
+
+            return displayModel;
         }
         public async Task<IProcessAnswerReturnDto> ProcessAnweredQuestions(int userId, List<AnweredQuestionDto> anweredQuestion)
         {
@@ -120,11 +138,11 @@ namespace OnlineExamApp.API.Service
             {
                 var correctOptionCollection = await this._optionRepository.GetCorrectOptionByQuestionId(answers.QuestionId);
 
-                    foreach (var correctAnswer in correctOptionCollection)
-                    {
-                        if (answers.OptionId == correctAnswer.OptionId) score++;
-                    }
-                
+                foreach (var correctAnswer in correctOptionCollection)
+                {
+                    if (answers.OptionId == correctAnswer.OptionId) score++;
+                }
+
                 categoryId = answers.CategoryId;
             }
 
@@ -144,10 +162,42 @@ namespace OnlineExamApp.API.Service
                 result.ReturnMessage = await this._userScoreRepository.SaveUserScore(userScore);
             }
 
+            var userScoreHistory = this._scoreRepository.GetScoresByUserIdAndCategoryId(userId, categoryId);
+
+            IScore presentScore = new Score
+            {
+                Value = score,
+                CategoryId = categoryId,
+                UserId = userId
+            };
+
+            if(userScoreHistory == null)
+            {
+                result.ReturnMessage = await this._scoreRepository.SaveScoreHistory(presentScore);
+                if(string.IsNullOrEmpty(result.ReturnMessage)) return result;
+            }
+            else
+            {
+                result.ReturnMessage = await this._scoreRepository.UpdateScoreHistory(presentScore);
+                if(string.IsNullOrEmpty(result.ReturnMessage)) return result;
+            }
+
+            var highScoresCollections = await this._scoreRepository.GetScoresCollectionByCategoryId(categoryId);
             
+            if(highScoresCollections != null){
+
+                var scorePosition = highScoresCollections.Where(p=>p.UserId.Equals(userId)).SingleOrDefault();
+                //Find how to pass position
+                result.Position = 1;
+                //Select First Five
+                result.highScoreCollection = highScoresCollections.ToList().GetRange(0, 5);
+            }
+            
+            var userInfo = await this._userManager.FindByIdAsync(userId.ToString());
+
+            result.Trials = userInfo.Trials;
 
             return result;
         }
-
     }
 }
