@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { routerTransition } from '../../router.animations';
 import { Category } from '../QuestionModel';
 import { ActivatedRoute } from '@angular/router';
+import { AuthService } from 'src/app/services/Auth.service';
 
 @Component({
     selector: 'app-dashboard',
@@ -14,9 +15,10 @@ export class DashboardComponent implements OnInit {
     public sliders: Array<any> = [];
     name: any;
     status: any;
+    trials: any;
     loader = false;
     categories: Category[];
-    constructor(private route: ActivatedRoute) {
+    constructor(private route: ActivatedRoute, private authService: AuthService) {
         this.sliders.push(
             {
                 imagePath: 'assets/images/slider1.jpg',
@@ -58,12 +60,15 @@ export class DashboardComponent implements OnInit {
     }
 
     ngOnInit() {
-       
 
-       //setTimeout(function() {   this.loader = false; }, 10000);
+        this.authService.currentTrials.subscribe((trials) => {
 
+            this.trials = trials;
+
+          });
         this.status = 0;
         this.name =  localStorage.getItem('givenName');
+
 
 
         this.route.data.subscribe(data => {
@@ -73,7 +78,7 @@ export class DashboardComponent implements OnInit {
                 console.log(this.categories);
                 this.loader = false;
             }, 3000);
-            
+
         });
 
     }

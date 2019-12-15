@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AlertifyService } from 'src/app/services/AlertifyService';
+import { AuthService } from 'src/app/services/Auth.service';
 
 @Component({
     selector: 'app-header',
@@ -10,8 +11,9 @@ import { AlertifyService } from 'src/app/services/AlertifyService';
 })
 export class HeaderComponent implements OnInit {
     public pushRightClass: string;
-     name: string;
-    constructor(private translate: TranslateService, public router: Router,private alertifyService:AlertifyService) {
+     trials: string;
+    constructor(private translate: TranslateService, public router: Router,private alertifyService:AlertifyService,
+        private authService:AuthService) {
 
         this.router.events.subscribe(val => {
             if (
@@ -26,9 +28,11 @@ export class HeaderComponent implements OnInit {
 
     ngOnInit() {
 
-        this.name =  localStorage.getItem('givenName');
-
-
+        this.authService.currentTrials.subscribe((trials) => {
+    
+            this.trials = trials;
+      
+          });
         this.pushRightClass = 'push-right';
     }
 

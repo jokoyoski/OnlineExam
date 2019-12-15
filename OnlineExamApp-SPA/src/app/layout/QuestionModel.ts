@@ -5,6 +5,7 @@ export interface Question {
     options: Options[];
     questionNumber: number;
     selectedAnswer: number;
+    categoryId: number;
 
 
 
@@ -48,7 +49,7 @@ export interface Question {
 
  export interface Progress {
     categoryName: any;
-    percentageAverageScore:number;
+    percentageAverageScore: number;
 
  }
 

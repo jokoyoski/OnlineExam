@@ -59,7 +59,7 @@ export class QuestionService {
 
   GetQuestion(categoryId: number) {
 
-    // const userName = localStorage.getItem('userName');
+    
     const tokenId = localStorage.getItem('userId');
   return  this.httpClient.get(this.url  + tokenId + '/' + categoryId);
   }

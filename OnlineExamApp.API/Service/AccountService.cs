@@ -64,6 +64,8 @@ namespace OnlineExamApp.API.Service
 
             var userToCreate = _mapper.Map<User>(userForRegisterDto);
 
+            userToCreate.Trials = 3;
+
             var result = await _userManager.CreateAsync(userToCreate, userForRegisterDto.Password);
 
             if (result.Succeeded)
@@ -87,7 +89,8 @@ namespace OnlineExamApp.API.Service
             {
                 new Claim (ClaimTypes.NameIdentifier, user.Id.ToString ()),
                 new Claim (ClaimTypes.Name, user.UserName),
-                new Claim(ClaimTypes.GivenName,user.FirstName)
+                new Claim(ClaimTypes.GivenName,user.FirstName),
+                new Claim(ClaimTypes.PrimarySid,user.Trials.ToString())
             };
 
             var roles = await _userManager.GetRolesAsync(user);

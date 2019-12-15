@@ -16,8 +16,8 @@ barData: BarChart;
 
   pic: any = '../../assets/web/images/user.png';
 result: any;
-photoUrl = new BehaviorSubject<string>('../../assets/web/images/user.png');
-currentPhotoUrl = this.photoUrl.asObservable();
+trials = new BehaviorSubject<string>("0");
+currentTrials = this.trials.asObservable();
   jwtHelper = new JwtHelperService();
 
    Gender: any;
@@ -27,10 +27,10 @@ currentPhotoUrl = this.photoUrl.asObservable();
 
 constructor(private http: HttpClient, ) { }
 
-canMemberChangePhoto(photoUrl: string) {
+canUpdateTrials(trials: string) {
 
 
-this.photoUrl.next(photoUrl);   // the behaviour subject has a next attr which signifies the next value
+this.trials.next(trials);   // the behaviour subject has a next attr which signifies the next value
 }
 
 login(model: any) {
@@ -57,6 +57,9 @@ login(model: any) {
               localStorage.setItem('userId', this.decodedToken.nameid);
               localStorage.setItem('userName', this.decodedToken.unique_name);
               localStorage.setItem('givenName', this.decodedToken.given_name);
+              localStorage.setItem('trials', this.decodedToken.primarysid);
+               this.canUpdateTrials( localStorage.getItem('trials'));
+     
 
 
               this.decodedTokenName = this.decodedToken.unique_name;

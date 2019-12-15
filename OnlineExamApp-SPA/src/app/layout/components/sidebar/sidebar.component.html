@@ -1,7 +1,7 @@
 <nav class="sidebar" [ngClass]="{sidebarPushRight: isActive, collapsed: collapsed}">
     <div class="list-group">
         <a routerLink="/dashboard" [routerLinkActive]="['router-link-active']" class="list-group-item">
-            <i class="fa fa-fw fa-dashboard"></i>&nbsp;
+            <i class="fas fa-graduation-cap"></i>&nbsp;
             <span>{{ 'Main Page' | translate }}</span>
         </a>
         
@@ -10,8 +10,8 @@
             <span>{{ 'Tables' | translate }}</span>
         </a>
         <a [routerLink]="['/charts']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-            <i class="fa fa-fw fa-edit"></i>&nbsp;
-            <span>{{ 'Progress' | translate }}</span>
+            <i class="fas fa-info"></i>&nbsp;
+            <span>{{ ' Current Progress' | translate }}</span>
         </a>
         
       
@@ -40,7 +40,7 @@
                 </ul>
             </li>
         </div>
-        <a class="list-group-item" (click)="loggedOut()">
+        <a style="cursor: pointer;" class="list-group-item" (click)="loggedOut()">
             <span><i class="fa fa-user"></i>&nbsp; Logout {{name}}</span>
         </a>
 
