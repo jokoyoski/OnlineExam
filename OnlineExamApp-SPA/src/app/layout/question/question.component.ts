@@ -53,8 +53,8 @@ export class QuestionComponent implements OnInit {
         this.showLoader = false;
     }, 4000);
       this.route.data.subscribe((data: any) => {
-        console.log(data.question);
- this.getQuestion(data.question);
+        //console.log(data.question.questionsCollections);
+ this.getQuestion(data.question.questionsCollections);
       });
       this.questionService.seconds = 36000;
       this.setTimer();

@@ -59,8 +59,9 @@ export class QuestionService {
 
   GetQuestion(categoryId: number) {
 
-    const userName = localStorage.getItem('userName');
-  return  this.httpClient.get(this.url  + userName + '/' + categoryId);
+    // const userName = localStorage.getItem('userName');
+    const tokenId = localStorage.getItem('userId');
+  return  this.httpClient.get(this.url  + tokenId + '/' + categoryId);
   }
 
 
@@ -74,7 +75,7 @@ export class QuestionService {
 
         Submit(question: any) {
 
-       console.log(question);
+
           const tokenId = localStorage.getItem('userId');
           const url = this.url + tokenId + '/submitTest';
 
@@ -82,7 +83,8 @@ export class QuestionService {
 
             map((response: any) => {
             this.result = response;
-            localStorage.setItem('result', this.result);
+
+            localStorage.setItem('result', this.result.score);
               }));
 
         }

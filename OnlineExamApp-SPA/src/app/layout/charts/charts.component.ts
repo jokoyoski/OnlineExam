@@ -17,7 +17,7 @@ export class ChartsComponent implements OnInit {
     }
 
 
-
+   loader = true;
     value: BarChart[];
     progress: Progress;
     response: any;
@@ -92,11 +92,19 @@ export class ChartsComponent implements OnInit {
        // const result = this.GetProgress();
        // this.ComputeProgress(result);
        this.route.data.subscribe((data: any) => {
-      this.ComputeProgress(data.progress);
+        this.loader = true;
+        setTimeout(() => {
+            this.ComputeProgress(data.progress);
+            this.loader = false;
+        }, 3000);
+
 
       });
         this.barChartType = 'bar';
         this.barChartLegend = true;
+
+
+
 
     }
 }
