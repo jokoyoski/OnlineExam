@@ -43,7 +43,7 @@ namespace OnlineExamApp.API.Controllers
         }
 
         [HttpPost("{userId}/submitTest")]
-        public async Task<IActionResult> SubmitTest(int userId, List<AnweredQuestionDto> anweredQuestion)
+        public async Task<IActionResult> SubmitTest(int userId/* , List<AnweredQuestionDto> anweredQuestion */)
         {
 
             if(userId <= 0) throw new ArgumentNullException(nameof(userId));
@@ -53,7 +53,7 @@ namespace OnlineExamApp.API.Controllers
 
             var anweredQuestionDto = System.IO.File.ReadAllText("Dto/AnsweredQuestion.json");
 
-            anweredQuestion = JsonConvert.DeserializeObject<List<AnweredQuestionDto>>(anweredQuestionDto);
+            var anweredQuestion = JsonConvert.DeserializeObject<List<AnweredQuestionDto>>(anweredQuestionDto);
 
             var model = await this.questionService.ProcessAnweredQuestions(userId, anweredQuestion);
 

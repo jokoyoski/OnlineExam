@@ -7,8 +7,9 @@ namespace OnlineExamApp.API.Dto
     {
         public decimal Score { get; set; }
         public decimal HighestScore { get; set; }  
-        public IList<IScore> ScoreBoardCollection { get; set; }
+        public IList<IScoreDto> ScoreBoardCollection { get; set; }
         public int Position { get; set; }
+        public int NoOfParticipant { get; set; }
         public int Trials { get; set; }
         public string ReturnMessage { get; set; }
     }

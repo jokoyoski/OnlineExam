@@ -190,12 +190,15 @@ namespace OnlineExamApp.API.Service
             var highScoresCollections = await this._scoreRepository.GetScoresCollectionByCategoryId(categoryId);
             
             if(highScoresCollections != null){
-
                 var scorePosition = highScoresCollections.Where(p=>p.UserId.Equals(userId)).SingleOrDefault();
 
                 var count = 0;
 
                 foreach(var item in highScoresCollections){
+                    var user = await this._userManager.FindByIdAsync(item.UserId.ToString());
+                    item.Username = user.UserName;
+                    var category = await this._categoryRepository.GetCateogoryByCategoryId(item.CategoryId);
+                    item.CategoryName = category.CategoryName;
                     count++;
                     if(item.UserId == userId){
                         
@@ -206,6 +209,8 @@ namespace OnlineExamApp.API.Service
 
                 //Find how to pass position
                 result.Position = count;
+                //Total Number of Participant
+                result.NoOfParticipant = highScoresCollections.Count();
                 //Whats my hghestScore
                 result.HighestScore = scorePosition.Value;
                 //Select First Five

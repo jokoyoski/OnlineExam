@@ -32,12 +32,22 @@ namespace OnlineExamApp.API.Repository
                 throw new ArgumentNullException("GetScoresByUserIdAndCategoryId in UserScoreRepository", e);
             }
         }
-        public async Task<IEnumerable<IScore>> GetScoresCollectionByCategoryId(int categoryId)
+        public async Task<IEnumerable<IScoreDto>> GetScoresCollectionByCategoryId(int categoryId)
         {
             try
             {
 
-                var result = await this._dataContext.Scores
+                var result = await (
+                    from d in _dataContext.Scores
+                    select new Dto.ScoreDto{
+                        ScoreId = d.ScoreId,
+                        Value = d.Value,
+                        UserId = d.UserId,
+                        CategoryId = d.CategoryId,
+                        DateCreated = d.DateCreated,
+                        DateModified = d.DateModified
+                    }
+                )
                     .Where(p => p.CategoryId.Equals(categoryId))
                     .OrderByDescending(p => p.Value).ToListAsync();
 

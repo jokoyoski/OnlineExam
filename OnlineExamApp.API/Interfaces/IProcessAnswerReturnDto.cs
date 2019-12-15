@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using OnlineExamApp.API.Dto;
 
 namespace OnlineExamApp.API.Interfaces
 {
@@ -6,9 +7,10 @@ namespace OnlineExamApp.API.Interfaces
     {
         decimal Score { get; set; }
         decimal HighestScore { get; set; } 
-        IList<IScore> ScoreBoardCollection { get; set; }
+        IList<IScoreDto> ScoreBoardCollection { get; set; }
         int Trials { get; set; }
         int Position { get; set; }
+        int NoOfParticipant { get; set; }
         string ReturnMessage { get; set; }
     }
 }
