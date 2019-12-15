@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../services/Auth.service';
 
 @Component({
     selector: 'app-layout',
@@ -9,12 +10,17 @@ export class LayoutComponent implements OnInit {
 
     collapedSideBar: boolean;
 
-    constructor() {}
+    constructor(private authService:AuthService) {}
 
-    ngOnInit() {}
-
+   
+    ngOnInit() {
+       
+        this.authService.canUpdateTrials( localStorage.getItem('trials'));
+    }
+ 
     receiveCollapsed($event) {
         console.log($event);
         this.collapedSideBar = $event;
     }
+    
 }

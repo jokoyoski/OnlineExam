@@ -89,12 +89,6 @@ export class ChartsComponent implements OnInit {
     }
 
     ngOnInit() {
-<<<<<<< HEAD
-        this.GetProgress();
-        this.barChartType = 'bar';
-        this.barChartLegend = true;
-
-=======
        // const result = this.GetProgress();
        // this.ComputeProgress(result);
        this.route.data.subscribe((data: any) => {
@@ -112,6 +106,5 @@ export class ChartsComponent implements OnInit {
 
 
 
->>>>>>> 7312790d2293ffaf672a20348230836c2679ec12
     }
 }

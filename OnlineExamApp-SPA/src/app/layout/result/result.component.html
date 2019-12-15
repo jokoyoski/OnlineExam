@@ -1,23 +1,33 @@
  
- 
-  <div class="card text-white bg-success mb-3">
-        <div class="card-header">
-            Score
-            <img src="./../../../assets/images/check.png" width="30" />
+  <ng-container [ngSwitch]="true">
+     
+         
+<div *ngSwitchCase="loader === true" class="col-12" style="text-align: center;">
+    <img src="../../assets/img-loader.gif">
+    </div>
+
+    <div *ngSwitchCase="loader === false"> 
+        <div *ngSwitchCase="loader === false" class="card text-white bg-success mb-3">
+            <div class="card-header">
+                Score
+                <img src="./../../../assets/images/check.png" width="30" />
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Success card title</h5>
+                <p class="card-text">
+                  You had {{result}} marks, you can do better
+                </p>
+            </div>
         </div>
-        <div class="card-body">
-            <h5 class="card-title">Success card title</h5>
-            <p class="card-text">
-              You had {{result}} marks, you can do better
+    <div class="jumbotron jumbotron-fluid alert-success">
+        <div class="container text-center">
+            <h1 class="display-4">Hi, {{name}}</h1>
+            <h5 class="display-4"><strong>We are working greatly to fix this page</strong></h5>
+            <p class="lead">
+                This page will display your score
             </p>
         </div>
     </div>
-<div class="jumbotron jumbotron-fluid alert-success">
-    <div class="container text-center">
-        <h1 class="display-4">Hi, {{name}}</h1>
-        <h5 class="display-4"><strong>We are working greatly to fix this page</strong></h5>
-        <p class="lead">
-            This page will display your score
-        </p>
     </div>
-</div>
+  </ng-container>
+  

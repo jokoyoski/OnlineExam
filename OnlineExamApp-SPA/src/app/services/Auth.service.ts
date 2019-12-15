@@ -3,11 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {map} from 'rxjs/operators';
 import {BehaviorSubject} from 'rxjs';
 import {JwtHelperService} from '@auth0/angular-jwt';
-<<<<<<< HEAD
-import { CategoryCollection } from '../layout/QuestionModel';
-=======
 import { Progress, BarChart } from '../layout/QuestionModel';
->>>>>>> 7312790d2293ffaf672a20348230836c2679ec12
 @Injectable({
   providedIn: 'root'
 })
@@ -112,10 +108,7 @@ login(model: any) {
 
         Submit(question: any) {
           const tokenId = localStorage.getItem('userId');
-<<<<<<< HEAD
-=======
           console.log(tokenId);
->>>>>>> 7312790d2293ffaf672a20348230836c2679ec12
           // const url = this.url + tokenId + '/submitTest';
 
           return this.http.post('http://localhost:5000/api/question/' + tokenId + '/submitTest', question).pipe(

@@ -8,11 +8,17 @@ import { Component, OnInit } from '@angular/core';
 export class ResultComponent implements OnInit {
 
   result: any;
+  loader = false;
   constructor() { }
 
   ngOnInit() {
+    this.loader = true;
+    setTimeout(() => {
+      
+        this.result = localStorage.getItem('result');
+        this.loader = false;
+    }, 3000);
 
-  this.result = localStorage.getItem('result');
   }
 
 }
