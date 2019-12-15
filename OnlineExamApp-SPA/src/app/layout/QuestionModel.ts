@@ -1,3 +1,5 @@
+import { DecimalPipe } from '@angular/common';
+
 export interface Question {
 
     questionId: number;
@@ -26,8 +28,8 @@ export interface Question {
     categoryId: number;
     categoryName: string;
     duration: number;
-    
-    
+
+
 
 
    }
@@ -39,3 +41,13 @@ export interface Question {
  export interface Result {
      result: number;
  }
+
+ export interface CategoryCollection {
+
+    categoryName: string;
+    percentageAverageScore: number;
+
+ }
+
+
+ 

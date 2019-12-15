@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {map} from 'rxjs/operators';
 import {BehaviorSubject} from 'rxjs';
 import {JwtHelperService} from '@auth0/angular-jwt';
+import { CategoryCollection } from '../layout/QuestionModel';
 @Injectable({
   providedIn: 'root'
 })
@@ -75,7 +76,7 @@ login(model: any) {
 
 
         register(model: any) {
-         
+
           return this.http.post(this.URL + 'account/register', model);
 
         }
@@ -95,7 +96,7 @@ login(model: any) {
 
         Submit(question: any) {
           const tokenId = localStorage.getItem('userId');
-          //const url = this.url + tokenId + '/submitTest';
+          // const url = this.url + tokenId + '/submitTest';
 
           return this.http.post('http://localhost:5000/api/question/1/submitTest', question).pipe(
 
@@ -103,6 +104,20 @@ login(model: any) {
             this.result = response;
             localStorage.setItem('result', this.result);
               }));
+
+
+        }
+
+
+
+
+        GetProgress() {
+          const tokenId = localStorage.getItem('userId');
+
+
+          return this.http.get(this.URL + 'user/' + tokenId);
+
+
 
 
         }
