@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using OnlineExamApp.API.Dto;
 using System;
 using OnlineExamApp.API.Interfaces;
+using System.Security.Claims;
 
 namespace OnlineExamApp.API.Controllers
 {
@@ -87,13 +88,17 @@ namespace OnlineExamApp.API.Controllers
         {
             return Ok();
         }
-        public async Task<IActionResult> BuyTrial(string email, int numberOfTrials)
+        [HttpPost("{userId}/{numberOfTrials}")]
+        public async Task<IActionResult> BuyTrial(int userId, int numberOfTrials)
         {
-            if(email == null) throw new ArgumentNullException(nameof(email));
+            if(userId <= 0) throw new ArgumentNullException(nameof(userId));
+
+            if (userId != int.Parse (User.FindFirst(ClaimTypes.NameIdentifier).Value))
+               return Unauthorized ();
 
             if(numberOfTrials <= 0) throw new ArgumentNullException(nameof(numberOfTrials));
 
-            var model = await this._accountService.GetTrials(email, numberOfTrials);
+            var model = await this._accountService.GetTrials(userId, numberOfTrials);
 
             if(!string.IsNullOrEmpty(model))
             {

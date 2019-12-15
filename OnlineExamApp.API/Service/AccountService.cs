@@ -34,7 +34,6 @@ namespace OnlineExamApp.API.Service
         }
         public async Task<string> SignIn(UserForLoginDto userForLogInDto)
         {
-            
             if(userForLogInDto == null) throw new ArgumentNullException(nameof(userForLogInDto));
 
             var user = await _userManager.FindByNameAsync(userForLogInDto.Username);
@@ -65,6 +64,8 @@ namespace OnlineExamApp.API.Service
 
             var userToCreate = _mapper.Map<User>(userForRegisterDto);
 
+            userToCreate.Trials = 3;
+
             var result = await _userManager.CreateAsync(userToCreate, userForRegisterDto.Password);
 
             if (result.Succeeded)
@@ -88,7 +89,8 @@ namespace OnlineExamApp.API.Service
             {
                 new Claim (ClaimTypes.NameIdentifier, user.Id.ToString ()),
                 new Claim (ClaimTypes.Name, user.UserName),
-                new Claim(ClaimTypes.GivenName,user.FirstName)
+                new Claim(ClaimTypes.GivenName,user.FirstName),
+                new Claim(ClaimTypes.PrimarySid,user.Trials.ToString())
             };
 
             var roles = await _userManager.GetRolesAsync(user);
@@ -116,12 +118,12 @@ namespace OnlineExamApp.API.Service
 
             return tokenHandler.WriteToken(token);
         }
-        public async Task<string> GetTrials(string email, int numberOfTrials)
+        public async Task<string> GetTrials(int userId, int numberOfTrials)
         {
             string result = string.Empty;
             bool isExist = true;
 
-            var userInfo = await this._userManager.FindByEmailAsync(email);
+            var userInfo = await this._userManager.FindByIdAsync(userId.ToString());
 
             isExist = (userInfo == null) ? false : true;
 

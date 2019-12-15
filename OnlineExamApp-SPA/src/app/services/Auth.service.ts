@@ -3,7 +3,11 @@ import {HttpClient} from '@angular/common/http';
 import {map} from 'rxjs/operators';
 import {BehaviorSubject} from 'rxjs';
 import {JwtHelperService} from '@auth0/angular-jwt';
+<<<<<<< HEAD
 import { CategoryCollection } from '../layout/QuestionModel';
+=======
+import { Progress, BarChart } from '../layout/QuestionModel';
+>>>>>>> 7312790d2293ffaf672a20348230836c2679ec12
 @Injectable({
   providedIn: 'root'
 })
@@ -11,24 +15,26 @@ export class AuthService {
 decodedToken: any;
 decodedTokenName: any;
 userPic: any;
+barChartData: any[];
+barData: BarChart;
 
   pic: any = '../../assets/web/images/user.png';
 result: any;
-photoUrl = new BehaviorSubject<string>('../../assets/web/images/user.png');
-currentPhotoUrl = this.photoUrl.asObservable();
+trials = new BehaviorSubject<string>("0");
+currentTrials = this.trials.asObservable();
   jwtHelper = new JwtHelperService();
 
    Gender: any;
-
+   value: BarChart[];
    URL = 'http://localhost:5000/api/';
   httpClient: any;
 
 constructor(private http: HttpClient, ) { }
 
-canMemberChangePhoto(photoUrl: string) {
+canUpdateTrials(trials: string) {
 
 
-this.photoUrl.next(photoUrl);   // the behaviour subject has a next attr which signifies the next value
+this.trials.next(trials);   // the behaviour subject has a next attr which signifies the next value
 }
 
 login(model: any) {
@@ -55,6 +61,9 @@ login(model: any) {
               localStorage.setItem('userId', this.decodedToken.nameid);
               localStorage.setItem('userName', this.decodedToken.unique_name);
               localStorage.setItem('givenName', this.decodedToken.given_name);
+              localStorage.setItem('trials', this.decodedToken.primarysid);
+               this.canUpdateTrials( localStorage.getItem('trials'));
+     
 
 
               this.decodedTokenName = this.decodedToken.unique_name;
@@ -81,6 +90,13 @@ login(model: any) {
 
         }
 
+        getProgress() {
+
+          const tokenId = localStorage.getItem('userId');
+          return this.http.get(this.URL + 'user/' + tokenId);
+
+        }
+
 
           loggedIn() {
           const token = localStorage.getItem('token');
@@ -96,9 +112,13 @@ login(model: any) {
 
         Submit(question: any) {
           const tokenId = localStorage.getItem('userId');
+<<<<<<< HEAD
+=======
+          console.log(tokenId);
+>>>>>>> 7312790d2293ffaf672a20348230836c2679ec12
           // const url = this.url + tokenId + '/submitTest';
 
-          return this.http.post('http://localhost:5000/api/question/1/submitTest', question).pipe(
+          return this.http.post('http://localhost:5000/api/question/' + tokenId + '/submitTest', question).pipe(
 
             map((response: any) => {
             this.result = response;

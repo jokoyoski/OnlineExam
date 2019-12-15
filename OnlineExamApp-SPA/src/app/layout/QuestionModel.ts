@@ -7,6 +7,7 @@ export interface Question {
     options: Options[];
     questionNumber: number;
     selectedAnswer: number;
+    categoryId: number;
 
 
 
@@ -42,12 +43,19 @@ export interface Question {
      result: number;
  }
 
- export interface CategoryCollection {
-
+ export interface CategoryScoreCollection {
     categoryName: string;
     percentageAverageScore: number;
 
  }
 
+ export interface Progress {
+    categoryName: any;
+    percentageAverageScore: number;
 
- 
+ }
+
+ export class BarChart {
+     label: string;
+     data: number[];
+ }

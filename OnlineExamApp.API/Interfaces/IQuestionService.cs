@@ -7,8 +7,8 @@ namespace OnlineExamApp.API.Interfaces
     public interface IQuestionService
     {
         Task<IEnumerable<ICategoryForDisplayDto>> GetCategories();
-         Task<IEnumerable<IQuestionForDisplay>> GetQuestionListForDislay(string username, int categoryId);
-         Task<IProcessAnswerReturnDto> ProcessAnweredQuestions(int userId, List<AnweredQuestionDto> anweredQuestion);
-         
+        Task<IQuestionsForDisplayDto> GetQuestionListForDislay(int userId, int categoryId);
+        Task<IProcessAnswerReturnDto> ProcessAnweredQuestions(int userId, List<AnweredQuestionDto> anweredQuestion);
+
     }
 }

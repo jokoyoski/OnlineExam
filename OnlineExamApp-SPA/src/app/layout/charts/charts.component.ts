@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { routerTransition } from '../../router.animations';
 import { AuthService } from 'src/app/services/Auth.service';
-import { CategoryCollection } from '../QuestionModel';
+import { Progress , BarChart} from '../QuestionModel';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'app-charts',
@@ -11,10 +12,16 @@ import { CategoryCollection } from '../QuestionModel';
 })
 export class ChartsComponent implements OnInit {
 
-    constructor(private authService: AuthService) {}
-    barChart: any = {};
-  barChartData: CategoryCollection[];
-  // progress: ProgressDisplay[] = [];
+    constructor(private authService: AuthService, private route: ActivatedRoute) {
+
+    }
+
+
+   loader = true;
+    value: BarChart[];
+    progress: Progress;
+    response: any;
+    // bar chart
     public barChartOptions: any = {
         scaleShowVerticalLines: false,
         responsive: true
@@ -31,27 +38,22 @@ export class ChartsComponent implements OnInit {
     public barChartType: string;
     public barChartLegend: boolean;
 
- // public barChartData: any[] = [
-  // { data: [65], label: 'Series A' },
-  // { data: [29], label: 'Series B' }
-// ];
- GetProgress() {
 
-    this.authService.GetProgress().subscribe((display: CategoryCollection[]) => {
-
- for (let i = 0; i < display.length; i++) {
+    public barChartData: any[] = [
+       { data: [65], label: 'English' },
+        { data: [28], label: 'Math' },
+        { data: [28], label: 'Physics' }
 
 
-    this.barChartData.push(this.barChart);
- }
- this.barChartData.push(this.barChart);
-    });
-
-   }
+  ];
 
 
 
+    ComputeProgress(response: any) {
+        this.progress = response.categoryScoreCollection;
+        console.log(this.progress);
 
+    }
 
 
 
@@ -87,9 +89,29 @@ export class ChartsComponent implements OnInit {
     }
 
     ngOnInit() {
+<<<<<<< HEAD
         this.GetProgress();
         this.barChartType = 'bar';
         this.barChartLegend = true;
 
+=======
+       // const result = this.GetProgress();
+       // this.ComputeProgress(result);
+       this.route.data.subscribe((data: any) => {
+        this.loader = true;
+        setTimeout(() => {
+            this.ComputeProgress(data.progress);
+            this.loader = false;
+        }, 3000);
+
+
+      });
+        this.barChartType = 'bar';
+        this.barChartLegend = true;
+
+
+
+
+>>>>>>> 7312790d2293ffaf672a20348230836c2679ec12
     }
 }

@@ -4,6 +4,7 @@ import { QuestionService } from '../services/question.service';
 import { questionFromDb } from '../services/questionfromServer';
 import { Question, Options, Answer } from '../QuestionModel';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from 'src/app/services/Auth.service';
 
 @Component({
   selector: 'app-question',
@@ -16,6 +17,7 @@ export class QuestionComponent implements OnInit {
 
   questionList = [];
   isLoad = true;
+  categoryId: number;
   updateRadioSel: Options;
   questionArray: Question[];
   radioSelectedString: string;
@@ -31,11 +33,12 @@ export class QuestionComponent implements OnInit {
   radioSel: any;
   gender: any = {};
   questionId: number;
-  options: any = [];
+  // options: any = [];
+  optionId: number;
   answered: any = {};
   showLoader = true;
   constructor(private cookie: CookieService,
-    private route: ActivatedRoute, private router: Router , private questionService: QuestionService) {
+    private route: ActivatedRoute, private router: Router , private questionService: QuestionService,private authService:AuthService) {
 
 
    }
@@ -52,8 +55,9 @@ export class QuestionComponent implements OnInit {
         this.showLoader = false;
     }, 4000);
       this.route.data.subscribe((data: any) => {
-        console.log(data.question);
- this.getQuestion(data.question);
+
+        this.authService.canUpdateTrials(data.question.trials);
+      this.getQuestion(data.question.questionsCollections);
       });
       this.questionService.seconds = 36000;
       this.setTimer();
@@ -171,21 +175,25 @@ submitQuestion() {
     // this.answerInfo.questionId = this.allQuestion[i].questionId;
     // this.answerInfo.optionId = this.allQuestion[i].selectedAnswer;
     this.questionId = this.allQuestion[i].questionId;
-    this.options.push(this.allQuestion[i].selectedAnswer);
+    this.optionId = this.allQuestion[i].selectedAnswer;
+    this.categoryId = this.allQuestion[i].categoryId;
+    // this.options.push(this.allQuestion[i].selectedAnswer);
 
     this.answered.questionId = this.questionId;
-     this.answered.options = this.options;
+     this.answered.optionId = this.optionId;
+     this.answered.categoryId = this.categoryId;
 
 
   this.answerArray.push(this.answered);
     this.answered = {};
 
   }
+  console.log(this.answerArray);
 
   this.questionService.Submit(this.answerArray).subscribe((data: any) => {
-  console.log(data);
+
   }, error => {
-    console.log(error);
+
   }, () => {
     this.router.navigate(['/result']);
 

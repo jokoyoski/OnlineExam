@@ -4,6 +4,7 @@ import { routerTransition } from '../router.animations';
 import { AuthService } from '../services/Auth.service';
 import { AlertifyService } from '../services/AlertifyService';
 import { Router } from '@angular/router';
+import { LoaderService } from '../layout/services/loader.service';
 
 @Component({
     selector: 'app-signup',
@@ -13,9 +14,14 @@ import { Router } from '@angular/router';
 })
 export class SignupComponent implements OnInit {
     registerForm: FormGroup;
-    constructor(private authService: AuthService, private alertifyService: AlertifyService, private router: Router) {}
+    loader = false;
+    constructor(private authService: AuthService, private alertifyService:
+      AlertifyService, private router: Router) {
+        this.loader = true;
+      }
   model: any = {};
     ngOnInit() {
+
         this.registerForm = new FormGroup({   // we created a new instance here
 
           firstName: new FormControl('', Validators.required),

@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -18,23 +18,21 @@ namespace OnlineExamApp.API.Repository
             this._mapper = mapper;
             this._dataContext = dataContext;
         }
-
         public async Task<IEnumerable<IUserScore>> GetUserScoresByUserId(int userId)
         {
             try{
 
-                var result =  this._dataContext.UserScores
-                    //.Where(p=>p.UserId.Equals(userId))
-                    .OrderByDescending(p => p.CategoryId).AsQueryable();
+                var result = this._dataContext.UserScores
+                    .Where(p=>p.UserId.Equals(userId))
+                    .OrderByDescending(p => p.CategoryId).ToListAsync();
 
-                return result;
+                return await result;
 
             }catch (Exception e)
             {
                 throw new ArgumentNullException("GetUserScoresByUserId in UserScoreRepository", e);
             }
         }
-
         public async Task<string> SaveUserScore(IUserScore userScore)
         {
 
@@ -42,7 +40,13 @@ namespace OnlineExamApp.API.Repository
 
             string result = string.Empty;
 
-            var newUserScore = this._mapper.Map<UserScore>(userScore);
+            var newUserScore = new UserScore{
+                UserId = userScore.UserId,
+                Score = userScore.Score,
+                CategoryId = userScore.CategoryId,
+                DateCreated = DateTime.UtcNow,
+                DateTaken = DateTime.Now,
+            };
 
             try
             {

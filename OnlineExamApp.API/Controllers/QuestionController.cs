@@ -19,7 +19,6 @@ namespace OnlineExamApp.API.Controllers
         {
             this.questionService = questionService;
         }
-
         [HttpGet()]
         public async Task<IActionResult> GetCategories()
         {
@@ -28,26 +27,37 @@ namespace OnlineExamApp.API.Controllers
             return Ok(model);
         }
 
-        [HttpGet("{username}/{categoryId}")]
-        public async Task<IActionResult> GetQuestions(string username, int categoryId)
+        [HttpGet("{userId}/{categoryId}")]
+        public async Task<IActionResult> GetQuestions(int userId, int categoryId)
         {   
+            if(userId <= 0) throw new ArgumentNullException(nameof(userId));
+
+            if (userId != int.Parse (User.FindFirst(ClaimTypes.NameIdentifier).Value))
+               return Unauthorized ();
+
             if(categoryId <= 0) throw new ArgumentNullException(nameof(categoryId));
 
-            var model = await this.questionService.GetQuestionListForDislay(username, categoryId);
+            var model = await this.questionService.GetQuestionListForDislay(userId, categoryId);
 
             return Ok(model);
         }
 
         [HttpPost("{userId}/submitTest")]
-        public async Task<IActionResult> SubmitTest(int userId, List<AnweredQuestionDto> anweredQuestion)
+        public async Task<IActionResult> SubmitTest(int userId, List<AnweredQuestionDto> anweredQuestion )
         {
 
+            if(userId <= 0) throw new ArgumentNullException(nameof(userId));
+
             if (userId != int.Parse (User.FindFirst(ClaimTypes.NameIdentifier).Value))
-                return Unauthorized ();
+               return Unauthorized ();
+
+          //  var anweredQuestionDto = System.IO.File.ReadAllText("Dto/AnsweredQuestion.json");
+
+          //  var anweredQuestion = JsonConvert.DeserializeObject<List<AnweredQuestionDto>>(anweredQuestionDto);
 
             var model = await this.questionService.ProcessAnweredQuestions(userId, anweredQuestion);
 
-            return Ok(model.Score);
+            return Ok(model);
         }
 
         /* [HttpPost("import")]
