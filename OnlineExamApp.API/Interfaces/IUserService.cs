@@ -4,6 +4,6 @@ namespace OnlineExamApp.API.Interfaces
 {
     public interface IUserService
     {
-         Task<IUserScoreForDisplayDto> GetUserScoreByUserId(int userId);
+         Task<IPerformanceDisplayDto> GetUserPerformanceByCatetgory(int userId, int categoryId);
     }
 }

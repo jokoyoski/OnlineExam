@@ -33,6 +33,36 @@ namespace OnlineExamApp.API.Repository
                 throw new ArgumentNullException("GetUserScoresByUserId in UserScoreRepository", e);
             }
         }
+        public async Task<IEnumerable<IUserScore>> GetUserScoresByUserIdAndCategoryId(int userId, int categoryId)
+        {
+            try{
+
+                var result = this._dataContext.UserScores
+                    .Where(p=>p.UserId.Equals(userId) && p.CategoryId.Equals(categoryId))
+                    .OrderByDescending(p => p.CategoryId).ToListAsync();
+
+                return await result;
+
+            }catch (Exception e)
+            {
+                throw new ArgumentNullException("GetUserScoresByUserIdAndCategoryId in UserScoreRepository", e);
+            }
+        }
+        public async Task<IEnumerable<IUserScore>> GetUserScoresByCategoryId(int categoryId)
+        {
+            try{
+
+                var result = this._dataContext.UserScores
+                    .Where(p=>p.CategoryId.Equals(categoryId))
+                    .OrderByDescending(p => p.CategoryId).ToListAsync();
+
+                return await result;
+
+            }catch (Exception e)
+            {
+                throw new ArgumentNullException("GetUserScoresByCategoryId in UserScoreRepository", e);
+            }
+        }
         public async Task<string> SaveUserScore(IUserScore userScore)
         {
 

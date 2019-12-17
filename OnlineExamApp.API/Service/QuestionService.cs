@@ -157,7 +157,6 @@ namespace OnlineExamApp.API.Service
                 DateTaken = DateTime.UtcNow
             };
 
-
             var output = await this._userScoreRepository.SaveUserScore(userScore);
 
             if (!string.IsNullOrEmpty(output))

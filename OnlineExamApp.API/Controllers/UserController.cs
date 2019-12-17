@@ -15,15 +15,15 @@ namespace OnlineExamApp.API.Controllers
             this._userService = userService;
         }
 
-        [HttpGet("{userId}")]
-        public async Task<IActionResult> GetUserScore(int userId)
+        [HttpGet("{userId}/{categoryId}")]
+        public async Task<IActionResult> GetUserScore(int userId, int categoryId)
         {
 
             
             if (userId != int.Parse (User.FindFirst(ClaimTypes.NameIdentifier).Value))
                return Unauthorized ();
 
-            var model = await this._userService.GetUserScoreByUserId(userId);
+            var model = await this._userService.GetUserPerformanceByCatetgory(userId, categoryId);
 
             if(model != null) 
             {
