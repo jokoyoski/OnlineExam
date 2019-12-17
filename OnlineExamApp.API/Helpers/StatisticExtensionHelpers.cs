@@ -1,4 +1,4 @@
-namespace OnlineExamApp.API.Service
+namespace OnlineExamApp.API.Helpers
 {
     public static class StatisticExtensionHelpers
     {

@@ -20,87 +20,85 @@ namespace OnlineExamApp.API.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody]UserForRegisterDto userForRegisterDto)
         {
-            userForRegisterDto.Username=userForRegisterDto.Email;
+            userForRegisterDto.Username = userForRegisterDto.Email;
 
-            if(userForRegisterDto == null) throw new ArgumentNullException(nameof(userForRegisterDto));
+            if (userForRegisterDto == null) throw new ArgumentNullException(nameof(userForRegisterDto));
 
             var model = await this._accountService.SignUp(userForRegisterDto);
 
             if (string.IsNullOrEmpty(model))
             {
-                
+
                 return Ok(new
                 {
                     success = "User Has been Registered Successfully",
-                    
+
                 });
             }
             return BadRequest(model);
-        }        
+        }
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody]UserForLoginDto userForLogInDto)
         {
-            if(userForLogInDto == null) throw new ArgumentNullException(nameof(userForLogInDto));
+            if (userForLogInDto == null) throw new ArgumentNullException(nameof(userForLogInDto));
 
             var model = await this._accountService.SignIn(userForLogInDto);
 
-            if(model.Equals("User not found")) return BadRequest("User not found");
+            if (model.Equals("User not found")) return BadRequest("User not found");
 
-            if(!string.IsNullOrEmpty(model)){
+            if (!string.IsNullOrEmpty(model))
+            {
                 return Ok(new
                 {
                     token = model
                 });
-            } 
+            }
 
             return Unauthorized("You are not authorized");
         }
-        [HttpPost]
-        public async Task<IActionResult> ChangePassword([FromBody]UserForLoginDto userForLogInDto)
+        [HttpPost("changepassword")]
+        public async Task<IActionResult> ChangePassword([FromBody]ChangePasswordDto changePasswordDto)
         {
-            if(userForLogInDto == null) throw new ArgumentNullException(nameof(userForLogInDto));
+            if (changePasswordDto == null) throw new ArgumentNullException(nameof(changePasswordDto));
 
-            var model = await this._accountService.SignIn(userForLogInDto);
+            var model = await this._accountService.ProcessChangePassword(changePasswordDto);
 
-            if(model.Equals("User not found")) return BadRequest("User not found");
+            if (!string.IsNullOrEmpty(model))
+            {
+                return Ok("Successfully changed password.");
+            }
 
+            return BadRequest(model);
+        }
+        [HttpGet("{userId}/{code}")]
+        public async Task<IActionResult> ConfirmEmail(int userId, string code)
+        {
+            if (userId <= 0) throw new ArgumentNullException(nameof(userId));
+
+            if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+                return Unauthorized();
+
+            var model = await this._accountService.ProcessConfirmEmail(userId, code);
+            
             if(!string.IsNullOrEmpty(model)){
-                return Ok(new
-                {
-                    token = model
-                });
-            } 
+                return BadRequest(model);
+            }
 
-            return Unauthorized("You are not authorized");
-        }
-        [HttpGet]
-        public async Task<IActionResult> ActivateAccount(string activationCode)
-        {
-            return Ok();
-        }
-        [HttpPost]
-        public async Task<IActionResult> ChangePassword(string email)
-        {
-            return Ok();
-        }
-        [HttpGet]
-        public async Task<IActionResult> ChangePassword(int userId, string changePasswordCode)
-        {
-            return Ok();
+            return Ok("Successfully confirmed email.");
         }
         [HttpPost("{userId}/{numberOfTrials}")]
         public async Task<IActionResult> BuyTrial(int userId, int numberOfTrials)
         {
-            if(userId <= 0) throw new ArgumentNullException(nameof(userId));
+            if (userId <= 0) throw new ArgumentNullException(nameof(userId));
 
-            if (userId != int.Parse (User.FindFirst(ClaimTypes.NameIdentifier).Value))
-               return Unauthorized ();
+            if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+                return Unauthorized();
 
-            if(numberOfTrials <= 0) throw new ArgumentNullException(nameof(numberOfTrials));
+            if (numberOfTrials <= 0) throw new ArgumentNullException(nameof(numberOfTrials));
 
             var model = await this._accountService.GetTrials(userId, numberOfTrials);
 
-            if(!string.IsNullOrEmpty(model))
+            if (!string.IsNullOrEmpty(model))
             {
                 return NotFound(model);
             }
@@ -108,8 +106,6 @@ namespace OnlineExamApp.API.Controllers
             return Ok(model);
         }
     }
-
-
 }
 
 

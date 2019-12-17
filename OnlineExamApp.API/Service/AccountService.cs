@@ -34,32 +34,27 @@ namespace OnlineExamApp.API.Service
         }
         public async Task<string> SignIn(UserForLoginDto userForLogInDto)
         {
-            if(userForLogInDto == null) throw new ArgumentNullException(nameof(userForLogInDto));
+            if (userForLogInDto == null) throw new ArgumentNullException(nameof(userForLogInDto));
 
             var user = await _userManager.FindByNameAsync(userForLogInDto.Username);
 
-            if(user == null) return "User not found";
+            if (user == null) return "User not found";
 
             var result = await _signInManager
                 .CheckPasswordSignInAsync(user, userForLogInDto.Password, false);
 
             if (result.Succeeded)
             {
-                var appUser =  _userManager.Users
+                var appUser = _userManager.Users
                     .FirstOrDefault(u => u.NormalizedUserName == userForLogInDto.Username.ToUpper());
                 return GenerateJwtToken(appUser).Result;
             }
 
             return string.Empty;
         }
-        public async Task<string> SignOff()
-        {
-            
-            return string.Empty;
-        }
         public async Task<string> SignUp(UserForRegisterDto userForRegisterDto)
         {
-           string errorInfo= string.Empty;
+            string errorInfo = string.Empty;
             string token = string.Empty;
 
             var userToCreate = _mapper.Map<User>(userForRegisterDto);
@@ -70,17 +65,60 @@ namespace OnlineExamApp.API.Service
 
             if (result.Succeeded)
             {
-               var userroles= this._userManager.AddToRolesAsync(userToCreate, new[] { "USER" });
-                
+                var userroles = this._userManager.AddToRolesAsync(userToCreate, new[] { "USER" });
+
                 return "";
             }
 
-             foreach(var error in result.Errors)  
-             {
-                 errorInfo=error.Description;
-             }
+            foreach (var error in result.Errors)
+            {
+                errorInfo = error.Description;
+            }
             return errorInfo;
 
+        }
+        public async Task<string> ProcessConfirmEmail(int userId, string code)
+        {
+
+            string result = string.Empty;
+
+            if(userId <= 0) throw new ArgumentNullException(nameof(userId));
+            
+            if(string.IsNullOrEmpty(code)) throw new ArgumentNullException(nameof(code));
+
+
+            var user = await this._userManager.FindByIdAsync(userId.ToString());
+
+            var output = await this._userManager.ConfirmEmailAsync(user, code);
+
+            if(!output.Succeeded)
+            {
+                result = output.Errors.ToString();
+            }
+
+            return result;
+        }
+        public async Task<string> ProcessChangePassword(IChangePasswordDto changePasswordDto)
+        {
+
+            string result = string.Empty;
+
+            var us = _userManager.FindByIdAsync(ClaimTypes.NameIdentifier);
+
+            if (changePasswordDto == null) throw new ArgumentNullException(nameof(changePasswordDto));
+
+            var user = await this._userManager.FindByIdAsync(changePasswordDto.UserId.ToString());
+
+            var identity = await this._userManager.ChangePasswordAsync(user, changePasswordDto.NewPassword, changePasswordDto.NewPassword);
+
+            if (!identity.Succeeded)
+            {
+                result = identity.Errors.ToString();
+
+                return result;
+            }
+
+            return result;
 
         }
         private async Task<string> GenerateJwtToken(User user)
@@ -127,7 +165,7 @@ namespace OnlineExamApp.API.Service
 
             isExist = (userInfo == null) ? false : true;
 
-            if(!isExist)
+            if (!isExist)
             {
                 return "User Does not Exist";
             }
@@ -137,7 +175,7 @@ namespace OnlineExamApp.API.Service
 
             var output = await this._userManager.UpdateAsync(userInfo);
 
-            if(!output.Succeeded)
+            if (!output.Succeeded)
             {
                 result = output.Errors.ToString();
             }
