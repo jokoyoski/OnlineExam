@@ -57,9 +57,10 @@ export class QuestionComponent implements OnInit {
       this.route.data.subscribe((data: any) => {
 
         this.authService.canUpdateTrials(data.question.trials);
+        localStorage.setItem('trials', data.question.trials);
       this.getQuestion(data.question.questionsCollections);
       });
-      this.questionService.seconds = 36000;
+      this.questionService.seconds = 1000;
       this.setTimer();
 
 
@@ -73,7 +74,7 @@ export class QuestionComponent implements OnInit {
      this.questionService.timer = setInterval(() => {
 this.questionService.seconds--;
      if (this.questionService.seconds === 0) {
-
+       this.submitQuestion();
      }
      }, 1000);  // the function will be called after a second
    }

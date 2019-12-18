@@ -121,6 +121,20 @@ login(model: any) {
 
         }
 
+
+
+
+        GetProgress() {
+          const tokenId = localStorage.getItem('userId');
+
+
+          return this.http.get(this.URL + 'user/' + tokenId);
+
+
+
+
+        }
+
 roleMatch(allowedRoles): boolean {
 let isMatch = false;
 

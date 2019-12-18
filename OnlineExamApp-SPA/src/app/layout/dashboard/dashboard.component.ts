@@ -64,6 +64,7 @@ export class DashboardComponent implements OnInit {
         this.authService.currentTrials.subscribe((trials) => {
 
             this.trials = trials;
+            localStorage.setItem('trials', trials);
 
           });
         this.status = 0;
