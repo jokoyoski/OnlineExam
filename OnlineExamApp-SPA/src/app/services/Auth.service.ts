@@ -124,11 +124,11 @@ login(model: any) {
 
 
 
-        GetProgress(categoryId: number) {
+        GetProgress(categoryId: any) {
           const tokenId = localStorage.getItem('userId');
+      console.log(categoryId);
 
-
-          return this.http.get(this.URL + 'user/' + tokenId + '/' + categoryId);
+          return this.http.get(this.URL + 'user/' + tokenId + '/' + categoryId.category);
 
 
 

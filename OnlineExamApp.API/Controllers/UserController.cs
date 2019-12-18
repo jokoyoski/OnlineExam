@@ -18,8 +18,8 @@ namespace OnlineExamApp.API.Controllers
         [HttpGet("{userId}/{categoryId}")]
         public async Task<IActionResult> GetUserScore(int userId, int categoryId)
         {
-            if (userId != int.Parse (User.FindFirst(ClaimTypes.NameIdentifier).Value))
-               return Unauthorized ();
+           // if (userId != int.Parse (User.FindFirst(ClaimTypes.NameIdentifier).Value))
+            //   return Unauthorized ();
 
             if(categoryId <= 0) throw new ArgumentNullException(nameof(categoryId));
 

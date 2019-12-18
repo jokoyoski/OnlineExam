@@ -19,17 +19,22 @@ export class ChartsComponent implements OnInit {
 
    loader = true;
     value: BarChart[];
+    chars: any[] = [];
     barDataChart: any;
     progress: Progress;
     response: any;
     categoryList: [] = [];
     progressParams: any = {};
+    isShowChart: any=false;
 
 
     submitCategory() {
 
         this.authService.GetProgress(this.progressParams).subscribe((data: any) => {
           this.barDataChart = data;
+          this.chars.push(data.userAverageScore);
+          this.chars.push(data.overallAverageScore);
+          console.log(this.chars);
         });
     }
 
@@ -44,7 +49,9 @@ export class ChartsComponent implements OnInit {
         setTimeout(() => {
 
             this.categoryList = JSON.parse(localStorage.getItem('categories'));
-      console.log(this.categoryList);
+
+            console.log(this.categoryList);
+
             this.loader = false;
         }, 3000);
 
