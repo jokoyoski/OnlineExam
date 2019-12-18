@@ -6,7 +6,7 @@ import { ProgressResolver } from 'src/app/resolver/progress-list.resolver';
 const routes: Routes = [
     {
         path: '',
-        component: ChartsComponent ,resolve: {progress: ProgressResolver}
+        component: ChartsComponent , resolve: {progress: ProgressResolver}
     }
 ];
 

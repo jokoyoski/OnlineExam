@@ -6,10 +6,17 @@ import { ChartsRoutingModule } from './charts-routing.module';
 import { ChartsComponent } from './charts.component';
 import { PageHeaderModule } from '../../shared';
 import { ProviderAst } from '@angular/compiler';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { BsDropdownModule } from 'ngx-bootstrap';
+
 import { ProgressResolver } from 'src/app/resolver/progress-list.resolver';
+import { FormsModule } from '@angular/forms';
+
 
 @NgModule({
-    imports: [CommonModule, Ng2Charts, ChartsRoutingModule, PageHeaderModule],
+    imports: [CommonModule, Ng2Charts, ChartsRoutingModule,
+        BsDropdownModule.forRoot(), PageHeaderModule, FormsModule],
     declarations: [ChartsComponent],
     providers: [ProgressResolver]
 })

@@ -16,7 +16,7 @@ barData: BarChart;
 
   pic: any = '../../assets/web/images/user.png';
 result: any;
-trials = new BehaviorSubject<string>("0");
+trials = new BehaviorSubject<string>('0');
 currentTrials = this.trials.asObservable();
   jwtHelper = new JwtHelperService();
 
@@ -59,7 +59,7 @@ login(model: any) {
               localStorage.setItem('givenName', this.decodedToken.given_name);
               localStorage.setItem('trials', this.decodedToken.primarysid);
                this.canUpdateTrials( localStorage.getItem('trials'));
-     
+
 
 
               this.decodedTokenName = this.decodedToken.unique_name;
@@ -124,11 +124,11 @@ login(model: any) {
 
 
 
-        GetProgress() {
+        GetProgress(categoryId: number) {
           const tokenId = localStorage.getItem('userId');
 
 
-          return this.http.get(this.URL + 'user/' + tokenId);
+          return this.http.get(this.URL + 'user/' + tokenId + '/' + categoryId);
 
 
 

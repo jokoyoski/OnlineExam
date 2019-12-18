@@ -4,26 +4,30 @@
                 <div *ngSwitchCase="loader === true" class="col-12" style="text-align: center;">
                         <img src="../../assets/img-loader.gif">
                     </div>
-                    <div *ngSwitchCase="loader === false" class="col-12" style="text-align: center;">
+                    <div *ngSwitchCase="loader === false" style="text-align: center;">
+                       <span class="alert alert-danger">
+                        Select a particular category from the drop down to see your performance
+           
+                       </span>          </div>
+                    <br/>
+                    <br/>
+                    <div *ngSwitchCase="loader === false" class="col-12 row mx-auto"  style="text-align: center;">
                         
    
-                            <div class="col-12">
-                                <div *ngFor="let item of progress">
-                                   <div>
-                                      {{item.categoryName}} {{item.percentageAverageScore}} %
-                                   </div>
-                                   <div class="progress">
-                                        <div class="progress-bar" role="progressbar" aria-valuenow="item.percentageAverageScore"
-                                        aria-valuemin="0" aria-valuemax="100" style="width:item.percentageAverageScore%">
-                                        {{item.percentageAverageScore}} %
-                                        </div>
-                                      </div>
-                                        
-                                </div>
+   
+<select class="form-control " [(ngModel)]="progressParams.category" style="width: 130px" id="gender" name="category">
+  <option *ngFor="let category of categoryList"[value]='category.categoryId'>
+{{category.categoryName}}
+  </option>
+</select>
+&nbsp; &nbsp;
+<button (click)="submitCategory()" class="btn btn-outline-success"> Submit</button>
+      
+
                                 
                                 </div>
                     
-                    </div>
+                    
             </ng-container>
     
            

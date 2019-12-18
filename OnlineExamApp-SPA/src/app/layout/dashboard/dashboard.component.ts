@@ -77,6 +77,7 @@ export class DashboardComponent implements OnInit {
             setTimeout(() => {
                 this.categories = data.categories;
                 console.log(this.categories);
+                localStorage.setItem('categories',JSON.stringify(this.categories));
                 this.loader = false;
             }, 3000);
 

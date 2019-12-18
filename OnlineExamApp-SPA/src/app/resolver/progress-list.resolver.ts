@@ -11,16 +11,16 @@ import { AuthService } from '../services/Auth.service';
 
 export class ProgressResolver implements Resolve<Progress> {
 
-    constructor(private authService: AuthService, private router: Router) {}
+    constructor(private questionService: QuestionService, private router: Router) {}
 
 resolve(route: ActivatedRouteSnapshot): Observable<Progress> {
 
-    return this.authService.getProgress().pipe(
+    return this.questionService.getCategories().pipe(
 
 
         catchError(error => {
 
-            this.router.navigate(['/members']);
+            this.router.navigate(['/dashboard']);
             return of(null);
         }
 
