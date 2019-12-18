@@ -57,19 +57,6 @@ namespace OnlineExamApp.API.Controllers
             return Unauthorized("You are not authorized");
         }
         [HttpPost("changepassword")]
-        public async Task<IActionResult> ChangePassword([FromBody]ChangePasswordDto changePasswordDto)
-        {
-            if (changePasswordDto == null) throw new ArgumentNullException(nameof(changePasswordDto));
-
-            var model = await this._accountService.ProcessChangePassword(changePasswordDto);
-
-            if (!string.IsNullOrEmpty(model))
-            {
-                return Ok("Successfully changed password.");
-            }
-
-            return BadRequest(model);
-        }
         [HttpGet("{userId}/{code}")]
         public async Task<IActionResult> ConfirmEmail(int userId, string code)
         {
@@ -85,6 +72,19 @@ namespace OnlineExamApp.API.Controllers
             }
 
             return Ok("Successfully confirmed email.");
+        }
+        public async Task<IActionResult> ChangePassword([FromBody]ChangePasswordDto changePasswordDto)
+        {
+            if (changePasswordDto == null) throw new ArgumentNullException(nameof(changePasswordDto));
+
+            var model = await this._accountService.ProcessChangePassword(changePasswordDto);
+
+            if (!string.IsNullOrEmpty(model))
+            {
+                return Ok("Successfully changed password.");
+            }
+
+            return BadRequest(model);
         }
         [HttpPost("{userId}/{numberOfTrials}")]
         public async Task<IActionResult> BuyTrial(int userId, int numberOfTrials)
