@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit {
 
            }
           
-        this.authService.login(this.model).subscribe(value => console.log(value),
+        this.authService.login(this.model).subscribe(value => value,
 
 
          (error) => {

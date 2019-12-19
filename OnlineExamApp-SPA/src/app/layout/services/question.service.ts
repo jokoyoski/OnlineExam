@@ -51,7 +51,7 @@ export class QuestionService {
 
     this.question.QuestionList = this.questions;
     this.question.Current = this.questions[0];
-    console.log(this.question.QuestionList);
+   
     return  this.question;
 
 

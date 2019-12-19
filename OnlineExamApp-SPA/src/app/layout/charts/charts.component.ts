@@ -18,30 +18,76 @@ export class ChartsComponent implements OnInit {
 
 
    loader = true;
-    value: BarChart[];
-    chars: any[] = [];
-    barDataChart: any;
+
     progress: Progress;
     response: any;
+    char: any = [];
     categoryList: [] = [];
     progressParams: any = {};
-    isShowChart: any=false;
+    isShowChart: any = false;
+    // bar chart
+    public barChartOptions: any = {
+      scaleShowVerticalLines: false,
+      responsive: true
+  };
+  public barChartType: string;
+  public barChartLegend: boolean;
+
+  barChartData: any[] = [
+
+
+];
+
+public randomize(): void {
+
+  const data = [
+      Math.round(Math.random() * 100),
+      59,
+      80,
+      Math.random() * 100,
+      56,
+      Math.random() * 100,
+      40
+  ];
+  const clone = JSON.parse(JSON.stringify(this.barChartData));
+  clone[0].data = data;
+  this.barChartData = clone;
+  /**
+   * (My guess), for Angular to recognize the change in the dataset
+   * it has to change the dataset variable directly,
+   * so one way around it, is to clone the data, change it and then
+   * assign it;
+   */
+}
 
 
     submitCategory() {
-
+     this.barChartData = [];
+     this.char = [];
         this.authService.GetProgress(this.progressParams).subscribe((data: any) => {
-          this.barDataChart = data;
-          this.chars.push(data.userAverageScore);
-          this.chars.push(data.overallAverageScore);
-          console.log(this.chars);
+          this.barChartData = data;
+          this.char.push(data.userAverageScore);
+          this.char.push(data.overallAverageScore);
+
+        this.barChartData = this.char;
+
+
         });
     }
 
 
+    // events
+    public chartClicked(e: any): void {
+
+  }
+
+  public chartHovered(e: any): void {
+
+  }
     ngOnInit() {
 
-
+      this.barChartType = 'bar';
+      this.barChartLegend = true;
 
 
        this.route.data.subscribe((data: any) => {
@@ -50,7 +96,6 @@ export class ChartsComponent implements OnInit {
 
             this.categoryList = JSON.parse(localStorage.getItem('categories'));
 
-            console.log(this.categoryList);
 
             this.loader = false;
         }, 3000);

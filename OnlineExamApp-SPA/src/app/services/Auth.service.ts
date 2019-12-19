@@ -52,7 +52,7 @@ login(model: any) {
 
               this.decodedToken = this.jwtHelper.decodeToken(this.result.token);  // decoding token
 
-                    console.log(this.decodedToken);
+                   
 
               localStorage.setItem('userId', this.decodedToken.nameid);
               localStorage.setItem('userName', this.decodedToken.unique_name);
@@ -108,8 +108,7 @@ login(model: any) {
 
         Submit(question: any) {
           const tokenId = localStorage.getItem('userId');
-          console.log(tokenId);
-          // const url = this.url + tokenId + '/submitTest';
+          
 
           return this.http.post('http://localhost:5000/api/question/' + tokenId + '/submitTest', question).pipe(
 
@@ -126,8 +125,7 @@ login(model: any) {
 
         GetProgress(categoryId: any) {
           const tokenId = localStorage.getItem('userId');
-      console.log(categoryId);
-
+      
           return this.http.get(this.URL + 'user/' + tokenId + '/' + categoryId.category);
 
 
