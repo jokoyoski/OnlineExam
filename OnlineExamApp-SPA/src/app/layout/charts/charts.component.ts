@@ -72,7 +72,7 @@ public randomize(): void {
 
         this.barChartData = this.char;
         this.isShowChart = true;
-       
+
 
         });
     }
