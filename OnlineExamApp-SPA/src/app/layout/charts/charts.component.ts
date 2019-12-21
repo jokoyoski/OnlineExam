@@ -65,12 +65,14 @@ public randomize(): void {
      this.barChartData = [];
      this.char = [];
         this.authService.GetProgress(this.progressParams).subscribe((data: any) => {
+          console.log(data);
           this.barChartData = data;
           this.char.push(data.userAverageScore);
           this.char.push(data.overallAverageScore);
 
         this.barChartData = this.char;
-
+        this.isShowChart = true;
+       
 
         });
     }
@@ -85,7 +87,7 @@ public randomize(): void {
 
   }
     ngOnInit() {
-
+    this.isShowChart = false;
       this.barChartType = 'bar';
       this.barChartLegend = true;
 
