@@ -26,9 +26,9 @@ export function TokenGetter() {
        tokenGetter: TokenGetter
     ,
 
-  whitelistedDomains: ['localhost:5000'],  // we just got the token from (Token Getter function above) and we  send request ,
+  whitelistedDomains: ['adeola-001-site1.ftempurl.com'],  // we just got the token from (Token Getter function above) and we  send request ,
   // it is automatically sending token
-  blacklistedRoutes: ['localhost:5000/api/account']  // we dont want
+  blacklistedRoutes: ['adeola-001-site1.ftempurl.com/api/account']  // we dont want
   // to send token to this address
  }
  })

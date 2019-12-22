@@ -22,7 +22,8 @@ currentTrials = this.trials.asObservable();
 
    Gender: any;
    value: BarChart[];
-   URL = 'http://localhost:5000/api/';
+  // URL = 'http://localhost:5000/api/';
+  prodUrl = 'http://adeola-001-site1.ftempurl.com/api/';
   httpClient: any;
 
 constructor(private http: HttpClient, ) { }
@@ -35,7 +36,7 @@ this.trials.next(trials);   // the behaviour subject has a next attr which signi
 
 login(model: any) {
 
-        return this.http.post(this.URL + 'account/login', model)
+        return this.http.post(this.prodUrl + 'account/login', model)
         .pipe(
 
           map((response: any) => {   // maping of the values
@@ -52,7 +53,7 @@ login(model: any) {
 
               this.decodedToken = this.jwtHelper.decodeToken(this.result.token);  // decoding token
 
-                   
+
 
               localStorage.setItem('userId', this.decodedToken.nameid);
               localStorage.setItem('userName', this.decodedToken.unique_name);
@@ -82,14 +83,14 @@ login(model: any) {
 
         register(model: any) {
 
-          return this.http.post(this.URL + 'account/register', model);
+          return this.http.post(this.prodUrl + 'account/register', model);
 
         }
 
         getProgress() {
 
           const tokenId = localStorage.getItem('userId');
-          return this.http.get(this.URL + 'user/' + tokenId);
+          return this.http.get(this.prodUrl + 'user/' + tokenId);
 
         }
 
@@ -108,7 +109,7 @@ login(model: any) {
 
         Submit(question: any) {
           const tokenId = localStorage.getItem('userId');
-          
+
 
           return this.http.post('http://localhost:5000/api/question/' + tokenId + '/submitTest', question).pipe(
 
@@ -125,8 +126,8 @@ login(model: any) {
 
         GetProgress(categoryId: any) {
           const tokenId = localStorage.getItem('userId');
-      
-          return this.http.get(this.URL + 'user/' + tokenId + '/' + categoryId.category);
+
+          return this.http.get(this.prodUrl + 'user/' + tokenId + '/' + categoryId.category);
 
 
 

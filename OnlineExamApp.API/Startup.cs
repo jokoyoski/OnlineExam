@@ -119,12 +119,15 @@ namespace OnlineExamApp.API
 
             app.UseRouting();
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());  //cors 
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
             app.UseAuthentication();  //for authentication middleware   
             app.UseAuthorization();
            // seeder.SeedQuestions();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapFallbackToController("Index","Fallback");
             });
         }
     }

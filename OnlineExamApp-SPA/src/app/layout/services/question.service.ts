@@ -24,7 +24,8 @@ export class QuestionService {
    result: any;
    categories: Category[];
    componentQuestion: any = {};
-   url = 'http://localhost:5000/api/question/';
+   //url = 'http://localhost:5000/api/question/';
+   prodUrl='http://adeola-001-site1.ftempurl.com/api/question';
    value: string;
   constructor(private cookie: CookieService, private httpClient: HttpClient) { }
 
@@ -61,13 +62,13 @@ export class QuestionService {
 
     
     const tokenId = localStorage.getItem('userId');
-  return  this.httpClient.get(this.url  + tokenId + '/' + categoryId);
+  return  this.httpClient.get(this.prodUrl  + tokenId + '/' + categoryId);
   }
 
 
   getCategories() {
 
-    return this.httpClient.get(this.url);
+    return this.httpClient.get(this.prodUrl);
 
   }
 
@@ -77,9 +78,9 @@ export class QuestionService {
 
 
           const tokenId = localStorage.getItem('userId');
-          const url = this.url + tokenId + '/submitTest';
+          const url = this.prodUrl + tokenId + '/submitTest';
 
-         return this.httpClient.post(this.url + tokenId + '/submitTest', question).pipe(
+         return this.httpClient.post(this.prodUrl + tokenId + '/submitTest', question).pipe(
 
             map((response: any) => {
             this.result = response;
