@@ -13,7 +13,6 @@ namespace OnlineExamApp.API.Controllers
     [Route("api/[controller]")]
     public class QuestionController : ControllerBase
     {
-
         private readonly IQuestionService questionService;
         public QuestionController(IQuestionService questionService)
         {
@@ -26,7 +25,6 @@ namespace OnlineExamApp.API.Controllers
 
             return Ok(model);
         }
-
         [HttpGet("{userId}/{categoryId}")]
         public async Task<IActionResult> GetQuestions(int userId, int categoryId)
         {   
@@ -41,7 +39,6 @@ namespace OnlineExamApp.API.Controllers
 
             return Ok(model);
         }
-
         [HttpPost("{userId}/submitTest")]
         public async Task<IActionResult> SubmitTest(int userId, List<AnweredQuestionDto> anweredQuestion )
         {

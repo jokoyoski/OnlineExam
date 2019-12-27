@@ -56,7 +56,6 @@ namespace OnlineExamApp.API.Controllers
 
             return Unauthorized("You are not authorized");
         }
-        [HttpPost("changepassword")]
         [HttpGet("{userId}/{code}")]
         public async Task<IActionResult> ConfirmEmail(int userId, string code)
         {
@@ -73,6 +72,7 @@ namespace OnlineExamApp.API.Controllers
 
             return Ok("Successfully confirmed email.");
         }
+        [HttpPost("changepassword")]
         public async Task<IActionResult> ChangePassword([FromBody]ChangePasswordDto changePasswordDto)
         {
             if (changePasswordDto == null) throw new ArgumentNullException(nameof(changePasswordDto));

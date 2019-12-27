@@ -29,7 +29,7 @@ namespace OnlineExamApp.API.Service
             //get all the user score for a specific category
             IEnumerable<IUserScore> usersScoreCollectionByUserIdAndCategoryId = await this._userScoreRepository.GetUserScoresByUserIdAndCategoryId(userId, categoryId);
 
-            if (usersScoreCollectionByUserIdAndCategoryId != null)
+            if (usersScoreCollectionByUserIdAndCategoryId != null && usersScoreCollectionByUserIdAndCategoryId.Count() > 0)
             {
                 //getting just the score value from the above list
                 decimal[] scoreUser = usersScoreCollectionByUserIdAndCategoryId.ToList().Select(p => p.Score).ToArray();
@@ -40,7 +40,7 @@ namespace OnlineExamApp.API.Service
             //get all the scores for a category
             IEnumerable<IUserScore> usersScoreCollectionByCategoryId = await this._userScoreRepository.GetUserScoresByCategoryId(categoryId);
 
-            if (usersScoreCollectionByCategoryId != null)
+            if (usersScoreCollectionByCategoryId != null && usersScoreCollectionByCategoryId.Count() > 0)
             {
                 //getting just the score value from the above list
                 decimal[] scoreOverall = usersScoreCollectionByCategoryId.ToList().Select(p => p.Score).ToArray();

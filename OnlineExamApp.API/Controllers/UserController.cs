@@ -32,6 +32,5 @@ namespace OnlineExamApp.API.Controllers
 
             return NoContent();
         }
-
     }
 }
