@@ -4,26 +4,42 @@
                 <div *ngSwitchCase="loader === true" class="col-12" style="text-align: center;">
                         <img src="../../assets/img-loader.gif">
                     </div>
-                    <div *ngSwitchCase="loader === false" class="col-12" style="text-align: center;">
+                    <div class="pt-2" *ngSwitchCase="loader === false" style="text-align: center;">
+                       <span class="alert alert-danger pt-2">
+                        <b>Performance Rating</b>
+           
+                       </span>          </div>
+                    <br/>
+                    <br/>
+                    <div *ngSwitchCase="loader === false" class="col-12  jumbotron"  style="text-align: center;">
                         
    
-                            <div class="col-12">
-                                <div *ngFor="let item of progress">
-                                   <div>
-                                      {{item.categoryName}} {{item.percentageAverageScore}} %
-                                   </div>
-                                   <div class="progress">
-                                        <div class="progress-bar" role="progressbar" aria-valuenow="item.percentageAverageScore"
-                                        aria-valuemin="0" aria-valuemax="100" style="width:item.percentageAverageScore%">
-                                        {{item.percentageAverageScore}} %
-                                        </div>
-                                      </div>
-                                        
-                                </div>
+   <div class="offset-5 row">
+<select class="form-control " [(ngModel)]="progressParams.category" style="width: 130px" id="gender" name="category">
+  <option *ngFor="let category of categoryList"[value]='category.categoryId'>
+{{category.categoryName}}
+  </option>
+</select>
+&nbsp; &nbsp;
+<button (click)="submitCategory()" class="btn btn-outline-success"> Submit</button>
+      
+
+   </div>
+
                                 
                                 </div>
+
+                                <div class="pt-2" *ngIf="isShowChart==true">
+                                  <div class="card-header">
+                                    Bar Chart
+                                </div>
+                                <div class="card-body">
+                                    <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">
+                                    </canvas>
+                                </div>
+                                </div>
                     
-                    </div>
+                    
             </ng-container>
     
            

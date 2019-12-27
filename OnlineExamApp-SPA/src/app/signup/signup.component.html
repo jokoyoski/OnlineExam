@@ -1,5 +1,5 @@
 
-
+<app-nav></app-nav>
 <div class="container-fluid">
         
           
@@ -31,14 +31,14 @@
                             </div>
                            
                     <div class="form-group">
-                        <input type="text" [ngClass]="{'is-invalid': registerForm.get('password').errors && registerForm.get('password').touched }"  formControlName="password" class="form-control input-underline input-lg" id="" placeholder="{{ 'Password' | translate }}">
+                        <input type="password" [ngClass]="{'is-invalid': registerForm.get('password').errors && registerForm.get('password').touched }"  formControlName="password" class="form-control input-underline input-lg" id="" placeholder="{{ 'Password' | translate }}">
                         <div class="invalid-feedback" *ngIf="{'is-invalid': registerForm.get('password').hasError('required') && registerForm.get('password').touched }">Please choose a Correct Password</div>
                         <div class="invalid-feedback" *ngIf="{'is-invalid': registerForm.get('password').hasError('minLength') && registerForm.get('password').touched }">Please choose a Minimum of 6 characters</div>
                      
                      
                     </div>
                     <div class="form-group">
-                            <input type="text" [ngClass]="{'is-invalid': registerForm.get('confirmPassword').errors && registerForm.get('confirmPassword').touched }"  formControlName="confirmPassword" class="form-control input-underline input-lg" id="" placeholder="{{ 'Confirm Password' | translate }}">
+                            <input type="password" [ngClass]="{'is-invalid': registerForm.get('confirmPassword').errors && registerForm.get('confirmPassword').touched }"  formControlName="confirmPassword" class="form-control input-underline input-lg" id="" placeholder="{{ 'Confirm Password' | translate }}">
                             <div class="invalid-feedback" *ngIf="registerForm.get('confirmPassword').hasError('required') && registerForm.get('confirmPassword').touched ">Please fill in the blanks</div>
                             <div class="invalid-feedback" *ngIf="registerForm.get('confirmPassword').hasError('mismatch') && registerForm.get('confirmPassword').touched ">Password must match</div>
                     

@@ -12,8 +12,8 @@ import { AuthService } from 'src/app/services/Auth.service';
 export class HeaderComponent implements OnInit {
     public pushRightClass: string;
      trials: string;
-    constructor(private translate: TranslateService, public router: Router,private alertifyService:AlertifyService,
-        private authService:AuthService) {
+    constructor(private translate: TranslateService, public router: Router, private alertifyService: AlertifyService,
+        private authService: AuthService) {
 
         this.router.events.subscribe(val => {
             if (
@@ -29,9 +29,9 @@ export class HeaderComponent implements OnInit {
     ngOnInit() {
 
         this.authService.currentTrials.subscribe((trials) => {
-    
+         console.log(trials);
             this.trials = trials;
-      
+
           });
         this.pushRightClass = 'push-right';
     }
