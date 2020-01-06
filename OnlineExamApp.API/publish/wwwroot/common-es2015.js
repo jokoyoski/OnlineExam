@@ -31,7 +31,7 @@ let QuestionService = class QuestionService {
         this.question = [];
         this.componentQuestion = {};
         //url = 'http://localhost:5000/api/question/';
-        this.prodUrl = 'http://adeola-001-site1.ftempurl.com/api/question';
+        this.prodUrl = 'http://adeola-001-site1.ftempurl.com/api/question/';
     }
     displayTimeElapsed() {
         return Math.floor(this.seconds / 3600) + ':' + Math.floor((this.seconds % 3600) / 60) + ':' + Math.floor(this.seconds % 60);
