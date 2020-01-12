@@ -1,0 +1,22 @@
+[
+    {
+        "questionId": "3",
+        "questions": "What is the capital of Oyo?",
+        "categoryId": "1",
+        "optionId": "7"
+            
+        
+    },
+    {
+        "questionId": "2",
+        "questions": "What is the capital of Ogun ?",
+        "categoryId": "1",
+        "optionId": "5"
+    },
+    {
+        "questionId": "1",
+        "questions": "What is the capital of lagos ?",
+        "categoryId": "1",
+        "optionId": "3"
+    }
+]

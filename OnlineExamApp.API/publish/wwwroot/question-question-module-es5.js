@@ -276,9 +276,9 @@ var QuestionModule = /** @class */ (function () {
                 _auth0_angular_jwt__WEBPACK_IMPORTED_MODULE_8__["JwtModule"].forRoot({
                     config: {
                         tokenGetter: TokenGetter,
-                        whitelistedDomains: ['adeola-001-site1.ftempurl.com'],
+                        whitelistedDomains: ['adeola-001-site1.atempurl.com'],
                         // it is automatically sending token
-                        blacklistedRoutes: ['adeola-001-site1.ftempurl.com/api/account'] // we dont want
+                        blacklistedRoutes: ['adeola-001-site1.atempurl.com/api/account'] // we dont want
                         // to send token to this address
                     }
                 })

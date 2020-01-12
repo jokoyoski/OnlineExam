@@ -24,8 +24,9 @@ export class QuestionService {
    result: any;
    categories: Category[];
    componentQuestion: any = {};
+   
    //url = 'http://localhost:5000/api/question/';
-   prodUrl='http://adeola-001-site1.ftempurl.com/api/question/';
+   prodUrl='http://adeola-001-site1.atempurl.com/api/question/';
    value: string;
   constructor(private cookie: CookieService, private httpClient: HttpClient) { }
 

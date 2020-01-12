@@ -23,7 +23,7 @@ currentTrials = this.trials.asObservable();
    Gender: any;
    value: BarChart[];
   // URL = 'http://localhost:5000/api/';
-  prodUrl = 'http://adeola-001-site1.ftempurl.com/api/';
+  prodUrl = 'http://adeola-001-site1.atempurl.com/api/';
   httpClient: any;
 
 constructor(private http: HttpClient, ) { }
@@ -111,7 +111,7 @@ login(model: any) {
           const tokenId = localStorage.getItem('userId');
 
 
-          return this.http.post('http://localhost:5000/api/question/' + tokenId + '/submitTest', question).pipe(
+          return this.http.post(this.prodUrl + 'question/' + tokenId + '/submitTest', question).pipe(
 
             map((response: any) => {
             this.result = response;
