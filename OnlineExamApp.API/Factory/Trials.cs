@@ -1,4 +1,0 @@
-namespace OnlineExamApp.API.Factory
-{
-    
-}

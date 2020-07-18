@@ -2,7 +2,7 @@ using OnlineExamApp.API.Dto;
 
 namespace OnlineExamApp.API.Factory
 {
-    public class ScoreDetails : IEmailTemplate
+    public class PurchaseDetails : IEmailTemplate
     {
         public EmailTemplateResponse Template()
         {

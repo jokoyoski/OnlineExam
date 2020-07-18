@@ -1,43 +1,57 @@
 
 using System;
 using System.Threading.Tasks;
+using OnlineExamApp.API.Factory;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 
 namespace OnlineExamApp.API.Service
 {
-    public static class EmailService
+    public class EmailService
     {
-        static async Task Execute(string fromEmail, string toEmail, Enum emailType)
+        
+        IEmailTemplate _template;
+        private const string FromEmail = "bomana.ogoni@gmail.com";
+        private const string FromName = "Bomanaziba Ogoni";
+        private readonly string _environment;
+        private readonly string _toEmail; 
+        private readonly string _toName;
+        
+        public EmailService(IEmailTemplate template, string toName, string toEmail, string environment)
         {
-            var apiKey = Environment.GetEnvironmentVariable("NAME_OF_THE_ENVIRONMENT_VARIABLE_FOR_YOUR_SENDGRID_KEY");
-            var client = new SendGridClient(apiKey);
-            var from = new EmailAddress(fromEmail);
-            var subject = string.Empty;
-            var to = new EmailAddress(toEmail);
+            _environment = environment;
+            _template = template;
+            _toName = toName;
+            _toEmail = toEmail;
+        }
 
-            //ToDo: Email Template from Factory
-            var plainTextContent = string.Empty;
-            var htmlContent = string.Empty;
+        public async Task Execute(Enum emailType)
+        {
+            var apiKey = Environment.GetEnvironmentVariable(_environment);
+            var client = new SendGridClient(apiKey);
+            var from = new EmailAddress(FromEmail, FromName);
+            var subject = string.Empty;
+            var to = new EmailAddress(_toEmail, _toName);
 
             switch(emailType)
             {
                 case EmailType.AccountVerification:
                     //TODO: Account Verification Template
+                    _template = new AccountVerification();
                     break;
                 case EmailType.ScoreDetail:
                     //TODO: ScoreDetails Template
+                    _template = new ScoreDetails();
                     break;
                 case EmailType.Purchase:
                     //TODO: Purchase Template
+                    _template = new PurchaseDetails();
                     break;
                 default:
                     break;
-
-                
             }
-            
-            var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+
+            var msg = MailHelper.CreateSingleEmail(from, to, _template.Template().Subject, _template.Template().PlainTextContent, _template.Template().HtmlContent);
             var response = await client.SendEmailAsync(msg);
         }
 
