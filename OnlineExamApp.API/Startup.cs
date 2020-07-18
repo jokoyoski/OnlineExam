@@ -123,11 +123,11 @@ namespace OnlineExamApp.API
             app.UseStaticFiles();
             app.UseAuthentication();  //for authentication middleware   
             app.UseAuthorization();
-           // seeder.SeedQuestions();
+            seeder.SeedQuestions();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapFallbackToController("Index","Fallback");
+                //endpoints.MapFallbackToController("Index","Fallback");
             });
         }
     }
