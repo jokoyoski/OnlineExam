@@ -14,16 +14,13 @@ namespace OnlineExamApp.API.Service
         IEmailTemplate _template;
         private const string FromEmail = "bomana.ogoni@gmail.com";
         private const string FromName = "Bomanaziba Ogoni";
-        private readonly string _environment;
-        private readonly string _toEmail; 
-        private readonly string _toName;
+        public string _environment { get; set; }
+        public string _toEmail { get; set; }
+        public string _toName { get; set; }
         
-        public EmailService(IEmailTemplate template, string toName, string toEmail, string environment)
+        public EmailService(IEmailTemplate template)
         {
-            _environment = environment;
             _template = template;
-            _toName = toName;
-            _toEmail = toEmail;
         }
 
         public async Task Execute(Enum emailType)

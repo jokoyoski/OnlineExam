@@ -17,6 +17,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Serialization;
 using OnlineExamApp.API.Dto;
+using OnlineExamApp.API.Factory;
 using OnlineExamApp.API.Helpers;
 using OnlineExamApp.API.Interfaces;
 using OnlineExamApp.API.Model;
@@ -62,6 +63,12 @@ namespace OnlineExamApp.API
             services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
             services.AddCors();
 
+            //Register Factory
+            services.AddScoped<IEmailTemplate, AccountVerificationEmail>();
+            services.AddScoped<IEmailTemplate, ChangePasswordEmail>();
+            services.AddScoped<IEmailTemplate, PurchaseDetailsEmail>();
+            services.AddScoped<IEmailTemplate, ScoreDetailsEmail>();
+            
             
             //Registered repository
             services.AddScoped<ICategoryRepository, CategoryRepository>();
@@ -74,6 +81,8 @@ namespace OnlineExamApp.API
             
             //Registered service
             services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<IPaymentService, PaymentService>();
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IQuestionService, QuestionService>();
             services.AddScoped<IUserService, UserService>();
