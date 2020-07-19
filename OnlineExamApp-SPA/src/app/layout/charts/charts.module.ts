@@ -8,7 +8,7 @@ import { PageHeaderModule } from '../../shared';
 import { ProviderAst } from '@angular/compiler';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { BsDropdownModule } from 'ngx-bootstrap';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
 import { ProgressResolver } from 'src/app/resolver/progress-list.resolver';
 import { FormsModule } from '@angular/forms';
