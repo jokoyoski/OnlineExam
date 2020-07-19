@@ -13,10 +13,12 @@ namespace OnlineExamApp.API.Controllers
     public class AccountController : ControllerBase
     {
         private readonly IAccountService _accountService;
+        
         public AccountController(IAccountService accountService)
         {
             this._accountService = accountService;
         }
+
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody]UserForRegisterDto userForRegisterDto)
         {
@@ -37,6 +39,7 @@ namespace OnlineExamApp.API.Controllers
             }
             return BadRequest(model);
         }
+
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody]UserForLoginDto userForLogInDto)
         {
@@ -56,15 +59,16 @@ namespace OnlineExamApp.API.Controllers
 
             return Unauthorized("You are not authorized");
         }
-        [HttpGet("{userId}/{code}")]
-        public async Task<IActionResult> ConfirmEmail(int userId, string code)
-        {
-            if (userId <= 0) throw new ArgumentNullException(nameof(userId));
 
-            if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+        [HttpGet("{email}/{code}")]
+        public async Task<IActionResult> ConfirmEmail(string email, string code)
+        {
+            if (string.IsNullOrEmpty(email)) throw new ArgumentNullException(nameof(email));
+
+            if (email != User.FindFirst(ClaimTypes.Email).Value)
                 return Unauthorized();
 
-            var model = await this._accountService.ProcessConfirmEmail(userId, code);
+            var model = await this._accountService.ProcessConfirmEmail(email, code);
             
             if(!string.IsNullOrEmpty(model)){
                 return BadRequest(model);
@@ -72,6 +76,7 @@ namespace OnlineExamApp.API.Controllers
 
             return Ok("Successfully confirmed email.");
         }
+
         [HttpPost("changepassword")]
         public async Task<IActionResult> ChangePassword([FromBody]ChangePasswordDto changePasswordDto)
         {
@@ -86,6 +91,7 @@ namespace OnlineExamApp.API.Controllers
 
             return BadRequest(model);
         }
+
         [HttpPost("{userId}/{numberOfTrials}")]
         public async Task<IActionResult> BuyTrial(int userId, int numberOfTrials)
         {

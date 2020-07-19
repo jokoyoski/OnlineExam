@@ -60,7 +60,6 @@ namespace OnlineExamApp.API.Service
         public async Task<string> SignUp(UserForRegisterDto userForRegisterDto)
         {
             string errorInfo = string.Empty;
-            string token = string.Empty;
 
             var userToCreate = _mapper.Map<User>(userForRegisterDto);
 
@@ -72,9 +71,13 @@ namespace OnlineExamApp.API.Service
             {
                 var userroles = this._userManager.AddToRolesAsync(userToCreate, new[] { "USER" });
 
+                var token = await this._userManager.GenerateEmailConfirmationTokenAsync(userToCreate);
 
                 _emailService._toEmail = userToCreate.Email;
                 _emailService._toName = userToCreate.LastName + " " + userToCreate.FirstName;
+
+                _emailService._token = token;
+                _emailService._email = userForRegisterDto.Email;
 
                 _emailService.Execute(EmailType.AccountVerification);
 
@@ -89,19 +92,19 @@ namespace OnlineExamApp.API.Service
 
         }
 
-        public async Task<string> ProcessConfirmEmail(int userId, string code)
+        public async Task<string> ProcessConfirmEmail(string email, string token)
         {
 
             string result = string.Empty;
 
-            if(userId <= 0) throw new ArgumentNullException(nameof(userId));
+            if(string.IsNullOrEmpty(email)) throw new ArgumentNullException(nameof(email));
             
-            if(string.IsNullOrEmpty(code)) throw new ArgumentNullException(nameof(code));
+            if(string.IsNullOrEmpty(token)) throw new ArgumentNullException(nameof(token));
 
 
-            var user = await this._userManager.FindByIdAsync(userId.ToString());
+            var user = await this._userManager.FindByEmailAsync(email);
 
-            var output = await this._userManager.ConfirmEmailAsync(user, code);
+            var output = await this._userManager.ConfirmEmailAsync(user, token);
 
             if(!output.Succeeded)
             {

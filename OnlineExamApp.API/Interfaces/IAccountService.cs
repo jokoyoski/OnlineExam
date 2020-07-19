@@ -7,7 +7,7 @@ namespace OnlineExamApp.API.Interfaces
     {
          Task<string> SignUp(UserForRegisterDto userForRegisterDto);
          Task<string> SignIn(UserForLoginDto userForLogInDto);
-         Task<string> ProcessConfirmEmail(int userId, string code);
+         Task<string> ProcessConfirmEmail(string email, string code);
          Task<string> ProcessChangePassword(IChangePasswordDto changePasswordDto);
          Task<string> GetTrials(int userId, int numberOfTrials);
     }

@@ -17,7 +17,9 @@ namespace OnlineExamApp.API.Service
         public string _environment { get; set; }
         public string _toEmail { get; set; }
         public string _toName { get; set; }
-        
+        public string _token { get; set; }
+        public string _email { get; set; }       
+
         public EmailService(IEmailTemplate template)
         {
             _template = template;
@@ -25,17 +27,17 @@ namespace OnlineExamApp.API.Service
 
         public async Task Execute(Enum emailType)
         {
-            var apiKey = Environment.GetEnvironmentVariable(_environment);
+            
+            var apiKey = "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";//Environment.GetEnvironmentVariable(_environment);
             var client = new SendGridClient(apiKey);
             var from = new EmailAddress(FromEmail, FromName);
-            var subject = string.Empty;
             var to = new EmailAddress(_toEmail, _toName);
 
             switch(emailType)
             {
                 case EmailType.AccountVerification:
                     //TODO: Account Verification Template
-                    _template = new AccountVerificationEmail();
+                    _template = new AccountVerificationEmail(_email, _token);
                     break;
                 case EmailType.ScoreDetail:
                     //TODO: ScoreDetails Template
