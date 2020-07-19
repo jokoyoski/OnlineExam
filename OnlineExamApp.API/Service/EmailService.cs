@@ -2,12 +2,13 @@
 using System;
 using System.Threading.Tasks;
 using OnlineExamApp.API.Factory;
+using OnlineExamApp.API.Interfaces;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 
 namespace OnlineExamApp.API.Service
 {
-    public class EmailService
+    public class EmailService : IEmailService
     {
         
         IEmailTemplate _template;
@@ -37,15 +38,19 @@ namespace OnlineExamApp.API.Service
             {
                 case EmailType.AccountVerification:
                     //TODO: Account Verification Template
-                    _template = new AccountVerification();
+                    _template = new AccountVerificationEmail();
                     break;
                 case EmailType.ScoreDetail:
                     //TODO: ScoreDetails Template
-                    _template = new ScoreDetails();
+                    _template = new ScoreDetailsEmail();
                     break;
                 case EmailType.Purchase:
                     //TODO: Purchase Template
-                    _template = new PurchaseDetails();
+                    _template = new PurchaseDetailsEmail();
+                    break;
+                case EmailType.ChangePassword:
+                    //TODO: Purchase Template
+                    _template = new ChangePasswordEmail();
                     break;
                 default:
                     break;
@@ -58,6 +63,7 @@ namespace OnlineExamApp.API.Service
         public enum EmailType
         {
             AccountVerification,
+            ChangePassword,
             ScoreDetail,
             Purchase
         }

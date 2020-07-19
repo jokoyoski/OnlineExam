@@ -2,8 +2,9 @@ using OnlineExamApp.API.Dto;
 
 namespace OnlineExamApp.API.Factory
 {
-    public class AccountVerification : IEmailTemplate
+    public class ScoreDetailsEmail : IEmailTemplate
     {
+        //TODO:
         public EmailTemplateResponse Template()
         {
             throw new System.NotImplementedException();

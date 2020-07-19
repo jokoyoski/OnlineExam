@@ -14,6 +14,7 @@ using OnlineExamApp.API.Interfaces;
 using OnlineExamApp.API.Model;
 using Microsoft.AspNetCore.Mvc;
 using OnlineExamApp.API.Dto;
+using static OnlineExamApp.API.Service.EmailService;
 
 namespace OnlineExamApp.API.Service
 {
@@ -23,15 +24,18 @@ namespace OnlineExamApp.API.Service
         private readonly SignInManager<User> _signInManager;
         private readonly IConfiguration _config;
         private readonly IMapper _mapper;
+        private readonly IEmailService _emailService;
+        
         public AccountService(UserManager<User> userManager, SignInManager<User> signInManager,
-            IConfiguration _config, IMapper mapper)
+            IConfiguration config, IMapper mapper, IEmailService emailService)
         {
-            this._mapper = mapper;
-            this._config = _config;
-            this._signInManager = signInManager;
-            this._userManager = userManager;
-
+            _mapper = mapper;
+            _config = config;
+            _signInManager = signInManager;
+            _userManager = userManager;
+            _emailService = emailService;
         }
+
         public async Task<string> SignIn(UserForLoginDto userForLogInDto)
         {
             if (userForLogInDto == null) throw new ArgumentNullException(nameof(userForLogInDto));
@@ -52,6 +56,7 @@ namespace OnlineExamApp.API.Service
 
             return string.Empty;
         }
+
         public async Task<string> SignUp(UserForRegisterDto userForRegisterDto)
         {
             string errorInfo = string.Empty;
@@ -67,6 +72,8 @@ namespace OnlineExamApp.API.Service
             {
                 var userroles = this._userManager.AddToRolesAsync(userToCreate, new[] { "USER" });
 
+                _emailService.Execute(EmailType.AccountVerification);
+
                 return "";
             }
 
@@ -77,6 +84,7 @@ namespace OnlineExamApp.API.Service
             return errorInfo;
 
         }
+
         public async Task<string> ProcessConfirmEmail(int userId, string code)
         {
 
@@ -98,6 +106,7 @@ namespace OnlineExamApp.API.Service
 
             return result;
         }
+
         public async Task<string> ProcessChangePassword(IChangePasswordDto changePasswordDto)
         {
 
@@ -117,6 +126,8 @@ namespace OnlineExamApp.API.Service
 
                 return result;
             }
+
+            _emailService.Execute(EmailType.ChangePassword);
 
             return result;
 
@@ -156,6 +167,7 @@ namespace OnlineExamApp.API.Service
 
             return tokenHandler.WriteToken(token);
         }
+        
         public async Task<string> GetTrials(int userId, int numberOfTrials)
         {
             string result = string.Empty;
@@ -170,6 +182,8 @@ namespace OnlineExamApp.API.Service
                 return "User Does not Exist";
             }
 
+            
+
             //TODO: Account for the number of trials bought by the users
             userInfo.Trials += numberOfTrials;
 
@@ -179,6 +193,8 @@ namespace OnlineExamApp.API.Service
             {
                 result = output.Errors.ToString();
             }
+
+            _emailService.Execute(EmailType.Purchase);
 
             return result;
         }
