@@ -34,14 +34,16 @@ export class LoginComponent implements OnInit {
             this.model = Object.assign({}, this.loginForm.value);
 
            }
-          
-        this.authService.login(this.model).subscribe(value => value,
+          // Below is the problem i rewrote the code like this felt it
+          // should work but its not. It's logging in i'm very sure its the routing,
+          // i've added the route value '/dashboard' yet its not working
 
-
-         (error) => {
+        this.authService.login(this.model).subscribe(next => {
+          this.alertifyService.success('logged in successfully');
+        }, error => {
            this.alertifyService.error(error);
         }, () => {
-          this.router.navigate(['']);
+          this.router.navigate(['/dashboard']);
         });
       }
 

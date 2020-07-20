@@ -23,7 +23,8 @@ currentTrials = this.trials.asObservable();
    Gender: any;
    value: BarChart[];
   // URL = 'http://localhost:5000/api/';
-  prodUrl = 'http://adeola-001-site1.atempurl.com/api/';
+  // prodUrl = 'http://adeola-001-site1.atempurl.com/api/';
+  prodUrl = 'http://localhost:5000/api/';
   httpClient: any;
 
 constructor(private http: HttpClient, ) { }

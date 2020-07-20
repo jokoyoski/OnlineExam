@@ -76,7 +76,7 @@ namespace OnlineExamApp.API.Service
                 _emailService._toEmail = userToCreate.Email;
                 _emailService._toName = userToCreate.LastName + " " + userToCreate.FirstName;
 
-                _emailService.Execute(EmailType.AccountVerification);
+                await _emailService.Execute(EmailType.AccountVerification);
 
                 return "";
             }
@@ -135,7 +135,7 @@ namespace OnlineExamApp.API.Service
             _emailService._toEmail = user.Email;
             _emailService._toName = user.LastName + " " + user.FirstName;
 
-            _emailService.Execute(EmailType.ChangePassword);
+            await _emailService.Execute(EmailType.ChangePassword);
 
             return result;
 
@@ -203,7 +203,7 @@ namespace OnlineExamApp.API.Service
             _emailService._toEmail = userInfo.Email;
             _emailService._toName = userInfo.LastName + " " + userInfo.FirstName;
 
-            _emailService.Execute(EmailType.Purchase);
+           await _emailService.Execute(EmailType.Purchase);
 
             return result;
         }
