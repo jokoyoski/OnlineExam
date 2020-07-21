@@ -76,7 +76,7 @@ namespace OnlineExamApp.API.Service
                 _emailService._toEmail = userToCreate.Email;
                 _emailService._toName = userToCreate.LastName + " " + userToCreate.FirstName;
 
-                await _emailService.Execute(EmailType.AccountVerification);
+               // await _emailService.Execute(EmailType.AccountVerification);
 
                 return "";
             }

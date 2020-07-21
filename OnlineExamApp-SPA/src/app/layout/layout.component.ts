@@ -10,17 +10,17 @@ export class LayoutComponent implements OnInit {
 
     collapedSideBar: boolean;
 
-    constructor(private authService:AuthService) {}
+    constructor(private authService: AuthService) {}
 
-   
+
     ngOnInit() {
-       
+
         this.authService.canUpdateTrials( localStorage.getItem('trials'));
     }
- 
+
     receiveCollapsed($event) {
         console.log($event);
         this.collapedSideBar = $event;
     }
-    
+
 }

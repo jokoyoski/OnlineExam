@@ -20,7 +20,7 @@ import { ResultComponent } from './result/result.component';
         NgbDropdownModule,
 
     ],
-    declarations: [LayoutComponent, SidebarComponent, HeaderComponent,RoleDirective, ResultComponent]
+    declarations: [LayoutComponent, SidebarComponent, HeaderComponent, RoleDirective, ResultComponent]
 
 })
 export class LayoutModule {}

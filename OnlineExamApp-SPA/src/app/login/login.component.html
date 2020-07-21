@@ -27,10 +27,13 @@
                                     </div> 
                     </div>
                     <div style="text-align: center;">
-                            <button [disabled]="!loginForm.valid" class="btn btn-primary my-2 my-sm-0" type="submit">Submit</button>
-             
+                        <button [disabled]="!loginForm.valid"  style="background: #FF473A" class="btn  my-2 my-sm-0" type="submit">Submit
+
+                            <i class="fa fa-spinner fa-spin" *ngIf="loading"></i>
+                        </button>
                     </div>
-                      
+
+                  
                    
                 </form>
             </div>

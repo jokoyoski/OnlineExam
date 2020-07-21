@@ -14,10 +14,12 @@ import { AlertifyService } from '../services/AlertifyService';
 export class LoginComponent implements OnInit {
     loginForm: FormGroup;
     model: any = {};
+    loading = false;
     constructor(public authService: AuthService,
         private alertifyService: AlertifyService, private router: Router) { }
 
     ngOnInit() {
+
         this.loginForm = new FormGroup({   // we created a new instance here
 
             username: new FormControl('', Validators.required),
@@ -34,16 +36,18 @@ export class LoginComponent implements OnInit {
             this.model = Object.assign({}, this.loginForm.value);
 
            }
-          // Below is the problem i rewrote the code like this felt it
-          // should work but its not. It's logging in i'm very sure its the routing,
-          // i've added the route value '/dashboard' yet its not working
-
+         
+          this.loading = true;
         this.authService.login(this.model).subscribe(next => {
           this.alertifyService.success('logged in successfully');
+          this.loading = false;
         }, error => {
            this.alertifyService.error(error);
+           this.loading = false;
         }, () => {
+
           this.router.navigate(['/dashboard']);
+
         });
       }
 

@@ -60,7 +60,7 @@ export class DashboardComponent implements OnInit {
     }
 
     ngOnInit() {
-
+        
         this.authService.currentTrials.subscribe((trials) => {
 
             this.trials = trials;
@@ -76,8 +76,9 @@ export class DashboardComponent implements OnInit {
             this.loader = true;
             setTimeout(() => {
                 this.categories = data.categories;
-             
-                localStorage.setItem('categories',JSON.stringify(this.categories));
+                console.log(this.categories);
+
+                localStorage.setItem('categories', JSON.stringify(this.categories));
                 this.loader = false;
             }, 3000);
 

@@ -13,33 +13,7 @@
             <i class="fas fa-info"></i>&nbsp;
             <span>{{ ' Current Progress' | translate }}</span>
         </a>
-        
-      
-      
-       
-        <div class="nested-menu">
-            <a class="list-group-item" (click)="addExpandClass('pages')">
-                <i class="fa fa-plus"></i>&nbsp;
-                <span>{{ 'Admin Section' | translate }}</span>
-            </a>
-            <li class="nested" [class.expand]="showMenu === 'pages'">
-                <ul class="submenu">
-                    <li>
-                        <a href="javascript:void(0)">
-                            <i class="fa fa-monument"></i>&nbsp;
-                            <span>{{ 'Add Question' | translate }}</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="javascript:void(0)">
-                            <i class="fa fa-monument"></i>&nbsp;
-                            <span>{{ 'View User and Assign Roles' | translate }}</span>
-                        </a>
-                    </li>
-                   
-                </ul>
-            </li>
-        </div>
+    
         <a style="cursor: pointer;" class="list-group-item" (click)="loggedOut()">
             <span><i class="fa fa-user"></i>&nbsp; Logout {{name}}</span>
         </a>

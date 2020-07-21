@@ -6,6 +6,7 @@ import { ResultComponent } from './result/result.component';
 const routes: Routes = [
     {
         path: '',
+        runGuardsAndResolvers:"always",
         component: LayoutComponent,
         children: [
             { path: '', redirectTo: 'dashboard', pathMatch: 'prefix' },
@@ -13,7 +14,7 @@ const routes: Routes = [
                 path: 'result', component: ResultComponent
             },
             { path: 'dashboard', loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule) },
-            { path: 'charts', loadChildren: () => import('./charts/charts.module').then(m => m.ChartsModule) },
+            { path: 'charts', loadChildren: () => import('./charts/charts.module').then(m => m.ChartsModule), data: {roles: ['ADfMIN']} },
             { path: 'tables', loadChildren: () => import('./tables/tables.module').then(m => m.TablesModule) },
             { path: 'forms', loadChildren: () => import('./form/form.module').then(m => m.FormModule) },
             { path: 'question', loadChildren: () => import('./question/question.module').then(m => m.QuestionModule) },

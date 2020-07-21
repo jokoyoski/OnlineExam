@@ -38,7 +38,7 @@ export class QuestionComponent implements OnInit {
   answered: any = {};
   showLoader = true;
   constructor(private cookie: CookieService,
-    private route: ActivatedRoute, private router: Router , private questionService: QuestionService,private authService:AuthService) {
+    private route: ActivatedRoute, private router: Router , private questionService: QuestionService, private authService: AuthService) {
 
 
    }
@@ -173,12 +173,10 @@ submitQuestion() {
 
     const joko = this.allQuestion[i].questionId;
 
-    // this.answerInfo.questionId = this.allQuestion[i].questionId;
-    // this.answerInfo.optionId = this.allQuestion[i].selectedAnswer;
+
     this.questionId = this.allQuestion[i].questionId;
     this.optionId = this.allQuestion[i].selectedAnswer;
     this.categoryId = this.allQuestion[i].categoryId;
-    // this.options.push(this.allQuestion[i].selectedAnswer);
 
     this.answered.questionId = this.questionId;
      this.answered.optionId = this.optionId;

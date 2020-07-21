@@ -33,8 +33,8 @@ import { NavComponent } from './nav/nav.component';
    declarations: [
       AppComponent,
       LoginComponent,
-      HomeComponent,
       SignupComponent,
+      HomeComponent,
       NavComponent
    ],
    providers: [

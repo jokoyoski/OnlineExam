@@ -24,9 +24,9 @@ export class QuestionService {
    result: any;
    categories: Category[];
    componentQuestion: any = {};
+
    
-   //url = 'http://localhost:5000/api/question/';
-   prodUrl='http://adeola-001-site1.atempurl.com/api/question/';
+   prodUrl='http://bomanaziba-001-site1.dtempurl.com/';
    value: string;
   constructor(private cookie: CookieService, private httpClient: HttpClient) { }
 
@@ -53,7 +53,7 @@ export class QuestionService {
 
     this.question.QuestionList = this.questions;
     this.question.Current = this.questions[0];
-   
+
     return  this.question;
 
 
@@ -61,7 +61,7 @@ export class QuestionService {
 
   GetQuestion(categoryId: number) {
 
-    
+
     const tokenId = localStorage.getItem('userId');
   return  this.httpClient.get(this.prodUrl  + tokenId + '/' + categoryId);
   }
