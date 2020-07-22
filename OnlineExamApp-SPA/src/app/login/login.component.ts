@@ -14,10 +14,12 @@ import { AlertifyService } from '../services/AlertifyService';
 export class LoginComponent implements OnInit {
     loginForm: FormGroup;
     model: any = {};
+    loading = false;
     constructor(public authService: AuthService,
         private alertifyService: AlertifyService, private router: Router) { }
 
     ngOnInit() {
+
         this.loginForm = new FormGroup({   // we created a new instance here
 
             username: new FormControl('', Validators.required),
@@ -34,14 +36,18 @@ export class LoginComponent implements OnInit {
             this.model = Object.assign({}, this.loginForm.value);
 
            }
-          
-        this.authService.login(this.model).subscribe(value => value,
-
-
-         (error) => {
+         
+          this.loading = true;
+        this.authService.login(this.model).subscribe(next => {
+          this.alertifyService.success('logged in successfully');
+          this.loading = false;
+        }, error => {
            this.alertifyService.error(error);
+           this.loading = false;
         }, () => {
-          this.router.navigate(['']);
+
+          this.router.navigate(['/dashboard']);
+
         });
       }
 

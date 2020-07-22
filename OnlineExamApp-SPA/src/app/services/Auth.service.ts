@@ -23,7 +23,8 @@ currentTrials = this.trials.asObservable();
    Gender: any;
    value: BarChart[];
   // URL = 'http://localhost:5000/api/';
-  prodUrl = 'http://adeola-001-site1.atempurl.com/api/';
+  // prodUrl = 'http://adeola-001-site1.atempurl.com/api/';
+  prodUrl = 'http://bomanaziba-001-site1.dtempurl.com/';
   httpClient: any;
 
 constructor(private http: HttpClient, ) { }
@@ -47,7 +48,7 @@ login(model: any) {
             if (this.result) {
 
               localStorage.setItem('token', this.result.token);
-
+ 
 
 
 
@@ -60,7 +61,7 @@ login(model: any) {
               localStorage.setItem('givenName', this.decodedToken.given_name);
               localStorage.setItem('trials', this.decodedToken.primarysid);
                this.canUpdateTrials( localStorage.getItem('trials'));
-
+ 
 
 
               this.decodedTokenName = this.decodedToken.unique_name;

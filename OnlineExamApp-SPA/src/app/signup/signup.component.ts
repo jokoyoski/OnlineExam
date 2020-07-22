@@ -15,6 +15,7 @@ import { LoaderService } from '../layout/services/loader.service';
 export class SignupComponent implements OnInit {
     registerForm: FormGroup;
     loader = false;
+    loading = false;
     constructor(private authService: AuthService, private alertifyService:
       AlertifyService, private router: Router) {
         this.loader = true;
@@ -47,20 +48,21 @@ export class SignupComponent implements OnInit {
        this.model = Object.assign({}, this.registerForm.value);
 
       }
-
+      this.loading = true;
       this.authService.register(this.model).subscribe((response: any) => {
 
       this.alertifyService.success(response.success);
-
+      this.loading = false;
      }, (error) => {
 
        this.alertifyService.error(error);
+       this.loading = false;
      }, () => {
        this.model.userName = this.model.email;
 
      this.authService.login(this.model).subscribe((response: any) => {
 
-       this.router.navigate(['']);   // redirect users to the memeber page when they login
+       this.router.navigate(['']);   // redirect users to the dashboard page when they login
      });
      } );
      }
