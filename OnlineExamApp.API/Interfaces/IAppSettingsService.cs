@@ -8,5 +8,8 @@ namespace OnlineExamApp.API.Interfaces
 
         Task<string> SendGridAPIKey { get; } 
         
+        Task<string> AdminEmail { get; }
+
+        Task<string> AdminName { get; }
     }
 }

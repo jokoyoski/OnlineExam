@@ -13,8 +13,8 @@ namespace OnlineExamApp.API.Service
         
         IEmailTemplate _template;
         private readonly IAppSettingsService _appSettings;
-        private const string FromEmail = "bomana.ogoni@gmail.com";
-        private const string FromName = "Bomanaziba Ogoni";
+        private string FromEmail;
+        private string FromName;
         public string _environment { get; set; }
         public string _toEmail { get; set; }
         public string _toName { get; set; }
@@ -30,6 +30,8 @@ namespace OnlineExamApp.API.Service
 
         public async Task<Response> Execute(Enum emailType)
         {
+            FromEmail = await _appSettings.AdminEmail;
+            FromName = await _appSettings.AdminName;
             
             var apiKey = await _appSettings.SendGridAPIKey;  
             var client = new SendGridClient(apiKey);

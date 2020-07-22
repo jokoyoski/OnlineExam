@@ -18,6 +18,10 @@ namespace OnlineExamApp.API.Service
         public Task<string> BaseUrl => SystemSettings("BaseUrl"); 
 
         public Task<string> SendGridAPIKey  => SystemSettings("SendGridAPIKey");
+
+        public Task<string> AdminEmail  => SystemSettings("AdminEmail");
+
+        public Task<string> AdminName  => SystemSettings("AdminName");
         
 
         public async Task<string>  SystemSettings(string key)
