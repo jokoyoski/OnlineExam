@@ -15,6 +15,7 @@ using OnlineExamApp.API.Model;
 using Microsoft.AspNetCore.Mvc;
 using OnlineExamApp.API.Dto;
 using static OnlineExamApp.API.Service.EmailService;
+using Mono.Web;
 
 namespace OnlineExamApp.API.Service
 {
@@ -79,7 +80,7 @@ namespace OnlineExamApp.API.Service
                 _emailService._token = token;
                 _emailService._email = userForRegisterDto.Email;
 
-                _emailService.Execute(EmailType.AccountVerification);
+                _ = await _emailService.Execute(EmailType.AccountVerification);
 
                 return "";
             }
@@ -97,6 +98,8 @@ namespace OnlineExamApp.API.Service
 
             string result = string.Empty;
 
+            //var code = HttpUtility.UrlDecode(token);
+
             if(string.IsNullOrEmpty(email)) throw new ArgumentNullException(nameof(email));
             
             if(string.IsNullOrEmpty(token)) throw new ArgumentNullException(nameof(token));
@@ -104,11 +107,16 @@ namespace OnlineExamApp.API.Service
 
             var user = await this._userManager.FindByEmailAsync(email);
 
+            if(user == null)
+            {
+                result = "User not found";
+            }
+
             var output = await this._userManager.ConfirmEmailAsync(user, token);
 
             if(!output.Succeeded)
             {
-                result = output.Errors.ToString();
+                result = output.Errors.FirstOrDefault().ToString();
             }
 
             return result;

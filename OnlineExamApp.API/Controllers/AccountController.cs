@@ -33,7 +33,7 @@ namespace OnlineExamApp.API.Controllers
 
                 return Ok(new
                 {
-                    success = "User Has been Registered Successfully",
+                    success = "User Has been Registered Successfully, verify your email.",
 
                 });
             }
@@ -60,15 +60,12 @@ namespace OnlineExamApp.API.Controllers
             return Unauthorized("You are not authorized");
         }
 
-        [HttpGet("{email}/{code}")]
-        public async Task<IActionResult> ConfirmEmail(string email, string code)
+        [HttpGet()]
+        public async Task<IActionResult> ConfirmEmail(string email, string token)
         {
             if (string.IsNullOrEmpty(email)) throw new ArgumentNullException(nameof(email));
 
-            if (email != User.FindFirst(ClaimTypes.Email).Value)
-                return Unauthorized();
-
-            var model = await this._accountService.ProcessConfirmEmail(email, code);
+            var model = await this._accountService.ProcessConfirmEmail(email, token);
             
             if(!string.IsNullOrEmpty(model)){
                 return BadRequest(model);
@@ -92,7 +89,7 @@ namespace OnlineExamApp.API.Controllers
             return BadRequest(model);
         }
 
-        [HttpPost("{userId}/{numberOfTrials}")]
+        [HttpPost("buy")]
         public async Task<IActionResult> BuyTrial(int userId, int numberOfTrials)
         {
             if (userId <= 0) throw new ArgumentNullException(nameof(userId));

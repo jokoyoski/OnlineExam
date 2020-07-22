@@ -42,7 +42,10 @@ namespace OnlineExamApp.API
             services.AddControllers();
 
             services.AddDbContext<DataContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")),
+                    ServiceLifetime.Transient);
+
+
 
             IdentityBuilder builder = services.AddIdentityCore<User>(opt =>
             {
@@ -53,7 +56,7 @@ namespace OnlineExamApp.API
             });
 
             builder = new IdentityBuilder(builder.UserType, typeof(Role), builder.Services);
-            builder.AddEntityFrameworkStores<DataContext>();
+            builder.AddEntityFrameworkStores<DataContext>().AddDefaultTokenProviders();
             builder.AddRoleValidator<RoleValidator<Role>>();
             builder.AddRoleManager<RoleManager<Role>>();
             builder.AddSignInManager<SignInManager<User>>();
@@ -71,6 +74,7 @@ namespace OnlineExamApp.API
             
             
             //Registered repository
+            services.AddScoped<ISystemSettings, SystemSettings>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IDigitalFileRepository, DigitalFileRepository>();
             services.AddScoped<IOptionRepository, OptionRepository>();
@@ -80,6 +84,8 @@ namespace OnlineExamApp.API
             services.AddScoped<IUserScoreRepository, UserScoreRepository>();
             
             //Registered service
+            services.AddScoped<IAppSettingsService, AppSettingsService>();
+            services.AddScoped<IAppSettingsService, AppSettingsService>();
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<IPaymentService, PaymentService>();

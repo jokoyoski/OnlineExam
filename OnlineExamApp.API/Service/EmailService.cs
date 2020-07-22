@@ -12,6 +12,7 @@ namespace OnlineExamApp.API.Service
     {
         
         IEmailTemplate _template;
+        private readonly IAppSettingsService _appSettings;
         private const string FromEmail = "bomana.ogoni@gmail.com";
         private const string FromName = "Bomanaziba Ogoni";
         public string _environment { get; set; }
@@ -20,24 +21,30 @@ namespace OnlineExamApp.API.Service
         public string _token { get; set; }
         public string _email { get; set; }       
 
-        public EmailService(IEmailTemplate template)
-        {
-            _template = template;
-        }
-
-        public async Task Execute(Enum emailType)
+        public EmailService(IEmailTemplate template, IAppSettingsService appSettings)
         {
             
-            var apiKey = "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";//Environment.GetEnvironmentVariable(_environment);
+            _template = template;
+            _appSettings = appSettings;
+        }
+
+        public async Task<Response> Execute(Enum emailType)
+        {
+            
+            var apiKey = await _appSettings.SendGridAPIKey;  
             var client = new SendGridClient(apiKey);
             var from = new EmailAddress(FromEmail, FromName);
             var to = new EmailAddress(_toEmail, _toName);
 
+
             switch(emailType)
             {
                 case EmailType.AccountVerification:
-                    //TODO: Account Verification Template
-                    _template = new AccountVerificationEmail(_email, _token);
+                    var accountVerification = new AccountVerificationEmail(_appSettings);
+                    accountVerification._email = _email;
+                    accountVerification._token = _token;
+                    _template = accountVerification;
+                    
                     break;
                 case EmailType.ScoreDetail:
                     //TODO: ScoreDetails Template
@@ -54,9 +61,12 @@ namespace OnlineExamApp.API.Service
                 default:
                     break;
             }
+            var item = await _template.Template();
 
-            var msg = MailHelper.CreateSingleEmail(from, to, _template.Template().Subject, _template.Template().PlainTextContent, _template.Template().HtmlContent);
+            var msg = MailHelper.CreateSingleEmail(from, to, item.Subject, item.PlainTextContent, item.HtmlContent);
             var response = await client.SendEmailAsync(msg);
+
+            return response;
         }
 
         public enum EmailType
