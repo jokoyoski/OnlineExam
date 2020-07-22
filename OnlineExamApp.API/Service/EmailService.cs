@@ -23,7 +23,6 @@ namespace OnlineExamApp.API.Service
 
         public EmailService(IEmailTemplate template, IAppSettingsService appSettings)
         {
-            
             _template = template;
             _appSettings = appSettings;
         }
@@ -32,7 +31,7 @@ namespace OnlineExamApp.API.Service
         {
             FromEmail = await _appSettings.AdminEmail;
             FromName = await _appSettings.AdminName;
-            
+
             var apiKey = await _appSettings.SendGridAPIKey;  
             var client = new SendGridClient(apiKey);
             var from = new EmailAddress(FromEmail, FromName);
