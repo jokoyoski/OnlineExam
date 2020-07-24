@@ -98,8 +98,6 @@ namespace OnlineExamApp.API.Service
 
             string result = string.Empty;
 
-            //var code = HttpUtility.UrlDecode(token);
-
             if(string.IsNullOrEmpty(email)) throw new ArgumentNullException(nameof(email));
             
             if(string.IsNullOrEmpty(token)) throw new ArgumentNullException(nameof(token));
@@ -122,35 +120,73 @@ namespace OnlineExamApp.API.Service
             return result;
         }
 
-        public async Task<string> ProcessChangePassword(IChangePasswordDto changePasswordDto)
+        public async Task<string> ProcessChangePassword(string email)
         {
 
             string result = string.Empty;
 
-            var us = _userManager.FindByIdAsync(ClaimTypes.NameIdentifier);
+            if (email == null) throw new ArgumentNullException(nameof(email));
 
-            if (changePasswordDto == null) throw new ArgumentNullException(nameof(changePasswordDto));
+            var user = await this._userManager.FindByEmailAsync(email);
 
-            var user = await this._userManager.FindByIdAsync(changePasswordDto.UserId.ToString());
-
-            var identity = await this._userManager.ChangePasswordAsync(user, changePasswordDto.NewPassword, changePasswordDto.NewPassword);
-
-            if (!identity.Succeeded)
+            if(user == null)
             {
-                result = identity.Errors.ToString();
-
+                result = "User not found";
                 return result;
             }
 
-
             _emailService._toEmail = user.Email;
             _emailService._toName = user.LastName + " " + user.FirstName;
+
+            var token = await this._userManager.GeneratePasswordResetTokenAsync(user);
+
+            _emailService._token = token;
 
             await _emailService.Execute(EmailType.ChangePassword);
 
             return result;
 
         }
+
+        public async Task<string> ProcessConfirmChangePassword(IChangePasswordDto changePassword)
+        {
+
+            string result = string.Empty;
+            
+            
+            if(changePassword == null) throw new ArgumentNullException(nameof(changePassword));
+
+            if(string.IsNullOrEmpty(changePassword.Email)) throw new ArgumentNullException(nameof(changePassword.Email));
+
+            if(string.IsNullOrEmpty(changePassword.Token)) throw new ArgumentNullException(nameof(changePassword.Token));
+
+            if(string.IsNullOrEmpty(changePassword.NewPassword)) throw new ArgumentNullException(nameof(changePassword.NewPassword));
+
+            var user = await this._userManager.FindByEmailAsync(changePassword.Email);
+
+            if(user == null)
+            {
+                result = "User not found";
+            }
+
+            try
+            {
+
+                var identity = await this._userManager.ResetPasswordAsync(user, changePassword.Token, changePassword.NewPassword);
+
+                if (!identity.Succeeded)
+                {
+                    result = "Unable to reset password";
+                }
+            }
+            catch(Exception e)
+            {
+                result = $"{e.Message}";
+            }
+
+            return result;
+        }
+
         private async Task<string> GenerateJwtToken(User user)
         {
             var claims = new List<Claim>
@@ -213,6 +249,7 @@ namespace OnlineExamApp.API.Service
 
             _emailService._toEmail = userInfo.Email;
             _emailService._toName = userInfo.LastName + " " + userInfo.FirstName;
+            _emailService._coin = numberOfTrials;
 
            await _emailService.Execute(EmailType.Purchase);
 

@@ -6,9 +6,11 @@ using OnlineExamApp.API.Interfaces;
 using System.Security.Claims;
 using Newtonsoft.Json;
 using OnlineExamApp.API.Dto;
+using Microsoft.AspNetCore.Authorization;
 
 namespace OnlineExamApp.API.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class QuestionController : ControllerBase

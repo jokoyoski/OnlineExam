@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Text.Json;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 using Microsoft.AspNetCore.Identity;
+using static OnlineExamApp.API.Service.EmailService;
 
 namespace OnlineExamApp.API.Service
 {
@@ -23,14 +24,16 @@ namespace OnlineExamApp.API.Service
         private readonly ICategoryRepository _categoryRepository;
         private readonly IDigitalFileRepository _digitalFileRepository;
         private readonly IScoreRepository _scoreRepository;
+        private readonly IEmailService _emailService;
         private readonly UserManager<User> _userManager;
         public QuestionService(IQuestionRepository questionRepository, UserManager<User> userManager,
         IOptionRepository optionRepository, IMapper mapper, IUserScoreRepository userScoreRepository,
         ICategoryRepository categoryRepository, IDigitalFileRepository digitalFileRepository,
-        IScoreRepository scoreRepository)
+        IScoreRepository scoreRepository, IEmailService emailService)
         {
             this._digitalFileRepository = digitalFileRepository;
             this._scoreRepository = scoreRepository;
+            this._emailService = emailService;
             this._categoryRepository = categoryRepository;
             this._userScoreRepository = userScoreRepository;
             this._mapper = mapper;
@@ -59,6 +62,10 @@ namespace OnlineExamApp.API.Service
 
             if (categoryId <= 0) throw new ArgumentNullException(nameof(categoryId));
 
+
+            var userInfo = await this._userManager.FindByIdAsync(userId.ToString());
+
+
             var questionList = await this._questionRepository.GetQuestionsByCaregoryId(categoryId);
 
             var category = await this._categoryRepository.GetCateogoryByCategoryId(categoryId);
@@ -67,7 +74,10 @@ namespace OnlineExamApp.API.Service
 
             Random rand = new Random();
 
-            int n = questionCollection.Count;
+            int n = 0;
+
+            if(userInfo.Trials > 0) n = questionCollection.Count;
+
             while (n > 1)
             {
                 n--;
@@ -80,8 +90,6 @@ namespace OnlineExamApp.API.Service
             var displayModel = new QuestionsForDisplayDto();
 
             var randomSpecificList = new List<IQuestionForDisplay>();
-            var userInfo = await this._userManager.FindByIdAsync(userId.ToString());
-
             if (category != null && category.NumberofQueston > 0 && category.NumberofQueston <= questionCollection.Count)
             {
                 randomSpecificList = questionCollection.GetRange(0, category.NumberofQueston);
@@ -124,6 +132,7 @@ namespace OnlineExamApp.API.Service
 
             return displayModel;
         }
+        
         public async Task<IProcessAnswerReturnDto> ProcessAnweredQuestions(int userId, List<AnweredQuestionDto> anweredQuestion)
         {
 
@@ -219,6 +228,11 @@ namespace OnlineExamApp.API.Service
             var userInfo = await this._userManager.FindByIdAsync(userId.ToString());
 
             result.Trials = userInfo.Trials;
+
+            _emailService._toEmail = userInfo.Email;
+            _emailService._toName = userInfo.LastName + " " + userInfo.FirstName;
+
+            _ = await _emailService.Execute(EmailType.ScoreDetail);
 
             return result;
         }

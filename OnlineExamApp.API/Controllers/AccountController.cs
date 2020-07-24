@@ -5,6 +5,7 @@ using OnlineExamApp.API.Dto;
 using System;
 using OnlineExamApp.API.Interfaces;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace OnlineExamApp.API.Controllers
 {
@@ -60,7 +61,7 @@ namespace OnlineExamApp.API.Controllers
             return Unauthorized("You are not authorized");
         }
 
-        [HttpGet()]
+        [HttpGet("confirmemail")]
         public async Task<IActionResult> ConfirmEmail(string email, string token)
         {
             if (string.IsNullOrEmpty(email)) throw new ArgumentNullException(nameof(email));
@@ -73,22 +74,38 @@ namespace OnlineExamApp.API.Controllers
 
             return Ok("Successfully confirmed email.");
         }
-
+        
         [HttpPost("changepassword")]
-        public async Task<IActionResult> ChangePassword([FromBody]ChangePasswordDto changePasswordDto)
+        public async Task<IActionResult> ChangePassword([FromBody]string email)
         {
-            if (changePasswordDto == null) throw new ArgumentNullException(nameof(changePasswordDto));
+            if (email == null) throw new ArgumentNullException(nameof(email));
 
-            var model = await this._accountService.ProcessChangePassword(changePasswordDto);
+            var model = await this._accountService.ProcessChangePassword(email);
 
             if (!string.IsNullOrEmpty(model))
             {
-                return Ok("Successfully changed password.");
+                return Ok("Check your email, a link is sent to change your password");
             }
 
             return BadRequest(model);
         }
 
+        [HttpPost("confirmchange")]
+        public async Task<IActionResult> ConfirmChange([FromBody]ChangePasswordDto changePassword)
+        {
+            if (changePassword == null) throw new ArgumentNullException(nameof(changePassword));
+
+            var model = await this._accountService.ProcessConfirmChangePassword(changePassword);
+            
+            if(!string.IsNullOrEmpty(model))
+            {
+                return BadRequest(model);
+            }
+
+            return Ok("Successfully confirmed email.");
+        }
+
+        [Authorize]
         [HttpPost("buy")]
         public async Task<IActionResult> BuyTrial(int userId, int numberOfTrials)
         {
@@ -106,7 +123,7 @@ namespace OnlineExamApp.API.Controllers
                 return NotFound(model);
             }
 
-            return Ok(model);
+            return Ok(model + "You have successful buy " + numberOfTrials);
         }
     }
 }

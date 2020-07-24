@@ -2,8 +2,8 @@ namespace OnlineExamApp.API.Interfaces
 {
     public interface IChangePasswordDto
     {
-        int UserId { get; set; }
-        string OldPassword { get; set; }
+        string Email { get; set; }
+        string Token { get; set; }
         string NewPassword { get; set; }
     }
 }

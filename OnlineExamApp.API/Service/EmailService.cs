@@ -1,6 +1,7 @@
 
 using System;
 using System.Threading.Tasks;
+using Mono.Web;
 using OnlineExamApp.API.Factory;
 using OnlineExamApp.API.Interfaces;
 using SendGrid;
@@ -19,7 +20,9 @@ namespace OnlineExamApp.API.Service
         public string _toEmail { get; set; }
         public string _toName { get; set; }
         public string _token { get; set; }
-        public string _email { get; set; }       
+        public string _email { get; set; }   
+        public int _coin { get; set; }    
+        public int _score { get; set; }
 
         public EmailService(IEmailTemplate template, IAppSettingsService appSettings)
         {
@@ -36,6 +39,8 @@ namespace OnlineExamApp.API.Service
             var client = new SendGridClient(apiKey);
             var from = new EmailAddress(FromEmail, FromName);
             var to = new EmailAddress(_toEmail, _toName);
+            
+            _token = HttpUtility.UrlEncode(_token);
 
 
             switch(emailType)
@@ -48,16 +53,20 @@ namespace OnlineExamApp.API.Service
                     
                     break;
                 case EmailType.ScoreDetail:
-                    //TODO: ScoreDetails Template
-                    _template = new ScoreDetailsEmail();
+                    var scoreDetails = new ScoreDetailsEmail();
+                    scoreDetails._score = _score;
+                    _template = scoreDetails;
                     break;
                 case EmailType.Purchase:
-                    //TODO: Purchase Template
-                    _template = new PurchaseDetailsEmail();
+                    var purchaseDetails= new PurchaseDetailsEmail();
+                    purchaseDetails._coin = _coin;
+                    _template = purchaseDetails;
                     break;
                 case EmailType.ChangePassword:
-                    //TODO: Purchase Template
-                    _template = new ChangePasswordEmail();
+                    var changePasswordEmail = new ChangePasswordEmail(_appSettings);
+                    changePasswordEmail._email = _email;
+                    changePasswordEmail._token = _token;
+                    _template = changePasswordEmail;
                     break;
                 default:
                     break;

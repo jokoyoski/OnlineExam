@@ -18,6 +18,7 @@ namespace OnlineExamApp.API.Repository
             this._mapper = mapper;
             this._dataContext = dataContext;
         }
+        
         public async Task<IEnumerable<IUserScore>> GetUserScoresByUserId(int userId)
         {
             try{
@@ -33,6 +34,7 @@ namespace OnlineExamApp.API.Repository
                 throw new ArgumentNullException("GetUserScoresByUserId in UserScoreRepository", e);
             }
         }
+
         public async Task<IEnumerable<IUserScore>> GetUserScoresByUserIdAndCategoryId(int userId, int categoryId)
         {
             try{
@@ -48,6 +50,7 @@ namespace OnlineExamApp.API.Repository
                 throw new ArgumentNullException("GetUserScoresByUserIdAndCategoryId in UserScoreRepository", e);
             }
         }
+
         public async Task<IEnumerable<IUserScore>> GetUserScoresByCategoryId(int categoryId)
         {
             try{
@@ -63,6 +66,7 @@ namespace OnlineExamApp.API.Repository
                 throw new ArgumentNullException("GetUserScoresByCategoryId in UserScoreRepository", e);
             }
         }
+
         public async Task<string> SaveUserScore(IUserScore userScore)
         {
 

@@ -1,11 +1,13 @@
 using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OnlineExamApp.API.Interfaces;
 
 namespace OnlineExamApp.API.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class UserController : ControllerBase
@@ -15,6 +17,7 @@ namespace OnlineExamApp.API.Controllers
         {
             this._userService = userService;
         }
+
         [HttpGet("{userId}/{categoryId}")]
         public async Task<IActionResult> GetUserScore(int userId, int categoryId)
         {
@@ -32,5 +35,8 @@ namespace OnlineExamApp.API.Controllers
 
             return NoContent();
         }
+    
+        
+    
     }
 }

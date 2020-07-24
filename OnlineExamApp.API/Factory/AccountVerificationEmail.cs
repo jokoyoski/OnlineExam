@@ -21,9 +21,7 @@ namespace OnlineExamApp.API.Factory
         {
             var template = new EmailTemplateResponse();
 
-            _token = HttpUtility.UrlEncode(_token);
-
-            var confirmationURL = $"{await _appSettingsService.BaseUrl}/api/account?email={_email}&token={_token}";
+            var confirmationURL = $"{await _appSettingsService.BaseUrl}/api/account/confirmemail?email={_email}&token={_token}";
 
             template.Subject = "Activate Account";
 

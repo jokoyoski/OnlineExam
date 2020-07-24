@@ -5,10 +5,19 @@ namespace OnlineExamApp.API.Factory
 {
     public class ScoreDetailsEmail : IEmailTemplate
     {
-        //TODO:
+        public int _score { get; set; }
+        
         public async Task<EmailTemplateResponse> Template()
         {
-            throw new System.NotImplementedException();
+            var template = new EmailTemplateResponse();
+
+            template.Subject = "TISA Score";
+
+            template.PlainTextContent = $"Your {_score}";
+
+            template.HtmlContent = $"<p>Your {_score}<p>";
+
+            return template;
         }
     }
 }
