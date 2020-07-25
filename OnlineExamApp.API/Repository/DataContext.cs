@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using OnlineExamApp.API.Model;
 
 namespace OnlineExamApp.API.Repository
@@ -9,7 +10,11 @@ namespace OnlineExamApp.API.Repository
         IdentityUserClaim<int>, UserRole, IdentityUserLogin<int>,
         IdentityRoleClaim<int>, IdentityUserToken<int>>
     {
-        public DataContext (DbContextOptions<DataContext> option) : base (option) { }
+
+        public DataContext (DbContextOptions<DataContext> option) : base (option) 
+        {
+            
+        }
     
         public DbSet<Question> Questions { get; set; }
         public DbSet<Option> Options { get; set; }

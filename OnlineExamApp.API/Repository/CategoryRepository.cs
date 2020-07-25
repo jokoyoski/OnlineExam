@@ -12,9 +12,12 @@ namespace OnlineExamApp.API.Repository
     public class CategoryRepository : ICategoryRepository
     {
         private readonly DataContext _dbContext;
-        public CategoryRepository(DataContext dbContext)
+        private readonly ICacheService _cacheService;
+
+        public CategoryRepository(DataContext dbContext, ICacheService cacheService)
         {
             this._dbContext = dbContext;
+            this._cacheService = cacheService;
         }
         public async Task<ICategory> GetCateogoryByCategoryId(int categoryId)
         {
@@ -49,8 +52,7 @@ namespace OnlineExamApp.API.Repository
             try
             {
                 var result = await this._dbContext.Categories
-                .OrderByDescending(p => p.CategoryId).ToListAsync();
-
+                    .OrderByDescending(p => p.CategoryId).ToListAsync();
                 return result;
             }
             catch (Exception e)

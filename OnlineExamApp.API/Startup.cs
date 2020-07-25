@@ -82,6 +82,7 @@ namespace OnlineExamApp.API
             services.AddScoped<IScoreRepository, ScoreRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserScoreRepository, UserScoreRepository>();
+            services.AddScoped(typeof(ICoreRepository<,>), typeof(CoreRepository<,>));
             
             //Registered service
             services.AddScoped<IAppSettingsService, AppSettingsService>();
@@ -92,6 +93,7 @@ namespace OnlineExamApp.API
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IQuestionService, QuestionService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ICacheService, CacheService>();
 
             services.AddMvc().AddNewtonsoftJson(options =>
                 options.SerializerSettings.ContractResolver =

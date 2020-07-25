@@ -25,15 +25,17 @@ namespace OnlineExamApp.API.Service
         private readonly IDigitalFileRepository _digitalFileRepository;
         private readonly IScoreRepository _scoreRepository;
         private readonly IEmailService _emailService;
+        private readonly ICacheService _cacheService;
         private readonly UserManager<User> _userManager;
         public QuestionService(IQuestionRepository questionRepository, UserManager<User> userManager,
         IOptionRepository optionRepository, IMapper mapper, IUserScoreRepository userScoreRepository,
         ICategoryRepository categoryRepository, IDigitalFileRepository digitalFileRepository,
-        IScoreRepository scoreRepository, IEmailService emailService)
+        IScoreRepository scoreRepository, IEmailService emailService, ICacheService cacheService)
         {
             this._digitalFileRepository = digitalFileRepository;
             this._scoreRepository = scoreRepository;
             this._emailService = emailService;
+            this._cacheService = cacheService;
             this._categoryRepository = categoryRepository;
             this._userScoreRepository = userScoreRepository;
             this._mapper = mapper;
@@ -43,7 +45,13 @@ namespace OnlineExamApp.API.Service
         }
         public async Task<IEnumerable<ICategoryForDisplayDto>> GetCategories()
         {
-            var categoryCollection = await this._categoryRepository.GetCateogory();
+            var categoryCollection = _cacheService.Get<IEnumerable<ICategory>>("::category::");
+
+            if(categoryCollection == null) 
+            {
+                categoryCollection = await this._categoryRepository.GetCateogory();
+                _cacheService.Add<IEnumerable<ICategory>>("::category::", categoryCollection);
+            }
 
             var categoryForDisplayDto = _mapper.Map<IEnumerable<ICategoryForDisplayDto>>(categoryCollection).ToList();
 
@@ -55,6 +63,7 @@ namespace OnlineExamApp.API.Service
 
             return categoryForDisplayDto;
         }
+        
         public async Task<IQuestionsForDisplayDto> GetQuestionListForDislay(int userId, int categoryId)
         {
 

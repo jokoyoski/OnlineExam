@@ -9,10 +9,12 @@ namespace OnlineExamApp.API.Service
     public class AppSettingsService : IAppSettingsService
     {
         private readonly ISystemSettings _systemSettings;
+        private readonly ICacheService _cacheService;
 
-        public AppSettingsService(ISystemSettings systemSettings)
+        public AppSettingsService(ISystemSettings systemSettings, ICacheService cacheService)
         {
             _systemSettings = systemSettings;
+            _cacheService = cacheService;
         }
 
         public Task<string> BaseUrl => SystemSettings("BaseUrl"); 
@@ -26,11 +28,20 @@ namespace OnlineExamApp.API.Service
 
         public async Task<string>  SystemSettings(string key)
         {
-            var settings = await _systemSettings.GetSetting();
+             var value = _cacheService.Get<string>($"::{key}::");
 
-            var setting = settings.Where(p=>p.Key.Equals(key)).SingleOrDefault();
+            if(value == null)
+            {
+                var  settings = await _systemSettings.GetSetting();
 
-            return setting.Value;    
+                var setting = settings.Where(p=>p.Key.Equals(key)).SingleOrDefault();
+
+                value = setting.Value;
+                
+                 _cacheService.Add<string>($"::{key}::", value);
+            }
+
+            return value;    
         } 
     }
 }

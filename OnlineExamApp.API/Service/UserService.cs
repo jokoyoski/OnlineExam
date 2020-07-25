@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using OnlineExamApp.API.Dto;
 using OnlineExamApp.API.Interfaces;
+using OnlineExamApp.API.Model;
 
 namespace OnlineExamApp.API.Service
 {
@@ -11,9 +12,12 @@ namespace OnlineExamApp.API.Service
     {
         private readonly IUserScoreRepository _userScoreRepository;
         private readonly ICategoryRepository _categoryRepository;
-        public UserService(IUserScoreRepository userScoreRepository, ICategoryRepository categoryRepository)
+        private readonly IUserRepository _userRepository;
+
+        public UserService(IUserScoreRepository userScoreRepository, ICategoryRepository categoryRepository, IUserRepository userRepository)
         {
             this._categoryRepository = categoryRepository;
+            this._userRepository = userRepository;
             this._userScoreRepository = userScoreRepository;
         }
         public async Task<IPerformanceDisplayDto> GetUserPerformanceByCatetgory(int userId, int categoryId)
@@ -66,6 +70,14 @@ namespace OnlineExamApp.API.Service
             performanceDisplayDto.OverallAverageScore.Data[0] = Math.Round(averageScoreOverall, 1);
 
             return performanceDisplayDto;
+        }
+
+
+        public async Task<User> GetUserById(int id)
+        {   
+            if(id <= 0) throw new ArgumentNullException(nameof(id));
+
+            return await _userRepository.GetUserById(id);
         }
     }
 
