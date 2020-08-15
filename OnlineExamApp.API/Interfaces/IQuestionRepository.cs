@@ -9,6 +9,9 @@ namespace OnlineExamApp.API.Interfaces
    public  interface IQuestionRepository
     {
         Task<IEnumerable<IQuestion>> GetQuestionsByCaregoryId(int categoryId);
-        Task<string> SaveQuestion(IFormFile formFile);
+        Task<IQuestion> SaveQuestion(IQuestion question);
+        Task<IQuestion> UpdateQuestion(IQuestion question);
+        Task<IQuestion> RemoveQuestion(IQuestion question);
+        Task<IQuestion> AddQuestion(IQuestion question);
     }
 }

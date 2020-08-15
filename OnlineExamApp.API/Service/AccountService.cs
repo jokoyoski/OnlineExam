@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -236,8 +235,7 @@ namespace OnlineExamApp.API.Service
             {
                 return "User Does not Exist";
             }
-
-            //TODO: Account for the number of trials bought by the users
+            
             userInfo.Trials += numberOfTrials;
 
             var output = await this._userManager.UpdateAsync(userInfo);

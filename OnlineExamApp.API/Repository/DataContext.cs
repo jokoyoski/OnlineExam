@@ -1,3 +1,4 @@
+using System.Configuration;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -12,17 +13,15 @@ namespace OnlineExamApp.API.Repository
     {
 
         public DataContext (DbContextOptions<DataContext> option) : base (option) 
-        {
-            
-        }
-    
+        {}
+
         public DbSet<Question> Questions { get; set; }
         public DbSet<Option> Options { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<UserScore> UserScores { get; set; }
         public DbSet<Photo> Photos { get; set; }
         public DbSet<Score> Scores { get; set; }
-        public DbSet<Settings> Settings { get; set; }
+        public DbSet<Setting> Settings { get; set; }
         protected override void OnModelCreating (ModelBuilder builder) 
         {
 

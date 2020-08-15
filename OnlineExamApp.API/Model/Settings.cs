@@ -2,7 +2,7 @@ using OnlineExamApp.API.Interfaces;
 
 namespace OnlineExamApp.API.Model
 {
-    public class Settings : ISettings
+    public class Setting : ISetting
     {
         public int Id { get; set; }
         public string Key { get; set; }

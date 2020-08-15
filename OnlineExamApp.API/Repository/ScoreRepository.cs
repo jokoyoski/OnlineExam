@@ -5,39 +5,49 @@ using System.Linq;
 using System.Threading.Tasks;
 using OnlineExamApp.API.Interfaces;
 using OnlineExamApp.API.Model;
+using Microsoft.Extensions.Logging;
+using OnlineExamApp.API.Dto;
 
 namespace OnlineExamApp.API.Repository
 {
     public class ScoreRepository : IScoreRepository
     {
         private readonly DataContext _dataContext;
-        public ScoreRepository(DataContext dataContext)
+        private readonly ILogger<ScoreRepository> _logger;
+
+        public ScoreRepository(DataContext dataContext, ILogger<ScoreRepository> logger)
         {
             this._dataContext = dataContext;
+            this._logger = logger;
         }
         public async Task<IScore> GetScoresByUserIdAndCategoryId(int userId, int categoryId)
         {
+            var score  = new Score();
             try
             {
 
-                var result = this._dataContext.Scores
+                score = await this._dataContext.Scores
                     .Where(p => p.UserId == userId && p.CategoryId == categoryId)
                     .FirstOrDefaultAsync();
 
-                return await result;
+                
 
             }
-            catch (Exception e)
+            catch(Exception e)
             {
-                throw new ArgumentNullException("GetScoresByUserIdAndCategoryId in UserScoreRepository", e);
+                _logger.LogError(e.Message);
             }
+
+            return score;
         }
         public async Task<IEnumerable<IScoreDto>> GetScoresCollectionByCategoryId(int categoryId)
         {
+
+            var scores = new List<ScoreDto>();
             try
             {
 
-                var result = await (
+                scores = await (
                     from d in _dataContext.Scores
                     select new Dto.ScoreDto{
                         ScoreId = d.ScoreId,
@@ -51,13 +61,13 @@ namespace OnlineExamApp.API.Repository
                     .Where(p => p.CategoryId.Equals(categoryId))
                     .OrderByDescending(p => p.Value).ToListAsync();
 
-                return result;
-
             }
-            catch (Exception e)
+            catch(Exception e)
             {
-                throw new ArgumentNullException("GetScoresCollectionByUserIdAndCategoryId in UserScoreRepository", e);
+                _logger.LogError(e.Message);
             }
+
+            return scores;
         }
         public async Task<string> SaveScoreHistory(IScore score)
         {
@@ -78,11 +88,11 @@ namespace OnlineExamApp.API.Repository
                 await this._dataContext.Scores.AddAsync(newRecored);
                 await this._dataContext.SaveChangesAsync();
             }
-            catch (Exception e)
+            catch(Exception e)
             {
-                result = string.Format("SaveScoreHistory - {0}, {1}", e.Message,
-                            e.InnerException != null ? e.InnerException.Message : "");
+                _logger.LogError(e.Message);
             }
+
             return result;
         }
         public async Task<string> UpdateScoreHistory(IScore score)
@@ -101,11 +111,12 @@ namespace OnlineExamApp.API.Repository
 
                 await this._dataContext.SaveChangesAsync();
             }
-            catch (Exception e)
+            
+            catch(Exception e)
             {
-                result = string.Format("UpdateScoreHistory - {0}, {1}", e.Message,
-                            e.InnerException != null ? e.InnerException.Message : "");
+                _logger.LogError(e.Message);
             }
+
             return result;
         }
 

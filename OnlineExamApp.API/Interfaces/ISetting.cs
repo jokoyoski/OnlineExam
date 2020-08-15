@@ -1,6 +1,6 @@
 namespace OnlineExamApp.API.Interfaces
 {
-    public interface ISettings
+    public interface ISetting
     {
         int Id { get; set; }
         string Key { get; set; }

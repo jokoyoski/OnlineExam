@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using OnlineExamApp.API.Interfaces;
 using OnlineExamApp.API.Model;
 using System;
@@ -12,53 +13,61 @@ namespace OnlineExamApp.API.Repository
     public class CategoryRepository : ICategoryRepository
     {
         private readonly DataContext _dbContext;
-        private readonly ICacheService _cacheService;
+        private readonly ILogger<CategoryRepository> _logger;
 
-        public CategoryRepository(DataContext dbContext, ICacheService cacheService)
+        public CategoryRepository(DataContext dbContext, ILogger<CategoryRepository> logger)
         {
             this._dbContext = dbContext;
-            this._cacheService = cacheService;
+            this._logger = logger;
         }
         public async Task<ICategory> GetCateogoryByCategoryId(int categoryId)
         {
+            var result = new Category();
+
             try
             {
-                var result = await this._dbContext.Categories.Where(p=>p.CategoryId.Equals(categoryId))
+                result = await this._dbContext.Categories.Where(p=>p.CategoryId.Equals(categoryId))
                             .SingleOrDefaultAsync();
 
-                return result;
+                
             }
-            catch (Exception e)
+            catch(Exception e)
             {
-                throw new ApplicationException("QuestionRepository from GetCateogoryByCategoryId", e);
+                _logger.LogError(e.Message);
             }
+
+            return result;
         }
         public async Task<ICategory> GetCateogoryByName(string categoryName)
         {
+            var result = new Category();
             try
             {
-                var result = await this._dbContext.Categories.Where(p=>p.CategoryName.Equals(categoryName))
+                result = await this._dbContext.Categories.Where(p=>p.CategoryName.Equals(categoryName))
                                 .SingleOrDefaultAsync();
-
-                return result;
             }
-            catch (Exception e)
+            catch(Exception e)
             {
-                throw new ApplicationException("QuestionRepository from GetCateogoryByName", e);
+                _logger.LogError(e.Message);
             }
+
+            return result;
         }
         public async Task<IEnumerable<ICategory>> GetCateogory()
         {
+            var result = new List<Category>();
             try
             {
-                var result = await this._dbContext.Categories
+                result = await this._dbContext.Categories
                     .OrderByDescending(p => p.CategoryId).ToListAsync();
-                return result;
+                
             }
-            catch (Exception e)
+            catch(Exception e)
             {
-                throw new ApplicationException("QuestionRepository from GetQuestionsByCaregoryId", e);
+                _logger.LogError(e.Message);
             }
+
+            return result;
         }
         public async Task<string> SaveCategory(ICategory category)
         {
@@ -84,8 +93,7 @@ namespace OnlineExamApp.API.Repository
             }
             catch (Exception e)
             {
-                result = string.Format("SaveCategory - {0}, {1}", e.Message,
-                            e.InnerException != null ? e.InnerException.Message : "");
+                _logger.LogError(e.Message);
             }
 
             return result;
@@ -112,8 +120,7 @@ namespace OnlineExamApp.API.Repository
             }
             catch (Exception e)
             {
-                result = string.Format("EditCategory - {0}, {1}", e.Message,
-                            e.InnerException != null ? e.InnerException.Message : "");
+                _logger.LogError(e.Message);
             }
 
             return result;
@@ -134,10 +141,9 @@ namespace OnlineExamApp.API.Repository
             }
             catch (Exception e)
             {
-                result = string.Format("DeleteCategory - {0}, {1}", e.Message,
-                            e.InnerException != null ? e.InnerException.Message : "");
+                _logger.LogError(e.Message);
             }
-
+            
             return result;
         }
     }

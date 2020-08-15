@@ -27,7 +27,7 @@ namespace OnlineExamApp.API.Factory
 
             template.PlainTextContent = "Click on the link below to change your password";
 
-            template.HtmlContent = $"<p>PClick on the link below to change your password.<p><a href=\"{confirmationURL}\">Click to change password.</a></p>";
+            template.HtmlContent = $"<p>Click on the link below to change your password.<p><a href=\"{confirmationURL}\">Click to change password.</a></p>";
 
             return template;
         }

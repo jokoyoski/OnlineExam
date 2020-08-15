@@ -4,8 +4,7 @@ using OnlineExamApp.API.Model;
 
 namespace OnlineExamApp.API.Interfaces
 {
-    public interface ISystemSettings
+    public interface IUserRoleService
     {
-        Task<IEnumerable<ISettings>> GetSetting();
     }
 }

@@ -42,8 +42,9 @@ namespace OnlineExamApp.API
             services.AddControllers();
 
             services.AddDbContext<DataContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")),
-                    ServiceLifetime.Transient);
+                    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
+                    .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
+                    .EnableSensitiveDataLogging(), ServiceLifetime.Scoped);
 
 
 
@@ -74,7 +75,7 @@ namespace OnlineExamApp.API
             
             
             //Registered repository
-            services.AddScoped<ISystemSettings, SystemSettings>();
+            services.AddScoped<ISystemSettingRepository, SystemSettingRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IDigitalFileRepository, DigitalFileRepository>();
             services.AddScoped<IOptionRepository, OptionRepository>();
@@ -83,9 +84,11 @@ namespace OnlineExamApp.API
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserScoreRepository, UserScoreRepository>();
             services.AddScoped(typeof(ICoreRepository<,>), typeof(CoreRepository<,>));
+            services.AddScoped<ITransactionRepository, TransactionRepository>();
+            services.AddScoped<IRoleRepository, RoleRepository>();
+            services.AddScoped<IUserRoleRepository, UserRoleRepository>();
             
-            //Registered service
-            services.AddScoped<IAppSettingsService, AppSettingsService>();
+            //Registered service1
             services.AddScoped<IAppSettingsService, AppSettingsService>();
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IEmailService, EmailService>();
@@ -93,6 +96,7 @@ namespace OnlineExamApp.API
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IQuestionService, QuestionService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<ICacheService, CacheService>();
 
             services.AddMvc().AddNewtonsoftJson(options =>
@@ -118,10 +122,8 @@ namespace OnlineExamApp.API
                 options.AddPolicy("UserPolicy", policy => policy.RequireRole("USER"));
                 options.AddPolicy("AdminPolicy", policy => policy.RequireRole("ADMIN", "USER"));
 
-            }
-
-            );
-
+            });
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -140,11 +142,11 @@ namespace OnlineExamApp.API
             app.UseStaticFiles();
             app.UseAuthentication();  //for authentication middleware   
             app.UseAuthorization();
-            seeder.SeedQuestions();
+            //seeder.SeedQuestions();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapFallbackToController("Index","Fallback");
+                //endpoints.MapFallbackToController("Index","Fallback");
             });
         }
     }

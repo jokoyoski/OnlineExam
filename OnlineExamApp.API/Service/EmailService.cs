@@ -78,7 +78,6 @@ namespace OnlineExamApp.API.Service
 
             return response;
         }
-
         public enum EmailType
         {
             AccountVerification,

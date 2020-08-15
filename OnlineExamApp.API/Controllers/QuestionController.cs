@@ -7,6 +7,8 @@ using System.Security.Claims;
 using Newtonsoft.Json;
 using OnlineExamApp.API.Dto;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace OnlineExamApp.API.Controllers
 {
@@ -50,32 +52,9 @@ namespace OnlineExamApp.API.Controllers
             if (userId != int.Parse (User.FindFirst(ClaimTypes.NameIdentifier).Value))
                return Unauthorized ();
 
-          //  var anweredQuestionDto = System.IO.File.ReadAllText("Dto/AnsweredQuestion.json");
-
-          //  var anweredQuestion = JsonConvert.DeserializeObject<List<AnweredQuestionDto>>(anweredQuestionDto);
-
             var model = await this.questionService.ProcessAnweredQuestions(userId, anweredQuestion);
 
             return Ok(model);
         }
-
-        /* [HttpPost("import")]
-        public async Task<IActionResult> Import([FromForm]IFormFile formFile)
-        {
-            if (formFile == null || formFile.Length <= 0)
-            {
-                return BadRequest("You uploaded an empty file");
-            }
-
-            if (!Path.GetExtension(formFile.FileName).Equals(".xlsx", StringComparison.OrdinalIgnoreCase))
-            {
-                return BadRequest("invalid file format");
-            }
-
-            var file = this.questionRepo.saveQuestion(formFile);
-
-            return Ok(file);
-
-        } */
-    }
+ }
 }
